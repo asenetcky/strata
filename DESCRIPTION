@@ -1,4 +1,4 @@
-Package: pipeliner
+Package: strata
 Title: Simple Data Pipelines To and From The Open Data Portal
 Version: 0.0.0.9000
 Authors@R: 

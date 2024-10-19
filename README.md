@@ -1,21 +1,21 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# pipeliner
+# strata
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of pipeliner is to …
+The goal of strata is to …
 
 ## Installation
 
-You can install the development version of pipeliner from
+You can install the development version of strata from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
-pak::pak("asenetcky/pipeliner")
+pak::pak("asenetcky/strata")
 ```
 
 ## Example
@@ -23,7 +23,7 @@ pak::pak("asenetcky/pipeliner")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library(pipeliner)
+library(strata)
 ## basic example code
 ```
 
