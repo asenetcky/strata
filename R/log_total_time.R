@@ -7,12 +7,15 @@
 #' @export
 #'
 #' @examples
-#' log_total_time(Sys.time(), Sys.time()+999)
+#' log_total_time(Sys.time(), Sys.time() + 999)
 log_total_time <- function(begin, end) {
   checkmate::assert_posixct(c(begin, end))
 
-  as.numeric(
-    difftime(end, begin),
-    units = "secs"
+  round(
+    as.numeric(
+      difftime(end, begin),
+      units = "secs"
+    ),
+    digits = 4
   )
 }
