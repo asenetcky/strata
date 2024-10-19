@@ -1,4 +1,14 @@
-build_pipeline <- function(pipeline_name, path = ".") {
+#' Add a pipeline skeleton to your project space
+#'
+#' @param pipeline_name A string that is the name of your pipeline
+#' @param path a path to where you want to drop your pipeline
+#'
+#' @return invisibly returns fs::path to pipeline
+#' @export
+#'
+#' @examples
+#' build_pipeline("my_pipeline", "PATH/TO/PROJECT/FOLDER/")
+build_pipeline <- function(pipeline_name, path= ".") {
 
   # Clean file name
   clean_name <-
@@ -36,4 +46,5 @@ build_pipeline <- function(pipeline_name, path = ".") {
   fs::file_create(pipeline_toml)
   # another place for a sub function to write out a standard toml
 
+  invisible(target_pipeline)
 }
