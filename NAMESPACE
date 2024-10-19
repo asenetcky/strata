@@ -2,3 +2,4 @@
 
 export(log_error)
 export(log_message)
+export(log_total_time)
