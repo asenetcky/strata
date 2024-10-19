@@ -18,5 +18,5 @@ invisibly returns fs::path to pipeline
 Add a pipeline skeleton to your project space
 }
 \examples{
-build_pipeline("my_pipeline", "PATH/TO/PROJECT/FOLDER/")
+build_pipeline("my_pipeline_name", "PATH/TO/PROJECT/FOLDER/")
 }
