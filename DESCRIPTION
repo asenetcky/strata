@@ -1,10 +1,14 @@
 Package: pipeliner
-Title: What the Package Does (One Line, Title Case)
+Title: Simple Data Pipelines To and From The Open Data Portal
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person("Alexander", "Senetcky", , "asenetcky@gmail.com.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0009-3730-5397"))
+Description: Provides a simple framework for creating simple pipelines for 
+        delivering and pulling data from the Socrata Open Data API.
+        The package is designed to be used in conjunction with the user
+        generated code and overlayed with whatever simple automation
+        they have in place.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -16,6 +20,7 @@ Imports:
     dplyr,
     fs,
     lubridate,
+    RSocrata,
     tidyr
 Suggests: 
     testthat (>= 3.0.0)
