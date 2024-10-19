@@ -18,5 +18,5 @@ A numeric value of the time difference in seconds
 Print time difference in a standard for the log
 }
 \examples{
-log_total_time(Sys.time(), Sys.time()+999)
+log_total_time(Sys.time(), Sys.time() + 999)
 }
