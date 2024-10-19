@@ -11,11 +11,7 @@
 build_pipeline <- function(pipeline_name, path= ".") {
 
   # Clean file name
-  clean_name <-
-    pipeline_name |>
-    stringr::str_trim() |>
-    stringr::str_to_lower() |>
-    stringr::str_replace_all("[^[:alnum:]]|\\s", "_")
+  clean_name <- clean_name(pipeline_name)
 
   # Create paths for project and pipeline
   project_folder <- fs::path(path)
