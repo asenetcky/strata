@@ -34,6 +34,8 @@ build_pipeline <- function(pipeline_name, path= ".") {
   # Create pipeline_start
   # here I would use some sort of sub function to create
   # this standard file, this place holder will do
+  # this is a candidate to just be dropped and keep
+  # and keep metadata in .toml
   pipeline_start <- fs::path(target_pipeline, "pipeline_start.R")
   fs::file_create(pipeline_start)
 
@@ -55,3 +57,47 @@ build_module <- function(module_name, pipeline_path, order, skip_if_fail = FALSE
   # implement some kind of ordering of the module, and then later on
   # do the same thing for submodules, but not here
 }
+
+
+check_pipeline <- function(pipeline_path) {
+  #force to fs::path
+  pipeline_path <- fs::path(pipeline_path)
+
+  strata_issue <- FALSE
+  # check if the pipeline exists
+  if (!fs::dir_exists(pipeline_path)) {
+    log_error(
+      paste(
+        basename(pipeline_path),
+        "does not exist i"
+      )
+    )
+    strata_issue <- TRUE
+  }
+
+  # check if the pipeline has a modules folder
+  if (!fs::dir_exists(fs::path(pipeline_path, "modules"))) {
+    log_error(
+      paste(
+        basename(pipeline_path),
+        "does not have a modules folder"
+      )
+    )
+    strata_issue <- TRUE
+  }
+
+  # gather the intel on the project
+  # read the .tomls, do they match up?
+
+
+}
+
+survey_strata <- function(project_path) {
+  #force to fs::path
+  project_path <- fs::path(project_path)
+
+
+  # read the .tomls, and report out info on the strata project
+
+}
+
