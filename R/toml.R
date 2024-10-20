@@ -1,32 +1,30 @@
 # this needs way more cleanup but will work for now
 
-  write_toml <- function(path, stratum_type, name = NULL, order = NULL, skip_if_fail = FALSE) {
-  #force to fs::path
+initial_pipeline_toml <- function(path, name, order) {
   path <- fs::path(path)
-
-  # check stratum type
-  checkmate::assert_choice(stratum_type, c("pipeline", "module"))
-  stratum_folder <- paste0(stratum_type, "s")
-  toml_type <- paste0(".", stratum_folder, ".toml")
-
-  # Create .toml
-  toml_file <- fs::path(path, stratum_folder, toml_type)
+  toml_file <- fs::path(path, ".pipelines.toml")
   fs::file_create(toml_file)
 
-  # Write out the .toml file
-  if (is.null(name)) {
-    writeLines(
-      paste0(
-      "[", stratum_folder, "]\n",
-      " }\n"
-      ),
-      toml_file
-    )
-  } else {
   writeLines(
     paste0(
-      #just keep it basic for now add other stuff later
-      "[", stratum_folder, "]\n",
+      "[pipelines]\n",
+      name, " = { created = ", lubridate::today(),
+      ", order = ", order,
+      " }\n"
+    ),
+    toml_file
+  )
+  base::invisible(toml_file)
+}
+
+initial_module_toml <- function(path, name, order, skip_if_fail = FALSE) {
+  path <- fs::path(path)
+  toml_file <- fs::path(path, ".modules.toml")
+  fs::file_create(toml_file)
+
+  writeLines(
+    paste0(
+      "[modules]\n",
       name, " = { created = ", lubridate::today(),
       ", order = ", order,
       ", skip_if_fail = ", skip_if_fail,
@@ -34,7 +32,5 @@
     ),
     toml_file
   )
-  }
-
-  invisible(toml_file)
+  base::invisible(toml_file)
 }
