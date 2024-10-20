@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' build_pipeline("my_pipeline_name", "PATH/TO/PROJECT/FOLDER/")
-build_pipeline <- function(pipeline_name, path= ".") {
+build_pipeline <- function(pipeline_name, path = ".", order) {
 
   # Clean file name
   clean_name <- clean_name(pipeline_name)
@@ -40,8 +40,7 @@ build_pipeline <- function(pipeline_name, path= ".") {
   fs::file_create(pipeline_start)
 
   # Create .pipeline.toml
-  pipeline_toml <- fs::path(target_pipeline, ".pipeline.toml")
-  fs::file_create(pipeline_toml)
+  write_toml(pipelines_folder, clean_name, "pipeline")
   # another place for a sub function to write out a standard toml
 
   invisible(target_pipeline)
