@@ -1,4 +1,6 @@
-  write_toml <- function(path, name, stratum_type, order = 1, skip_if_fail = FALSE) {
+# this needs way more cleanup but will work for now
+
+  write_toml <- function(path, stratum_type, name = NULL, order = NULL, skip_if_fail = FALSE) {
   #force to fs::path
   path <- fs::path(path)
 
@@ -12,6 +14,15 @@
   fs::file_create(toml_file)
 
   # Write out the .toml file
+  if (is.null(name)) {
+    writeLines(
+      paste0(
+      "[", stratum_folder, "]\n",
+      " }\n"
+      ),
+      toml_file
+    )
+  } else {
   writeLines(
     paste0(
       #just keep it basic for now add other stuff later
@@ -20,8 +31,10 @@
       ", order = ", order,
       ", skip_if_fail = ", skip_if_fail,
       " }\n"
-
     ),
-    invisible(toml_file)
+    toml_file
   )
+  }
+
+  invisible(toml_file)
 }
