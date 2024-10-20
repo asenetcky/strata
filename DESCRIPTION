@@ -1,14 +1,15 @@
 Package: strata
-Title: Simple Data Pipelines To and From The Open Data Portal
+Title: Simple Data Pipelines For Simple Automation
 Version: 0.0.0.9000
 Authors@R: 
     person("Alexander", "Senetcky", , "asenetcky@gmail.com.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0009-3730-5397"))
-Description: Provides a simple framework for creating simple pipelines for 
-        delivering and pulling data from the Socrata Open Data API.
-        The package is designed to be used in conjunction with the user
-        generated code and overlayed with whatever simple automation
-        they have in place.
+Description: Provides tools for a simple, human-focused 
+        pipeline framework for developers with only the most
+        basic automation tool suite. The package is designed to
+        get developers up and running quickly with the code
+        they already have, and provide simple automation
+        targets for use with tools like 'cron' or 'Task Scheduler'.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
