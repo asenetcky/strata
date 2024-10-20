@@ -22,20 +22,17 @@ build_pipeline <- function(pipeline_name, path = ".", order) {
   # Create folders
   fs::dir_create(target_modules, recurse = TRUE)
 
-  # is main.R
-  is_main <- fs::file_exists(fs::path(project_folder, "main.R"))
-
-  # here is where I would use a sub-function to create the main.R file
-  #for now this palceholder will do
-  if (!is_main) {
-    fs::file_create(fs::path(project_folder, "main.R"))
-  }
+  #add a subfunction for creating main.R
+  fs::file_create(fs::path(project_folder, "main.R"))
 
   # Create .pipeline.toml
-  write_toml(pipelines_folder, clean_name, "pipeline")
-  # another place for a sub function to write out a standard toml
+  initial_pipeline_toml(
+    path = pipelines_folder,
+    name = clean_name,
+    order = 1 #cant always assume this, need some logic
+  )
 
-  invisible(target_pipeline)
+  base::invisible(target_pipeline)
 }
 
 
