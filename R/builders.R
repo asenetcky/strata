@@ -31,14 +31,6 @@ build_pipeline <- function(pipeline_name, path = ".", order) {
     fs::file_create(fs::path(project_folder, "main.R"))
   }
 
-  # Create pipeline_start
-  # here I would use some sort of sub function to create
-  # this standard file, this place holder will do
-  # this is a candidate to just be dropped and keep
-  # and keep metadata in .toml
-  pipeline_start <- fs::path(target_pipeline, "pipeline_start.R")
-  fs::file_create(pipeline_start)
-
   # Create .pipeline.toml
   write_toml(pipelines_folder, clean_name, "pipeline")
   # another place for a sub function to write out a standard toml
