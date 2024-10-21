@@ -49,6 +49,7 @@ snapshot_toml <- function(toml_path) {
     dplyr::select(dplyr::any_of(vars))
 }
 
+#' @importFrom rlang .data
 manage_toml_order <- function(toml_snapshot) {
   duplicate_orders <-
     !dplyr::n_distinct(toml_snapshot$order) == base::nrow(toml_snapshot)
@@ -58,7 +59,7 @@ manage_toml_order <- function(toml_snapshot) {
      duped_orders <-
       toml_snapshot |>
       dplyr::count(order) |>
-      dplyr::filter(rlang::.data$n  > 1) |>
+      dplyr::filter(.data$n  > 1) |>
       dplyr::pull(order)
 
      without_dupes <-
@@ -67,12 +68,12 @@ manage_toml_order <- function(toml_snapshot) {
        dplyr::arrange(order) |>
        dplyr::mutate(order = dplyr::row_number())
 
-     max_order <- max(without_dupes$order)
+     max_order <- max(without_dupes$order, 0)
 
      with_dupes <-
        toml_snapshot |>
        dplyr::filter(order %in% duped_orders) |>
-       dplyr::arrange() |># for now till I find sensible logic
+       dplyr::arrange(dplyr::across(dplyr::starts_with("name"))) |>
        dplyr::mutate(order = max_order + dplyr::row_number())
 
      toml_snapshot <-
@@ -86,7 +87,9 @@ manage_toml_order <- function(toml_snapshot) {
        ),
        "WARN")
   }
-  toml_snapshot
+  toml_snapshot |>
+    dplyr::arrange(order) |>
+    dplyr::mutate(order = dplyr::row_number())
 }
 
 backup_toml <- function(toml_path) {
@@ -127,7 +130,7 @@ write_toml_lines <- function(toml_content, toml_path) {
     toml_content |>
     dplyr::select(dplyr::any_of("created"))
 
-  header <- paste0("[", toml_type, "]")
+  header <- paste0("[", toml_type, "]\n")
 
   if (purrr::is_empty(skip_if_fails)) {
     skip_if_fails_text <-
@@ -147,14 +150,13 @@ write_toml_lines <- function(toml_content, toml_path) {
       list(names, orders, skip_if_fails_text, created),
       \(name, order, skip_if_fail, created) {
         paste0(
-          "\n", name, " = { created = ", created,
+          name, " = { created = ", created,
           ", order = ", order,
           skip_if_fail,
-          " }"
+          " }\n"
         )
       }
-    ) |>
-    purrr::reduce(paste0)
+    )
 
   fs::file_create(toml_path)
 
@@ -164,11 +166,17 @@ write_toml_lines <- function(toml_content, toml_path) {
     append = TRUE
   )
 
-  cat(
-    lines,
-    file = toml_path,
-    append = TRUE
-  )
+  lines$name |>
+    purrr::map(
+      \(line) {
+        cat(
+          line,
+          file = toml_path,
+          append = TRUE
+        )
+      }
+    )
+
 }
 
 
