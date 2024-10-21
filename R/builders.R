@@ -28,45 +28,66 @@ build_pipeline <- function(pipeline_name, path = ".", order = 1) {
   fs::file_create(fs::path(project_folder, "main.R"))
 
   # .pipelines.toml if it doesn't exist
+  first_pipeline_setup <- !fs::file_exists(pipelines_toml)
+
   # Create .pipelines.toml
-  if (!fs::file_exists(pipelines_toml)) {
+  if (first_pipeline_setup) {
     initial_pipeline_toml(
       path = pipelines_folder,
       name = pipeline_name,
-      order = 1 #cant always assume this, need some logic
+      order = order #cant always assume this, need some logic
     )
   }
+
 
   # read the .toml file
-  current_pipelines <-
-    RcppTOML::tomlparse(pipelines_toml) |>
-    purrr::pluck("pipelines")
+  toml_snapshot <- snapshot_toml(pipelines_toml)
 
-  # update .pipelines.toml
-   if (!pipeline_name %in% current_pipelines) {
-    cat(
-      paste0(
-        pipeline_name, " = { created = ", lubridate::today(),
-        ", order = ", order,
-        " }\n"
-      ),
-      file = pipelines_toml,
-      append = TRUE
-    )
-  } else {
-    log_error(
-      paste(
-        pipeline_name,
-        "already exists in",
-        fs::path(pipelines_folder)
+  if (!first_pipeline_setup) {
+     current_pipelines <-
+      toml_snapshot |>
+      dplyr::pull("name")
+
+    # update .pipelines.toml
+     if (!pipeline_name %in% current_pipelines) {
+      cat(
+        paste0(
+          pipeline_name, " = { created = ", lubridate::today(),
+          ", order = ", order,
+          " }\n"
+        ),
+        file = pipelines_toml,
+        append = TRUE
       )
-    )
+
+       #trust but verify
+       toml_snapshot <- snapshot_toml(pipelines_toml)
+
+       sorted_toml <-
+         manage_toml_order(toml_snapshot)
+
+       if (!identical(sorted_toml, toml_snapshot)) {
+         rewrite_from_snapshot(sorted_toml, pipelines_toml)
+       }
+
+       base::invisible(target_pipeline)
+
+    } else {
+      log_error(
+        paste(
+          pipeline_name,
+          "already exists in",
+          fs::path(pipelines_folder)
+        )
+      )
+
+    }
   }
-  base::invisible(target_pipeline)
+  invisible(target_pipeline)
 }
 
 
-build_module <- function(module_name, pipeline_path, order, skip_if_fail = FALSE ) {
+build_module <- function(module_name, pipeline_path, order = 1, skip_if_fail = FALSE ) {
   #grab the strata structure
   module_name <- clean_name(module_name)
   pipeline_path <- fs::path(pipeline_path)
@@ -86,10 +107,18 @@ build_module <- function(module_name, pipeline_path, order, skip_if_fail = FALSE
     initial_module_toml(modules_path)
   }
 
- # read the .toml file
-  current_modules <-
-    RcppTOML::tomlparse(modules_toml) |>
-    purrr::pluck("modules")
+  # read the .toml file
+  toml_snapshot <- snapshot_toml(modules_toml)
+
+  # read the .toml file
+
+  if (!purrr::is_empty(toml_snapshot)) {
+    current_modules <-
+      toml_snapshot |>
+      dplyr::pull("name")
+  } else {
+    current_modules <- ""
+  }
 
 
   # update .modules.toml
@@ -114,8 +143,17 @@ build_module <- function(module_name, pipeline_path, order, skip_if_fail = FALSE
     )
   }
 
-  # implement kind of trycatch deal to skip if fails: handled by source wrapper
-  # implement some kind of ordering of the module, and then later on
+  #trust but verify
+  toml_snapshot <- snapshot_toml(modules_toml)
+
+  sorted_toml <-
+    manage_toml_order(toml_snapshot)
+
+  if (!identical(sorted_toml, toml_snapshot)) {
+    rewrite_from_snapshot(sorted_toml, modules_toml)
+  }
+
+
   base::invisible(new_module_path)
 }
 
