@@ -180,7 +180,7 @@ write_toml_lines <- function(toml_content, toml_path) {
 }
 
 
-rewrite_from_snapshot <- function(toml_snapshot, toml_path) {
+rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   toml_path <- fs::path(toml_path)
 
   backup_toml(toml_path)

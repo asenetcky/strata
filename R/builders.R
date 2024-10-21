@@ -67,7 +67,7 @@ build_pipeline <- function(pipeline_name, path = ".", order = 1) {
          manage_toml_order(toml_snapshot)
 
        if (!identical(sorted_toml, toml_snapshot)) {
-         rewrite_from_snapshot(sorted_toml, pipelines_toml)
+         rewrite_from_dataframe(sorted_toml, pipelines_toml)
        }
 
        base::invisible(target_pipeline)
@@ -150,7 +150,7 @@ build_module <- function(module_name, pipeline_path, order = 1, skip_if_fail = F
     manage_toml_order(toml_snapshot)
 
   if (!identical(sorted_toml, toml_snapshot)) {
-    rewrite_from_snapshot(sorted_toml, modules_toml)
+    rewrite_from_dataframe(sorted_toml, modules_toml)
   }
 
 
