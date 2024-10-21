@@ -80,3 +80,12 @@ check_pipeline <- function(pipeline_path) {
 
 }
 
+
+build_main <- function(project_path) {
+ project_path <- fs::path(project_path)
+ is_main <- fs::file_exists(fs::path(project_path, "main.R"))
+  if (!is_main) {
+    fs::file_create(fs::path(project_path, "main.R"))
+  }
+}
+
