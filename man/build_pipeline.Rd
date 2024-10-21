@@ -4,7 +4,7 @@
 \alias{build_pipeline}
 \title{Add a pipeline skeleton to your project space}
 \usage{
-build_pipeline(pipeline_name, path = ".", order)
+build_pipeline(pipeline_name, path = ".", order = 1)
 }
 \arguments{
 \item{pipeline_name}{A string that is the name of your pipeline}
