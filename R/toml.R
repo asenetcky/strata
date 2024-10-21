@@ -17,19 +17,13 @@ initial_pipeline_toml <- function(path, name, order) {
   base::invisible(toml_file)
 }
 
-initial_module_toml <- function(path, name, order, skip_if_fail = FALSE) {
+initial_module_toml <- function(path) {
   path <- fs::path(path)
   toml_file <- fs::path(path, ".modules.toml")
   fs::file_create(toml_file)
 
   writeLines(
-    paste0(
-      "[modules]\n",
-      name, " = { created = ", lubridate::today(),
-      ", order = ", order,
-      ", skip_if_fail = ", skip_if_fail,
-      " }\n"
-    ),
+    paste0("[modules]"),
     toml_file
   )
   base::invisible(toml_file)
