@@ -10,7 +10,7 @@ initial_pipeline_toml <- function(path, name, order) {
       "[pipelines]\n",
       name, " = { created = ", lubridate::today(),
       ", order = ", order,
-      " }\n"
+      " }"
     ),
     toml_file
   )
@@ -28,3 +28,24 @@ initial_module_toml <- function(path) {
   )
   base::invisible(toml_file)
 }
+
+snapshot_toml <- function(toml_path) {
+  toml_path <- fs::path(toml_path)
+  toml <- RcppTOML::tomlparse(toml_path)
+  toml_type <- names(toml)
+
+  vars <- c("type", "name", "order", "skip_if_fail", "created")
+  toml[[toml_type]] |>
+    purrr::imap(
+      \(x, idx) {
+        dplyr::as_tibble(x) |>
+          dplyr::mutate(
+            type = toml_type,
+            name = idx
+          )
+      }
+    ) |>
+    purrr::list_rbind() |>
+    dplyr::select(dplyr::any_of(vars))
+}
+
