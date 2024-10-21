@@ -2,93 +2,172 @@
 #'
 #' @param pipeline_name A string that is the name of your pipeline
 #' @param path a path to where you want to drop your pipeline
+#' @param order the order of the pipeline
 #'
 #' @return invisibly returns fs::path to pipeline
 #' @export
 #'
 #' @examples
 #' build_pipeline("my_pipeline_name", "PATH/TO/PROJECT/FOLDER/")
-build_pipeline <- function(pipeline_name, path= ".") {
+build_pipeline <- function(pipeline_name, path = ".", order = 1) {
 
   # Clean file name
-  clean_name <- clean_name(pipeline_name)
+  pipeline_name <- clean_name(pipeline_name)
 
   # Create paths for project and pipeline
   project_folder <- fs::path(path)
   pipelines_folder <- fs::path(project_folder, "pipelines")
-  target_pipeline <- fs::path(pipelines_folder, clean_name)
+  target_pipeline <- fs::path(pipelines_folder, pipeline_name)
   target_modules <- fs::path(target_pipeline, "modules")
+  pipelines_toml <- fs::path(pipelines_folder, ".pipelines.toml")
 
   # Create folders
   fs::dir_create(target_modules, recurse = TRUE)
 
-  # is main.R
-  is_main <- fs::file_exists(fs::path(project_folder, "main.R"))
+  #add a subfunction for creating main.R
+  fs::file_create(fs::path(project_folder, "main.R"))
 
-  # here is where I would use a sub-function to create the main.R file
-  #for now this palceholder will do
-  if (!is_main) {
-    fs::file_create(fs::path(project_folder, "main.R"))
+  # .pipelines.toml if it doesn't exist
+  first_pipeline_setup <- !fs::file_exists(pipelines_toml)
+
+  # Create .pipelines.toml
+  if (first_pipeline_setup) {
+    initial_pipeline_toml(
+      path = pipelines_folder,
+      name = pipeline_name,
+      order = order #cant always assume this, need some logic
+    )
   }
 
-  # Create pipeline_start
-  # here I would use some sort of sub function to create
-  # this standard file, this place holder will do
-  # this is a candidate to just be dropped and keep
-  # and keep metadata in .toml
-  pipeline_start <- fs::path(target_pipeline, "pipeline_start.R")
-  fs::file_create(pipeline_start)
 
-  # Create .pipeline.toml
-  pipeline_toml <- fs::path(target_pipeline, ".pipeline.toml")
-  fs::file_create(pipeline_toml)
-  # another place for a sub function to write out a standard toml
+  # read the .toml file
+  toml_snapshot <- snapshot_toml(pipelines_toml)
 
+  if (!first_pipeline_setup) {
+     current_pipelines <-
+      toml_snapshot |>
+      dplyr::pull("name")
+
+    # update .pipelines.toml
+     if (!pipeline_name %in% current_pipelines) {
+      cat(
+        paste0(
+          pipeline_name, " = { created = ", lubridate::today(),
+          ", order = ", order,
+          " }\n"
+        ),
+        file = pipelines_toml,
+        append = TRUE
+      )
+
+       #trust but verify
+       toml_snapshot <- snapshot_toml(pipelines_toml)
+
+       sorted_toml <-
+         manage_toml_order(toml_snapshot)
+
+       if (!identical(sorted_toml, toml_snapshot)) {
+         rewrite_from_snapshot(sorted_toml, pipelines_toml)
+       }
+
+       base::invisible(target_pipeline)
+
+    } else {
+      log_error(
+        paste(
+          pipeline_name,
+          "already exists in",
+          fs::path(pipelines_folder)
+        )
+      )
+
+    }
+  }
   invisible(target_pipeline)
 }
 
 
-build_module <- function(module_name, pipeline_path, order, skip_if_fail = FALSE ) {
-  # check pipeline structure -  something like check_pipeline()
-  # clean name
-  # build path
-  # implement some kind of trycatch deal to skip if fails
-  # create the .toml file
-  # implement some kind of ordering of the module, and then later on
-  # do the same thing for submodules, but not here
-}
-
-
-check_pipeline <- function(pipeline_path) {
-  #force to fs::path
+build_module <- function(module_name, pipeline_path, order = 1, skip_if_fail = FALSE ) {
+  #grab the strata structure
+  module_name <- clean_name(module_name)
   pipeline_path <- fs::path(pipeline_path)
 
-  strata_issue <- FALSE
-  # check if the pipeline exists
-  if (!fs::dir_exists(pipeline_path)) {
-    log_error(
-      paste(
-        basename(pipeline_path),
-        "does not exist i"
-      )
-    )
-    strata_issue <- TRUE
+  checkmate::assert_true(check_pipeline(pipeline_path))
+
+  modules_path <- fs::path(pipeline_path, "modules")
+  modules_toml <- fs::path(modules_path, ".modules.toml")
+
+
+  #create the new module's folder
+  new_module_path <- fs::path(pipeline_path, "modules", module_name)
+  fs::dir_create(new_module_path)
+
+  # .module.toml if it doesn't exist
+  if (!fs::file_exists(modules_toml)) {
+    initial_module_toml(modules_path)
   }
 
-  # check if the pipeline has a modules folder
-  if (!fs::dir_exists(fs::path(pipeline_path, "modules"))) {
-    log_error(
-      paste(
-        basename(pipeline_path),
-        "does not have a modules folder"
-      )
-    )
-    strata_issue <- TRUE
+  # read the .toml file
+  toml_snapshot <- snapshot_toml(modules_toml)
+
+  # read the .toml file
+
+  if (!purrr::is_empty(toml_snapshot)) {
+    current_modules <-
+      toml_snapshot |>
+      dplyr::pull("name")
+  } else {
+    current_modules <- ""
   }
 
-  # gather the intel on the project
-  # read the .tomls, do they match up?
+
+  # update .modules.toml
+  if (!module_name %in% current_modules) {
+    cat(
+      paste0(
+        module_name, " = { created = ", lubridate::today(),
+        ", order = ", order,
+        ", skip_if_fail = ", stringr::str_to_lower(skip_if_fail),
+        " }\n"
+      ),
+      file = modules_toml,
+      append = TRUE
+    )
+  } else {
+    log_error(
+      paste(
+        module_name,
+        "already exists in",
+        fs::path(pipeline_path, "modules")
+      )
+    )
+  }
+
+  #trust but verify
+  toml_snapshot <- snapshot_toml(modules_toml)
+
+  sorted_toml <-
+    manage_toml_order(toml_snapshot)
+
+  if (!identical(sorted_toml, toml_snapshot)) {
+    rewrite_from_snapshot(sorted_toml, modules_toml)
+  }
 
 
+  base::invisible(new_module_path)
 }
+
+
+
+
+
+
+build_main <- function(project_path) {
+ project_path <- fs::path(project_path)
+ is_main <- fs::file_exists(fs::path(project_path, "main.R"))
+  if (!is_main) {
+    fs::file_create(fs::path(project_path, "main.R"))
+  }
+}
+
 

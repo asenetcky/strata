@@ -4,12 +4,14 @@
 \alias{build_pipeline}
 \title{Add a pipeline skeleton to your project space}
 \usage{
-build_pipeline(pipeline_name, path = ".")
+build_pipeline(pipeline_name, path = ".", order = 1)
 }
 \arguments{
 \item{pipeline_name}{A string that is the name of your pipeline}
 
 \item{path}{a path to where you want to drop your pipeline}
+
+\item{order}{the order of the pipeline}
 }
 \value{
 invisibly returns fs::path to pipeline

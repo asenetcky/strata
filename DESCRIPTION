@@ -21,6 +21,9 @@ Imports:
     dplyr,
     fs,
     lubridate,
+    purrr,
+    RcppTOML,
+    rlang,
     RSocrata,
     stringr,
     tidyr
