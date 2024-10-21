@@ -58,7 +58,7 @@ manage_toml_order <- function(toml_snapshot) {
      duped_orders <-
       toml_snapshot |>
       dplyr::count(order) |>
-      dplyr::filter(n > 1) |>
+      dplyr::filter(rlang::.data$n  > 1) |>
       dplyr::pull(order)
 
      without_dupes <-
