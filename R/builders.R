@@ -9,16 +9,17 @@
 #'
 #' @examples
 #' build_pipeline("my_pipeline_name", "PATH/TO/PROJECT/FOLDER/")
-build_pipeline <- function(pipeline_name, path = ".", order) {
+build_pipeline <- function(pipeline_name, path = ".", order = 1) {
 
   # Clean file name
-  clean_name <- clean_name(pipeline_name)
+  pipeline_name <- clean_name(pipeline_name)
 
   # Create paths for project and pipeline
   project_folder <- fs::path(path)
   pipelines_folder <- fs::path(project_folder, "pipelines")
-  target_pipeline <- fs::path(pipelines_folder, clean_name)
+  target_pipeline <- fs::path(pipelines_folder, pipeline_name)
   target_modules <- fs::path(target_pipeline, "modules")
+  pipelines_toml <- fs::path(pipelines_folder, ".pipelines.toml")
 
   # Create folders
   fs::dir_create(target_modules, recurse = TRUE)
@@ -26,13 +27,41 @@ build_pipeline <- function(pipeline_name, path = ".", order) {
   #add a subfunction for creating main.R
   fs::file_create(fs::path(project_folder, "main.R"))
 
+  # .pipelines.toml if it doesn't exist
   # Create .pipelines.toml
-  initial_pipeline_toml(
-    path = pipelines_folder,
-    name = clean_name,
-    order = 1 #cant always assume this, need some logic
-  )
+  if (!fs::file_exists(pipelines_toml)) {
+    initial_pipeline_toml(
+      path = pipelines_folder,
+      name = pipeline_name,
+      order = 1 #cant always assume this, need some logic
+    )
+  }
 
+  # read the .toml file
+  current_pipelines <-
+    RcppTOML::tomlparse(pipelines_toml) |>
+    purrr::pluck("pipelines")
+
+  # update .pipelines.toml
+   if (!pipeline_name %in% current_pipelines) {
+    cat(
+      paste0(
+        pipeline_name, " = { created = ", lubridate::today(),
+        ", order = ", order,
+        " }\n"
+      ),
+      file = pipelines_toml,
+      append = TRUE
+    )
+  } else {
+    log_error(
+      paste(
+        pipeline_name,
+        "already exists in",
+        fs::path(pipelines_folder)
+      )
+    )
+  }
   base::invisible(target_pipeline)
 }
 
@@ -69,7 +98,7 @@ build_module <- function(module_name, pipeline_path, order, skip_if_fail = FALSE
       paste0(
         module_name, " = { created = ", lubridate::today(),
         ", order = ", order,
-        ", skip_if_fail = ", skip_if_fail,
+        ", skip_if_fail = ", stringr::str_to_lower(skip_if_fail),
         " }\n"
       ),
       file = modules_toml,
@@ -80,23 +109,14 @@ build_module <- function(module_name, pipeline_path, order, skip_if_fail = FALSE
       paste(
         module_name,
         "already exists in",
-        fs::path_file(pipeline_path, "modules")
+        fs::path(pipeline_path, "modules")
       )
     )
   }
 
-
-
-
-  # check pipeline structure -  something like check_pipeline()
-  # clean name
-  # build path
-  # implement some kind of trycatch deal to skip if fails
-  # create the .toml file
+  # implement kind of trycatch deal to skip if fails: handled by source wrapper
   # implement some kind of ordering of the module, and then later on
-  # do the same thing for submodules, but not here
-
-
+  base::invisible(new_module_path)
 }
 
 
@@ -111,4 +131,5 @@ build_main <- function(project_path) {
     fs::file_create(fs::path(project_path, "main.R"))
   }
 }
+
 
