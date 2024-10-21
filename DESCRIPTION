@@ -20,6 +20,7 @@ Imports:
     dplyr,
     fs,
     lubridate,
+    purrr,
     RcppTOML,
     RSocrata,
     stringr,
