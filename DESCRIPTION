@@ -13,14 +13,14 @@ License: GPL (>= 3)
 URL: https://github.com/asenetcky/strata
 BugReports: https://github.com/asenetcky/strata/issues
 Imports: 
-    checkmate,
-    dplyr,
-    fs,
-    lubridate,
-    purrr,
-    RcppTOML,
-    rlang,
-    stringr
+    checkmate (>= 2.3.2),
+    dplyr (>= 1.1.4),
+    fs (>= 1.6.4),
+    lubridate (>= 1.9.3),
+    purrr (>= 1.0.2),
+    RcppTOML (>= 0.2.2),
+    rlang (>= 1.1.4),
+    stringr (>= 1.5.1)
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
