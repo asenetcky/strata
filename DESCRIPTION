@@ -16,17 +16,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
     checkmate,
-    DBI,
-    dbplyr,
     dplyr,
     fs,
     lubridate,
     purrr,
     RcppTOML,
     rlang,
-    RSocrata,
-    stringr,
-    tidyr
+    stringr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
