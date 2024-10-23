@@ -24,9 +24,7 @@ find_pipelines <- function(path = ".") {
 
   toml_path |>
     build_paths()
-
 }
-
 
 find_modules <- function(path = ".") {
   #TODO enforce the assumumption it's being fed a pipeline
@@ -57,12 +55,10 @@ build_paths <- function(toml_path) {
 
 }
 
-
 plan_runtime <- function() {
   find_pipelines() |>
     find_modules()
 }
-
 
 #testing
 main <- function(path= ".") {
@@ -73,4 +69,27 @@ main <- function(path= ".") {
     purrr::map(
       \(x) source(x, echo = FALSE)
     )
+}
+
+plan_messages <- function(path) {
+  path <- fs::path(path)
+
+  pipeline_name <-
+    fs::path_dir(path)
+
+  script_name <-
+    fs::path_file(path) |>
+    stringr::str_remove("\\.R")
+
+  module_name <-
+    fs::path_file(
+      fs::path_dir(path)
+    )
+
+  dplyr::lst(
+    "path" = path,
+    "script_name" = script_name,
+    "module_name" = module_name
+
+  )
 }
