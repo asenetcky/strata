@@ -56,3 +56,9 @@ build_paths <- function(toml_path) {
     dplyr::pull(.data$paths)
 
 }
+
+
+plan_runtime <- function() {
+  find_pipelines() |>
+    find_modules()
+}
