@@ -18,11 +18,11 @@ build_pipeline <- function(pipeline_name, path = ".", order = 1) {
   project_folder <- fs::path(path)
   pipelines_folder <- fs::path(project_folder, "pipelines")
   target_pipeline <- fs::path(pipelines_folder, pipeline_name)
-  target_modules <- fs::path(target_pipeline, "modules")
+  # target_modules <- fs::path(target_pipeline, "modules")
   pipelines_toml <- fs::path(pipelines_folder, ".pipelines.toml")
 
   # Create folders
-  fs::dir_create(target_modules, recurse = TRUE)
+  fs::dir_create(target_pipeline, recurse = TRUE)
 
   #add a subfunction for creating main.R
   fs::file_create(fs::path(project_folder, "main.R"))
