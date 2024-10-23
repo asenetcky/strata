@@ -62,3 +62,15 @@ plan_runtime <- function() {
   find_pipelines() |>
     find_modules()
 }
+
+
+#testing
+main <- function(path= ".") {
+  path <- fs::path(path)
+
+  find_pipelines(path) |>
+    find_modules() |>
+    purrr::map(
+      \(x) source(x, echo = FALSE)
+    )
+}
