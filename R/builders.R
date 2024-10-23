@@ -11,6 +11,9 @@
 #' build_pipeline("my_pipeline_name", "PATH/TO/PROJECT/FOLDER/")
 build_pipeline <- function(pipeline_name, path = ".", order = 1) {
 
+  #what if we dug into strata name more, pipeline becomes stratum?
+  # module becomes lamina? flows?
+
   # Clean file name
   pipeline_name <- clean_name(pipeline_name)
 
@@ -18,7 +21,6 @@ build_pipeline <- function(pipeline_name, path = ".", order = 1) {
   project_folder <- fs::path(path)
   pipelines_folder <- fs::path(project_folder, "pipelines")
   target_pipeline <- fs::path(pipelines_folder, pipeline_name)
-  # target_modules <- fs::path(target_pipeline, "modules")
   pipelines_toml <- fs::path(pipelines_folder, ".pipelines.toml")
 
   # Create folders
@@ -94,12 +96,12 @@ build_module <- function(module_name, pipeline_path, order = 1, skip_if_fail = F
 
   checkmate::assert_true(check_pipeline(pipeline_path))
 
-  modules_path <- fs::path(pipeline_path, "modules")
+  modules_path <- pipeline_path
   modules_toml <- fs::path(modules_path, ".modules.toml")
 
 
   #create the new module's folder
-  new_module_path <- fs::path(pipeline_path, "modules", module_name)
+  new_module_path <- fs::path(pipeline_path, module_name)
   fs::dir_create(new_module_path)
 
   # .module.toml if it doesn't exist

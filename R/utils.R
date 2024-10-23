@@ -22,15 +22,15 @@ check_pipeline <- function(pipeline_path) {
   }
 
   # check if the pipeline has a modules folder
-  if (!fs::dir_exists(fs::path(pipeline_path, "modules"))) {
-    log_error(
-      paste(
-        fs::path_file(pipeline_path),
-        "does not have a modules folder"
-      )
-    )
-    strata_issue <- TRUE
-  }
+  # if (!fs::dir_exists(fs::path(pipeline_path, "modules"))) {
+  #   log_error(
+  #     paste(
+  #       fs::path_file(pipeline_path),
+  #       "does not have a modules folder"
+  #     )
+  #   )
+  #   strata_issue <- TRUE
+  # }
   # gather the intel on the project
   # read the .tomls, do they match up?
   !strata_issue
