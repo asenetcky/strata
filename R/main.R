@@ -39,25 +39,32 @@ find_modules <- function(path = ".") {
 #' @importFrom rlang .data
 build_paths <- function(toml_path) {
   toml_path <- fs::path(toml_path)
-  toml <- snapshot_toml(toml_path)
 
-  target_path <- fs::path_dir(toml_path)
+  tomls <-
+    toml_path |>
+    # purrr::set_names() |>
+    purrr::map(
+      \(toml) snapshot_toml(toml)
+    )
 
-  toml |>
-    dplyr::arrange(.data$order) |>
-    dplyr::mutate(
-      paths = fs::path(
-        target_path,
-        .data$name
-      )
-    ) |>
-    dplyr::pull(.data$paths)
+  target_paths <- fs::path_dir(toml_path)
 
-}
-
-plan_runtime <- function() {
-  find_pipelines() |>
-    find_modules()
+  purrr::map2(
+    tomls,
+    target_paths,
+    \(x, idx) {
+      x |>
+        dplyr::arrange(.data$order) |>
+        dplyr::mutate(
+          paths = fs::path(
+            idx,
+            .data$name
+          )
+        ) |>
+        dplyr::pull(.data$paths)
+    }
+  ) |>
+  purrr::list_c()
 }
 
 #testing
@@ -66,10 +73,7 @@ main <- function(path= ".") {
 
 
   execution_plan <-
-    find_pipelines(path) |>
-    find_modules() |>
-    plan_messages()
-
+    build_execution_plan(path) |>
 
   execution_plan$path |>
     purrr::map(
@@ -77,29 +81,24 @@ main <- function(path= ".") {
     )
   #replace source with one of the wrappers
 
-
 }
 
-plan_messages <- function(path) {
+build_execution_plan <- function(path) {
   path <- fs::path(path)
 
-  pipeline_name <-
-    fs::path_dir(path)
+  pipelines <- find_pipelines(path)
+  pipeline_name <- fs::path_file(pipelines)
+
+  modules <- find_modules(pipelines)
 
   script_name <-
-    fs::path_file(path) |>
-    stringr::str_remove("\\.R")
+    fs::path_file(modules) |>
+    fs::path_ext_remove()
 
   module_name <-
     fs::path_file(
-      fs::path_dir(path)
+      fs::path_dir(modules)
     )
-
-  # dplyr::lst(
-  #   "path" = path,
-  #   "script_name" = script_name,
-  #   "module_name" = module_name
-  # )
 
   dplyr::tibble(
     "path" = path,

@@ -1,3 +1,8 @@
+run_execution_plan <- function(execution_plan) {
+
+}
+
+
 run_process <- function(file_path) {
   fs_path <- fs::path(file_path)
   begin <- Sys.time()
