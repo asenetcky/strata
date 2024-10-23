@@ -64,11 +64,20 @@ plan_runtime <- function() {
 main <- function(path= ".") {
   path <- fs::path(path)
 
-  find_pipelines(path) |>
+
+  execution_plan <-
+    find_pipelines(path) |>
     find_modules() |>
+    plan_messages()
+
+
+  execution_plan$path |>
     purrr::map(
-      \(x) source(x, echo = FALSE)
+      \(submodule) source(submodule)
     )
+  #replace source with one of the wrappers
+
+
 }
 
 plan_messages <- function(path) {
@@ -86,10 +95,16 @@ plan_messages <- function(path) {
       fs::path_dir(path)
     )
 
-  dplyr::lst(
+  # dplyr::lst(
+  #   "path" = path,
+  #   "script_name" = script_name,
+  #   "module_name" = module_name
+  # )
+
+  dplyr::tibble(
     "path" = path,
     "script_name" = script_name,
-    "module_name" = module_name
-
+    "module_name" = module_name,
+    "pipeline_name" = pipeline_name
   )
 }
