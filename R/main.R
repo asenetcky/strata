@@ -27,6 +27,17 @@ find_pipelines <- function(path = ".") {
 
 }
 
+
+find_modules <- function(path = ".") {
+  #TODO enforce the assumumption it's being fed a pipeline
+  toml_path <- fs::path(path, ".modules.toml")
+
+  toml_path |>
+    build_paths() |>
+    fs::dir_ls(glob = "*.R")
+  #this prints out submodule paths
+}
+
 #' @importFrom rlang .data
 build_paths <- function(toml_path) {
   toml_path <- fs::path(toml_path)
