@@ -1,27 +1,27 @@
 #' Add a pipeline skeleton to your project space
 #'
-#' @param pipeline_name A string that is the name of your pipeline
-#' @param path a path to where you want to drop your pipeline
-#' @param order the order of the pipeline
+#' @param stratum_name A string that is the name of your stratum
+#' @param path a path to where you want to drop your stratum
+#' @param order the order of the stratum
 #'
-#' @return invisibly returns fs::path to pipeline
+#' @return invisibly returns fs::path to stratum
 #' @export
 #'
 #' @examples
-#' build_pipeline("my_pipeline_name", "PATH/TO/PROJECT/FOLDER/")
-build_pipeline <- function(pipeline_name, path = ".", order = 1) {
+#' build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
+build_stratum <- function(stratum_name, path = ".", order = 1) {
 
   #what if we dug into strata name more, pipeline becomes stratum?
   # module becomes lamina? flows?
 
   # Clean file name
-  pipeline_name <- clean_name(pipeline_name)
+  stratum_name <- clean_name(stratum_name)
 
-  # Create paths for project and pipeline
+  # Create paths for project and stratum
   project_folder <- fs::path(path)
-  pipelines_folder <- fs::path(project_folder, "pipelines")
-  target_pipeline <- fs::path(pipelines_folder, pipeline_name)
-  pipelines_toml <- fs::path(pipelines_folder, ".pipelines.toml")
+  strata_folder <- fs::path(project_folder, "strata")
+  target_stratum <- fs::path(strata_folder, stratum_name)
+  strata_toml <- fs::path(strata_folder, ".strata.toml")
 
   # Create folders
   fs::dir_create(target_pipeline, recurse = TRUE)
