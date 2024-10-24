@@ -67,19 +67,13 @@ build_paths <- function(toml_path) {
   purrr::list_c()
 }
 
-#testing
 main <- function(path= ".") {
   path <- fs::path(path)
 
-#
-#   execution_plan <-
-#     build_execution_plan(path) |>
-#
-#   execution_plan$path |>
-#     purrr::map(
-#       \(submodule) source(submodule)
-#     )
-  #replace source with one of the wrappers
+  execution_plan <-
+    build_execution_plan(path)
+
+  run_execution_plan(execution_plan)
 
 }
 
