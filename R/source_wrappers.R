@@ -1,5 +1,14 @@
 run_execution_plan <- function(execution_plan) {
+  strata_start <- lubridate::now()
 
+
+
+
+  strata_end <- lubridate::now()
+  total_time <- log_total_time(strata_start, strata_end)
+  log_message(
+    paste("Strata finished - duration:", total_time, "seconds")
+  )
 }
 
 
