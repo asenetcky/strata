@@ -1,6 +1,8 @@
-find_pipelines <- function(path = ".") {
-  where_is_main <- fs::path_abs(path)
-  toml_path <- fs::path(where_is_main, "pipelines/.pipelines.toml")
+find_pipelines <- function(project_path = NULL) {
+  if (is.null(project_path)) stop("main() has no path")
+
+  path <- fs::path(project_path)
+  toml_path <- fs::path(path, "pipelines/.pipelines.toml")
 
   toml_path |>
     build_paths()
