@@ -71,14 +71,14 @@ build_paths <- function(toml_path) {
 main <- function(path= ".") {
   path <- fs::path(path)
 
-
-  execution_plan <-
-    build_execution_plan(path) |>
-
-  execution_plan$path |>
-    purrr::map(
-      \(submodule) source(submodule)
-    )
+#
+#   execution_plan <-
+#     build_execution_plan(path) |>
+#
+#   execution_plan$path |>
+#     purrr::map(
+#       \(submodule) source(submodule)
+#     )
   #replace source with one of the wrappers
 
 }
@@ -89,21 +89,57 @@ build_execution_plan <- function(path) {
   pipelines <- find_pipelines(path)
   pipeline_name <- fs::path_file(pipelines)
 
-  modules <- find_modules(pipelines)
 
-  script_name <-
-    fs::path_file(modules) |>
-    fs::path_ext_remove()
+  #somehting like this? huh <- pipelines |> purrr::map(list)
+  plan <-
+    pipelines |>
+    purrr::map(purrr::pluck) |>
+    purrr::set_names() |>
+    purrr::map(find_modules)
 
-  module_name <-
-    fs::path_file(
-      fs::path_dir(modules)
-    )
+  module_names <-
+    plan |>
+    purrr::map(
+        \(path) {
+            fs::path_file(
+              fs::path_dir(path)
+            )
+        }
+      ) |>
+    list_to_tibble("module_name") |>
+    dplyr::select(-pipeline)
 
-  dplyr::tibble(
-    "path" = path,
-    "script_name" = script_name,
-    "module_name" = module_name,
-    "pipeline_name" = pipeline_name
-  )
+  script_names <-
+    plan |>
+    purrr::map(
+      \(path) {
+        path |>
+          fs::path_file() |>
+          fs::path_ext_remove()
+      }
+    ) |>
+    list_to_tibble("script_name") |>
+    dplyr::select(-pipeline)
+
+  paths <-
+    plan |>
+      list_to_tibble("path")
+
+  paths |>
+    dplyr::bind_cols(script_names) |>
+    dplyr::bind_cols(module_names)
+
+}
+
+list_to_tibble <- function(list, name) {
+  list |>
+    purrr::imap(
+      \(x,idx) {
+        x |>
+        dplyr::as_tibble() |>
+          dplyr::mutate(pipeline = idx) |>
+          dplyr::rename({{ name }} := value)
+      }
+    ) |>
+    purrr::list_rbind()
 }
