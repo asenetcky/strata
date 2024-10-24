@@ -24,7 +24,7 @@ run_execution_plan <- function(execution_plan) {
     }
 
 
-    print(row_scope$path)
+    source(row_scope$path)
 
   }
 
