@@ -160,10 +160,6 @@ build_module <- function(module_name, pipeline_path, order = 1, skip_if_fail = F
 }
 
 
-
-
-
-
 build_main <- function(project_path) {
  project_path <- fs::path(project_path)
  main_path <- fs::path(project_path, "main.R")
@@ -171,7 +167,7 @@ build_main <- function(project_path) {
   if (!is_main) {
     fs::file_create(main_path)
     cat(
-      "library(strata)\nmain()",
+      paste0("library(strata)\nstrata:::main(", project_path, ")\n"),
       file = main_path,
       append = TRUE
     )
