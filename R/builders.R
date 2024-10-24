@@ -166,9 +166,14 @@ build_module <- function(module_name, pipeline_path, order = 1, skip_if_fail = F
 
 build_main <- function(project_path) {
  project_path <- fs::path(project_path)
- is_main <- fs::file_exists(fs::path(project_path, "main.R"))
+ main_path <- fs::path(project_path, "main.R")
+ is_main <- fs::file_exists(main_path)
   if (!is_main) {
     fs::file_create(fs::path(project_path, "main.R"))
+    cat(
+      file = fs::path(project_path, "main.R"),
+      append = TRUE
+    )
   }
 }
 
