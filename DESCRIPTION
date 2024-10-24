@@ -16,6 +16,8 @@ Imports:
     checkmate (>= 2.3.2),
     dplyr (>= 1.1.4),
     fs (>= 1.6.4),
+    glue,
+    lifecycle,
     lubridate (>= 1.9.3),
     purrr (>= 1.0.2),
     RcppTOML (>= 0.2.2),
