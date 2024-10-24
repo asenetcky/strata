@@ -169,9 +169,10 @@ build_main <- function(project_path) {
  main_path <- fs::path(project_path, "main.R")
  is_main <- fs::file_exists(main_path)
   if (!is_main) {
-    fs::file_create(fs::path(project_path, "main.R"))
+    fs::file_create(main_path)
     cat(
-      file = fs::path(project_path, "main.R"),
+      "library(strata)\nmain()",
+      file = main_path,
       append = TRUE
     )
   }
