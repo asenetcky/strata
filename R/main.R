@@ -127,7 +127,10 @@ build_execution_plan <- function(path) {
 
   paths |>
     dplyr::bind_cols(script_names) |>
-    dplyr::bind_cols(module_names)
+    dplyr::bind_cols(module_names) |>
+    dplyr::mutate(
+      pipeline = fs::path_file(pipeline)
+    )
 
 }
 

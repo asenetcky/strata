@@ -1,7 +1,13 @@
 run_execution_plan <- function(execution_plan) {
   strata_start <- lubridate::now()
 
+  for (row in seq_len(nrow(execution_plan))) {
+    row_scope <- execution_plan[row, ]
 
+
+    print(row_scope$path)
+
+  }
 
 
   strata_end <- lubridate::now()
