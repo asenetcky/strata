@@ -53,13 +53,8 @@ strata::build_lamina(
 strata::build_lamina(
   stratum_path = stratum_path,
   lamina_name = "second_lamina",
-  order = 1
+  order = 2
   )
-#> [2024-10-25 08:27:25.547267] WARN: Duplicate orders found in the .laminae.toml file, reordering 
-#> [2024-10-25 08:27:25.549655] INFO: Backed up /tmp/Rtmp4ynTHK/file73e6c6d91f0a7/strata/first_stratum/.laminae.toml to /tmp/Rtmp4ynTHK/file73e6c6d91f0a7/strata/first_stratum/.laminae.bak
-```
-
-``` r
 
 lamina_path1 <- fs::path(stratum_path, "first_lamina")
 lamina_path2 <- fs::path(stratum_path, "second_lamina")
@@ -73,14 +68,14 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp,"main.R"))
-#> [2024-10-25 08:27:25.579332] INFO: Strata started 
-#> [2024-10-25 08:27:25.579444] INFO: Stratum: first_stratum initialized 
-#> [2024-10-25 08:27:25.57951] INFO: Lamina: first_lamina initialized 
-#> [2024-10-25 08:27:25.579623] INFO: Executing: my_code1 
+#> [2024-10-25 08:31:12.288163] INFO: Strata started 
+#> [2024-10-25 08:31:12.288272] INFO: Stratum: first_stratum initialized 
+#> [2024-10-25 08:31:12.288332] INFO: Lamina: first_lamina initialized 
+#> [2024-10-25 08:31:12.288433] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-10-25 08:27:25.579935] INFO: Lamina: first_lamina finished 
-#> [2024-10-25 08:27:25.580006] INFO: Lamina: second_lamina initialized 
-#> [2024-10-25 08:27:25.580061] INFO: Executing: my_code2 
+#> [2024-10-25 08:31:12.28873] INFO: Lamina: first_lamina finished 
+#> [2024-10-25 08:31:12.288796] INFO: Lamina: second_lamina initialized 
+#> [2024-10-25 08:31:12.288848] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-10-25 08:27:25.580743] INFO: Strata finished - duration: 0.0012 seconds
+#> [2024-10-25 08:31:12.289503] INFO: Strata finished - duration: 0.0012 seconds
 ```

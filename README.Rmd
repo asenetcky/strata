@@ -63,7 +63,7 @@ strata::build_lamina(
 strata::build_lamina(
   stratum_path = stratum_path,
   lamina_name = "second_lamina",
-  order = 1
+  order = 2
   )
 
 lamina_path1 <- fs::path(stratum_path, "first_lamina")
