@@ -25,7 +25,7 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
   fs::dir_create(target_stratum, recurse = TRUE)
 
   # add a subfunction for creating main.R
-  fs::file_create(fs::path(project_folder, "main.R"))
+  build_main(project_folder)
 
   # .strata.toml if it doesn't exist
   first_stratum_setup <- !fs::file_exists(strata_toml)
@@ -35,7 +35,7 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
     initial_stratum_toml(
       path = strata_folder,
       name = stratum_name,
-      order = order # cant always assume this, need some logic
+      order = order
     )
   }
 
