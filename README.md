@@ -50,42 +50,37 @@ strata::build_lamina(
   lamina_name = "first_lamina",
   order = 1
   )
-
-code_path <- fs::path(
-    stratum_path,
-    "first_lamina", "my_code.R"
+strata::build_lamina(
+  stratum_path = stratum_path,
+  lamina_name = "second_lamina",
+  order = 1
   )
-my_code <- fs::file_create(code_path)  
-cat(file = my_code, "print('Hello, World!')")
-
-source(fs::path(tmp,"main.R"))
-#> [2024-10-25 07:50:59.245798] INFO: Strata started 
-#> [2024-10-25 07:50:59.245914] INFO: Pipeline: first_stratum initialized 
-#> [2024-10-25 07:50:59.245973] INFO: Module: first_lamina initialized 
-#> [1] "Hello, World!"
-#> [2024-10-25 07:50:59.246788] INFO: Strata finished - duration: 9e-04 seconds
+#> [2024-10-25 08:27:25.547267] WARN: Duplicate orders found in the .laminae.toml file, reordering 
+#> [2024-10-25 08:27:25.549655] INFO: Backed up /tmp/Rtmp4ynTHK/file73e6c6d91f0a7/strata/first_stratum/.laminae.toml to /tmp/Rtmp4ynTHK/file73e6c6d91f0a7/strata/first_stratum/.laminae.bak
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+
+lamina_path1 <- fs::path(stratum_path, "first_lamina")
+lamina_path2 <- fs::path(stratum_path, "second_lamina")
+code_path1 <- fs::path(lamina_path1, "my_code1.R")
+code_path2 <- fs::path(lamina_path2, "my_code2.R")
+
+
+my_code1 <- fs::file_create(code_path1)  
+my_code2 <- fs::file_create(code_path2)  
+cat(file = my_code1, "print('Hello, World!')")
+cat(file = my_code2, "print('Goodbye, World!')")
+
+source(fs::path(tmp,"main.R"))
+#> [2024-10-25 08:27:25.579332] INFO: Strata started 
+#> [2024-10-25 08:27:25.579444] INFO: Stratum: first_stratum initialized 
+#> [2024-10-25 08:27:25.57951] INFO: Lamina: first_lamina initialized 
+#> [2024-10-25 08:27:25.579623] INFO: Executing: my_code1 
+#> [1] "Hello, World!"
+#> [2024-10-25 08:27:25.579935] INFO: Lamina: first_lamina finished 
+#> [2024-10-25 08:27:25.580006] INFO: Lamina: second_lamina initialized 
+#> [2024-10-25 08:27:25.580061] INFO: Executing: my_code2 
+#> [1] "Goodbye, World!"
+#> [2024-10-25 08:27:25.580743] INFO: Strata finished - duration: 0.0012 seconds
 ```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.

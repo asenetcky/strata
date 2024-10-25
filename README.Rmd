@@ -60,30 +60,24 @@ strata::build_lamina(
   lamina_name = "first_lamina",
   order = 1
   )
-
-code_path <- fs::path(
-    stratum_path,
-    "first_lamina", "my_code.R"
+strata::build_lamina(
+  stratum_path = stratum_path,
+  lamina_name = "second_lamina",
+  order = 1
   )
-my_code <- fs::file_create(code_path)  
-cat(file = my_code, "print('Hello, World!')")
+
+lamina_path1 <- fs::path(stratum_path, "first_lamina")
+lamina_path2 <- fs::path(stratum_path, "second_lamina")
+code_path1 <- fs::path(lamina_path1, "my_code1.R")
+code_path2 <- fs::path(lamina_path2, "my_code2.R")
+
+
+my_code1 <- fs::file_create(code_path1)  
+my_code2 <- fs::file_create(code_path2)  
+cat(file = my_code1, "print('Hello, World!')")
+cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp,"main.R"))
 
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
