@@ -1,15 +1,39 @@
-find_pipelines <- function(project_path = NULL) {
+#' Entry point into your strata project and automation target
+#'
+#' @param project_path A path to automation project folder
+#'
+#' @return invisible execution plan
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' main("/PATH/TO/PROJECT/FOLDER")
+#'}
+main <- function(project_path = NULL) {
+  if (is.null(project_path)) stop("main() has no path")
+
+  project_path <- fs::path(project_path)
+
+  execution_plan <-
+    build_execution_plan(project_path)
+
+  run_execution_plan(execution_plan)
+
+  invisible(execution_plan)
+}
+
+find_strata <- function(project_path = NULL) {
   if (is.null(project_path)) stop("main() has no path")
 
   path <- fs::path(project_path)
-  toml_path <- fs::path(path, "pipelines/.pipelines.toml")
+  toml_path <- fs::path(path, "strata/.strata.toml")
 
   toml_path |>
     build_paths()
 }
 
-find_modules <- function(path = ".") {
-  toml_path <- fs::path(path, ".modules.toml")
+find_laminae <- function(path = ".") {
+  toml_path <- fs::path(path, ".laminae.toml")
 
   toml_path |>
     build_paths() |>
@@ -44,46 +68,32 @@ build_paths <- function(toml_path) {
         dplyr::pull(.data$paths)
     }
   ) |>
-  purrr::list_c()
-}
-
-main <- function(path = NULL) {
-  if (is.null(path)) stop("main() has no path")
-
-  path <- fs::path(path)
-
-  execution_plan <-
-    build_execution_plan(path)
-
-  run_execution_plan(execution_plan)
-
+    purrr::list_c()
 }
 
 build_execution_plan <- function(path) {
   path <- fs::path(path)
 
-  pipelines <- find_pipelines(path)
-  pipeline_name <- fs::path_file(pipelines)
+  strata <- find_strata(path)
+  stratum_name <- fs::path_file(strata)
 
-
-  #somehting like this? huh <- pipelines |> purrr::map(list)
   plan <-
-    pipelines |>
+    strata |>
     purrr::map(purrr::pluck) |>
     purrr::set_names() |>
-    purrr::map(find_modules)
+    purrr::map(find_laminae)
 
-  module_names <-
+  lamina_names <-
     plan |>
     purrr::map(
-        \(path) {
-            fs::path_file(
-              fs::path_dir(path)
-            )
-        }
-      ) |>
-    list_to_tibble("module_name") |>
-    dplyr::select(-"pipeline")
+      \(path) {
+        fs::path_file(
+          fs::path_dir(path)
+        )
+      }
+    ) |>
+    list_to_tibble("lamina_name") |>
+    dplyr::select(-"stratum")
 
   script_names <-
     plan |>
@@ -95,28 +105,27 @@ build_execution_plan <- function(path) {
       }
     ) |>
     list_to_tibble("script_name") |>
-    dplyr::select(-"pipeline")
+    dplyr::select(-"stratum")
 
   paths <-
     plan |>
-      list_to_tibble("path")
+    list_to_tibble("path")
 
   paths |>
     dplyr::bind_cols(script_names) |>
-    dplyr::bind_cols(module_names) |>
+    dplyr::bind_cols(lamina_names) |>
     dplyr::mutate(
-      pipeline = fs::path_file(.data$pipeline)
+      stratum = fs::path_file(.data$stratum)
     )
-
 }
 
 list_to_tibble <- function(list, name) {
   list |>
     purrr::imap(
-      \(x,idx) {
+      \(x, idx) {
         x |>
-        dplyr::as_tibble() |>
-          dplyr::mutate(pipeline = idx) |>
+          dplyr::as_tibble() |>
+          dplyr::mutate(stratum = idx) |>
           dplyr::rename({{ name }} := .data$value)
       }
     ) |>

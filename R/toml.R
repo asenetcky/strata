@@ -1,13 +1,13 @@
 # this needs way more cleanup but will work for now
 
-initial_pipeline_toml <- function(path, name, order) {
+initial_stratum_toml <- function(path, name, order) {
   path <- fs::path(path)
-  toml_file <- fs::path(path, ".pipelines.toml")
+  toml_file <- fs::path(path, ".strata.toml")
   fs::file_create(toml_file)
 
   writeLines(
     paste0(
-      "[pipelines]\n",
+      "[strata]\n",
       name, " = { created = ", lubridate::today(),
       ", order = ", order,
       " }"
@@ -17,13 +17,13 @@ initial_pipeline_toml <- function(path, name, order) {
   base::invisible(toml_file)
 }
 
-initial_module_toml <- function(path) {
+initial_lamina_toml <- function(path) {
   path <- fs::path(path)
-  toml_file <- fs::path(path, ".modules.toml")
+  toml_file <- fs::path(path, ".laminae.toml")
   fs::file_create(toml_file)
 
   writeLines(
-    paste0("[modules]"),
+    paste0("[laminae]"),
     toml_file
   )
   base::invisible(toml_file)
@@ -55,37 +55,38 @@ manage_toml_order <- function(toml_snapshot) {
     !dplyr::n_distinct(toml_snapshot$order) == base::nrow(toml_snapshot)
 
   if (duplicate_orders) {
-  toml_name <- paste0(".", unique(toml_snapshot$type), ".toml")
-     duped_orders <-
+    toml_name <- paste0(".", unique(toml_snapshot$type), ".toml")
+    duped_orders <-
       toml_snapshot |>
       dplyr::count(order) |>
-      dplyr::filter(.data$n  > 1) |>
+      dplyr::filter(.data$n > 1) |>
       dplyr::pull(order)
 
-     without_dupes <-
-       toml_snapshot |>
-       dplyr::filter(!order %in% duped_orders) |>
-       dplyr::arrange(order) |>
-       dplyr::mutate(order = dplyr::row_number())
+    without_dupes <-
+      toml_snapshot |>
+      dplyr::filter(!order %in% duped_orders) |>
+      dplyr::arrange(order) |>
+      dplyr::mutate(order = dplyr::row_number())
 
-     max_order <- max(without_dupes$order, 0)
+    max_order <- max(without_dupes$order, 0)
 
-     with_dupes <-
-       toml_snapshot |>
-       dplyr::filter(order %in% duped_orders) |>
-       dplyr::arrange(dplyr::across(dplyr::starts_with("name"))) |>
-       dplyr::mutate(order = max_order + dplyr::row_number())
+    with_dupes <-
+      toml_snapshot |>
+      dplyr::filter(order %in% duped_orders) |>
+      dplyr::arrange(dplyr::across(dplyr::starts_with("name"))) |>
+      dplyr::mutate(order = max_order + dplyr::row_number())
 
-     toml_snapshot <-
-       dplyr::bind_rows(without_dupes, with_dupes)
+    toml_snapshot <-
+      dplyr::bind_rows(without_dupes, with_dupes)
 
-     log_message(
-       paste(
-         "Duplicate orders found in the",
-         toml_name,
-         "file, reordering"
-       ),
-       "WARN")
+    log_message(
+      paste(
+        "Duplicate orders found in the",
+        toml_name,
+        "file, reordering"
+      ),
+      "WARN"
+    )
   }
   toml_snapshot |>
     dplyr::arrange(order) |>
@@ -93,12 +94,12 @@ manage_toml_order <- function(toml_snapshot) {
 }
 
 backup_toml <- function(toml_path) {
- file_root <- fs::path_dir(toml_path)
+  file_root <- fs::path_dir(toml_path)
   file_name <-
     fs::path_file(toml_path) |>
     stringr::str_replace("\\.toml", "\\.bak")
 
-  fs::file_copy(toml_path,  fs::path(file_root, file_name), overwrite = TRUE)
+  fs::file_copy(toml_path, fs::path(file_root, file_name), overwrite = TRUE)
 
   log_message(
     paste(
@@ -116,7 +117,7 @@ write_toml_lines <- function(toml_content, toml_path) {
   toml_path <- fs::path(toml_path)
   toml_type <- base::unique(toml_content$type)
 
-  #TODO make cleaner
+  # TODO make cleaner
   names <-
     toml_content |>
     dplyr::select(dplyr::any_of("name"))
@@ -142,7 +143,7 @@ write_toml_lines <- function(toml_content, toml_path) {
       dplyr::tibble(
         skip_if_fail =
           paste0(", skip_if_fail = ", skip_if_fails$skip_if_fail)
-        )
+      )
   }
 
   lines <-
@@ -176,7 +177,6 @@ write_toml_lines <- function(toml_content, toml_path) {
         )
       }
     )
-
 }
 
 
@@ -186,7 +186,7 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   backup_toml(toml_path)
   fs::file_delete(toml_path)
 
-  #rewrite toml
+  # rewrite toml
   new_toml <-
     toml_snapshot |>
     dplyr::mutate(
@@ -199,4 +199,3 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   write_toml_lines(new_toml, toml_path)
   invisible(toml_path)
 }
-
