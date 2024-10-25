@@ -59,6 +59,11 @@ my_code <- fs::file_create(code_path)
 cat(file = my_code, "print('Hello, World!')")
 
 source(fs::path(tmp,"main.R"))
+#> [2024-10-25 07:50:59.245798] INFO: Strata started 
+#> [2024-10-25 07:50:59.245914] INFO: Pipeline: first_stratum initialized 
+#> [2024-10-25 07:50:59.245973] INFO: Module: first_lamina initialized 
+#> [1] "Hello, World!"
+#> [2024-10-25 07:50:59.246788] INFO: Strata finished - duration: 9e-04 seconds
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`?
