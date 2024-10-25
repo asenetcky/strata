@@ -7,11 +7,11 @@
 build_stratum(stratum_name, path = ".", order = 1)
 }
 \arguments{
-\item{stratum_name}{A string that is the name of your stratum}
+\item{stratum_name}{Name of your stratum}
 
-\item{path}{a path to where you want to drop your stratum}
+\item{path}{A path to where you want to drop your stratum}
 
-\item{order}{the order of the stratum}
+\item{order}{The order of the stratum}
 }
 \value{
 invisibly returns fs::path to stratum
@@ -20,5 +20,7 @@ invisibly returns fs::path to stratum
 Add a stratum skeleton to your project space
 }
 \examples{
+\dontrun{
 build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
+}
 }

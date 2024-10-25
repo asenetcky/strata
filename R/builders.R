@@ -1,14 +1,16 @@
 #' Add a stratum skeleton to your project space
 #'
-#' @param stratum_name A string that is the name of your stratum
-#' @param path a path to where you want to drop your stratum
-#' @param order the order of the stratum
+#' @param stratum_name Name of your stratum
+#' @param path A path to where you want to drop your stratum
+#' @param order The order of the stratum
 #'
 #' @return invisibly returns fs::path to stratum
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
+#'}
 build_stratum <- function(stratum_name, path = ".", order = 1) {
   # Clean file name
   stratum_name <- clean_name(stratum_name)
@@ -36,7 +38,6 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
       order = order # cant always assume this, need some logic
     )
   }
-
 
   # read the .toml file
   toml_snapshot <- snapshot_toml(strata_toml)
@@ -83,7 +84,24 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
 }
 
 
+#' Add a lamina skeleton to your project space
+#'
+#' @param lamina_name Name of your Lamina
+#' @param stratum_path Path to the parent stratum
+#' @param order Execution order inside of stratum
+#' @param skip_if_fail Skip this lamina if it fails
+#'
+#' @return invisibly returns fs::path to lamina
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' build_lamina("my_lamina_name", "PATH/TO/STRATUM/FOLDER/")
+#'}
 build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
+  #TODO replace stratum_path with stratum_name
+  # to make it more user friendly
+
   # grab the strata structure
   lamina_name <- clean_name(lamina_name)
   stratum_path <- fs::path(stratum_path)
@@ -106,8 +124,6 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
   # read the .toml file
   toml_snapshot <- snapshot_toml(laminae_toml)
 
-  # read the .toml file
-
   if (!purrr::is_empty(toml_snapshot)) {
     current_laminae <-
       toml_snapshot |>
@@ -115,7 +131,6 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
   } else {
     current_laminae <- ""
   }
-
 
   # update .laminae.toml
   if (!lamina_name %in% current_laminae) {
@@ -148,7 +163,6 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
   if (!identical(sorted_toml, toml_snapshot)) {
     rewrite_from_dataframe(sorted_toml, laminae_toml)
   }
-
 
   base::invisible(new_lamina_path)
 }

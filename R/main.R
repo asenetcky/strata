@@ -77,8 +77,6 @@ build_execution_plan <- function(path) {
   strata <- find_strata(path)
   stratum_name <- fs::path_file(strata)
 
-
-  # somehting like this? huh <- strata |> purrr::map(list)
   plan <-
     strata |>
     purrr::map(purrr::pluck) |>
