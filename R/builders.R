@@ -175,7 +175,7 @@ build_main <- function(project_path) {
   if (!is_main) {
     fs::file_create(main_path)
     cat(
-      paste0("library(strata)\nstrata:::main(", project_path, ")\n"),
+      paste0("library(strata)\nstrata::main(", project_path, ")\n"),
       file = main_path,
       append = TRUE
     )
