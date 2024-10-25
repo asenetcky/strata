@@ -6,7 +6,7 @@ clean_name <- function(name) {
 }
 
 check_stratum <- function(stratum_path) {
-  #force to fs::path
+  # force to fs::path
   stratum_path <- fs::path(stratum_path)
 
   strata_issue <- FALSE

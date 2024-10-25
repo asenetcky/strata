@@ -25,7 +25,6 @@ run_execution_plan <- function(execution_plan) {
 
 
     source(row_scope$path)
-
   }
 
 
@@ -36,7 +35,6 @@ run_execution_plan <- function(execution_plan) {
   )
 }
 
-#TODO implement the following functions for adhoc work
+# TODO implement the following functions for adhoc work
 # pick_stratum()
 # pick_lamina()
-

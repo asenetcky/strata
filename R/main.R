@@ -44,7 +44,7 @@ build_paths <- function(toml_path) {
         dplyr::pull(.data$paths)
     }
   ) |>
-  purrr::list_c()
+    purrr::list_c()
 }
 
 main <- function(path = NULL) {
@@ -56,7 +56,6 @@ main <- function(path = NULL) {
     build_execution_plan(path)
 
   run_execution_plan(execution_plan)
-
 }
 
 build_execution_plan <- function(path) {
@@ -66,7 +65,7 @@ build_execution_plan <- function(path) {
   stratum_name <- fs::path_file(strata)
 
 
-  #somehting like this? huh <- strata |> purrr::map(list)
+  # somehting like this? huh <- strata |> purrr::map(list)
   plan <-
     strata |>
     purrr::map(purrr::pluck) |>
@@ -76,12 +75,12 @@ build_execution_plan <- function(path) {
   lamina_names <-
     plan |>
     purrr::map(
-        \(path) {
-            fs::path_file(
-              fs::path_dir(path)
-            )
-        }
-      ) |>
+      \(path) {
+        fs::path_file(
+          fs::path_dir(path)
+        )
+      }
+    ) |>
     list_to_tibble("lamina_name") |>
     dplyr::select(-"stratum")
 
@@ -99,7 +98,7 @@ build_execution_plan <- function(path) {
 
   paths <-
     plan |>
-      list_to_tibble("path")
+    list_to_tibble("path")
 
   paths |>
     dplyr::bind_cols(script_names) |>
@@ -107,15 +106,14 @@ build_execution_plan <- function(path) {
     dplyr::mutate(
       stratum = fs::path_file(.data$stratum)
     )
-
 }
 
 list_to_tibble <- function(list, name) {
   list |>
     purrr::imap(
-      \(x,idx) {
+      \(x, idx) {
         x |>
-        dplyr::as_tibble() |>
+          dplyr::as_tibble() |>
           dplyr::mutate(stratum = idx) |>
           dplyr::rename({{ name }} := .data$value)
       }
