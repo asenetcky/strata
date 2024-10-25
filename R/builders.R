@@ -83,74 +83,74 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
 }
 
 
-build_module <- function(module_name, stratum_path, order = 1, skip_if_fail = FALSE) {
+build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
   # grab the strata structure
-  module_name <- clean_name(module_name)
+  lamina_name <- clean_name(lamina_name)
   stratum_path <- fs::path(stratum_path)
 
   checkmate::assert_true(check_stratum(stratum_path))
 
-  modules_path <- stratum_path
-  modules_toml <- fs::path(modules_path, ".modules.toml")
+  laminae_path <- stratum_path
+  laminae_toml <- fs::path(laminae_path, ".laminae.toml")
 
 
-  # create the new module's folder
-  new_module_path <- fs::path(stratum_path, module_name)
-  fs::dir_create(new_module_path)
+  # create the new lamina's folder
+  new_lamina_path <- fs::path(stratum_path, lamina_name)
+  fs::dir_create(new_lamina_path)
 
-  # .module.toml if it doesn't exist
-  if (!fs::file_exists(modules_toml)) {
-    initial_module_toml(modules_path)
+  # .lamina.toml if it doesn't exist
+  if (!fs::file_exists(laminae_toml)) {
+    initial_lamina_toml(laminae_path)
   }
 
   # read the .toml file
-  toml_snapshot <- snapshot_toml(modules_toml)
+  toml_snapshot <- snapshot_toml(laminae_toml)
 
   # read the .toml file
 
   if (!purrr::is_empty(toml_snapshot)) {
-    current_modules <-
+    current_laminae <-
       toml_snapshot |>
       dplyr::pull("name")
   } else {
-    current_modules <- ""
+    current_laminae <- ""
   }
 
 
-  # update .modules.toml
-  if (!module_name %in% current_modules) {
+  # update .laminae.toml
+  if (!lamina_name %in% current_laminae) {
     cat(
       paste0(
-        module_name, " = { created = ", lubridate::today(),
+        lamina_name, " = { created = ", lubridate::today(),
         ", order = ", order,
         ", skip_if_fail = ", stringr::str_to_lower(skip_if_fail),
         " }\n"
       ),
-      file = modules_toml,
+      file = laminae_toml,
       append = TRUE
     )
   } else {
     log_error(
       paste(
-        module_name,
+        lamina_name,
         "already exists in",
-        fs::path(stratum_path, "modules")
+        fs::path(stratum_path, "laminae")
       )
     )
   }
 
   # trust but verify
-  toml_snapshot <- snapshot_toml(modules_toml)
+  toml_snapshot <- snapshot_toml(laminae_toml)
 
   sorted_toml <-
     manage_toml_order(toml_snapshot)
 
   if (!identical(sorted_toml, toml_snapshot)) {
-    rewrite_from_dataframe(sorted_toml, modules_toml)
+    rewrite_from_dataframe(sorted_toml, laminae_toml)
   }
 
 
-  base::invisible(new_module_path)
+  base::invisible(new_lamina_path)
 }
 
 

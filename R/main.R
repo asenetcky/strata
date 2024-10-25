@@ -8,8 +8,8 @@ find_strata <- function(project_path = NULL) {
     build_paths()
 }
 
-find_modules <- function(path = ".") {
-  toml_path <- fs::path(path, ".modules.toml")
+find_laminae <- function(path = ".") {
+  toml_path <- fs::path(path, ".laminae.toml")
 
   toml_path |>
     build_paths() |>
@@ -71,9 +71,9 @@ build_execution_plan <- function(path) {
     strata |>
     purrr::map(purrr::pluck) |>
     purrr::set_names() |>
-    purrr::map(find_modules)
+    purrr::map(find_laminae)
 
-  module_names <-
+  lamina_names <-
     plan |>
     purrr::map(
         \(path) {
@@ -82,7 +82,7 @@ build_execution_plan <- function(path) {
             )
         }
       ) |>
-    list_to_tibble("module_name") |>
+    list_to_tibble("lamina_name") |>
     dplyr::select(-"stratum")
 
   script_names <-
@@ -103,7 +103,7 @@ build_execution_plan <- function(path) {
 
   paths |>
     dplyr::bind_cols(script_names) |>
-    dplyr::bind_cols(module_names) |>
+    dplyr::bind_cols(lamina_names) |>
     dplyr::mutate(
       stratum = fs::path_file(.data$stratum)
     )

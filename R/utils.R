@@ -21,12 +21,12 @@ check_stratum <- function(stratum_path) {
     strata_issue <- TRUE
   }
 
-  # check if the stratum has a modules folder
-  # if (!fs::dir_exists(fs::path(stratum_path, "modules"))) {
+  # check if the stratum has a laminae folder
+  # if (!fs::dir_exists(fs::path(stratum_path, "laminae"))) {
   #   log_error(
   #     paste(
   #       fs::path_file(stratum_path),
-  #       "does not have a modules folder"
+  #       "does not have a laminae folder"
   #     )
   #   )
   #   strata_issue <- TRUE

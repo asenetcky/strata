@@ -17,13 +17,13 @@ initial_stratum_toml <- function(path, name, order) {
   base::invisible(toml_file)
 }
 
-initial_module_toml <- function(path) {
+initial_lamina_toml <- function(path) {
   path <- fs::path(path)
-  toml_file <- fs::path(path, ".modules.toml")
+  toml_file <- fs::path(path, ".laminae.toml")
   fs::file_create(toml_file)
 
   writeLines(
-    paste0("[modules]"),
+    paste0("[laminae]"),
     toml_file
   )
   base::invisible(toml_file)
