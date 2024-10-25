@@ -6,7 +6,16 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of strata is to …
+The goal of strata is to provide a framework for workflow automation and
+reproducible analyses for R users and teams who may not have access to
+many modern automation tooling and/or are otherwise
+resource-constrained. Strata aims to be simple and allow users to adopt
+it with minimal changes to existing code and use whatever automation
+they have access to. There is only one target file users will need to
+automate, `main.R`, which will run through the entire project with the
+settings they specified as they build their strata of code. Strata is
+designed to get out of the users’ way and play nice with packages like
+`renv`, `cronR`, and `taskscheduleR`.
 
 ## Installation
 
@@ -24,7 +33,32 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(strata)
-## basic example code
+
+tmp <- fs::dir_create(fs::file_temp())
+strata::build_stratum(
+  path = tmp, 
+  stratum_name = "first_stratum", 
+  order = 1
+  )
+
+stratum_path <-  
+  fs::path(
+    tmp, "strata", "first_stratum"
+  )
+strata::build_lamina(
+  stratum_path = stratum_path,
+  lamina_name = "first_lamina",
+  order = 1
+  )
+
+code_path <- fs::path(
+    stratum_path,
+    "first_lamina", "my_code.R"
+  )
+my_code <- fs::file_create(code_path)  
+cat(file = my_code, "print('Hello, World!')")
+
+source(fs::path(tmp,"main.R"))
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`?
