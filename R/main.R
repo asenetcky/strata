@@ -1,3 +1,27 @@
+#' Entry point into your strata project and automation target
+#'
+#' @param project_path A path to automation project folder
+#'
+#' @return invisible execution plan
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' main("/PATH/TO/PROJECT/FOLDER")
+#'}
+main <- function(project_path = NULL) {
+  if (is.null(project_path)) stop("main() has no path")
+
+  project_path <- fs::path(project_path)
+
+  execution_plan <-
+    build_execution_plan(project_path)
+
+  run_execution_plan(execution_plan)
+
+  invisible(execution_plan)
+}
+
 find_strata <- function(project_path = NULL) {
   if (is.null(project_path)) stop("main() has no path")
 
@@ -45,17 +69,6 @@ build_paths <- function(toml_path) {
     }
   ) |>
     purrr::list_c()
-}
-
-main <- function(path = NULL) {
-  if (is.null(path)) stop("main() has no path")
-
-  path <- fs::path(path)
-
-  execution_plan <-
-    build_execution_plan(path)
-
-  run_execution_plan(execution_plan)
 }
 
 build_execution_plan <- function(path) {
