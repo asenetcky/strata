@@ -6,7 +6,7 @@
 \alias{strata-package}
 \title{strata: Simple Data Pipelines For Simple Automation}
 \description{
-Tools for a simple, human-focused pipeline framework for developers with only the most basic automation tool suite. The package is designed to get developers up and running quickly with the code they already have, and provide simple automation targets for use with tools like 'cron' or 'Task Scheduler'.
+Tools for a simple, human-focused stratum framework for developers with only the most basic automation tool suite. The package is designed to get developers up and running quickly with the code they already have, and provide simple automation targets for use with tools like 'cron' or 'Task Scheduler'.
 }
 \seealso{
 Useful links:

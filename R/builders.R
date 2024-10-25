@@ -1,4 +1,4 @@
-#' Add a pipeline skeleton to your project space
+#' Add a stratum skeleton to your project space
 #'
 #' @param stratum_name A string that is the name of your stratum
 #' @param path a path to where you want to drop your stratum
@@ -10,10 +10,6 @@
 #' @examples
 #' build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
 build_stratum <- function(stratum_name, path = ".", order = 1) {
-
-  #what if we dug into strata name more, pipeline becomes stratum?
-  # module becomes lamina? flows?
-
   # Clean file name
   stratum_name <- clean_name(stratum_name)
 
@@ -24,84 +20,82 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
   strata_toml <- fs::path(strata_folder, ".strata.toml")
 
   # Create folders
-  fs::dir_create(target_pipeline, recurse = TRUE)
+  fs::dir_create(target_stratum, recurse = TRUE)
 
-  #add a subfunction for creating main.R
+  # add a subfunction for creating main.R
   fs::file_create(fs::path(project_folder, "main.R"))
 
-  # .pipelines.toml if it doesn't exist
-  first_pipeline_setup <- !fs::file_exists(pipelines_toml)
+  # .strata.toml if it doesn't exist
+  first_stratum_setup <- !fs::file_exists(strata_toml)
 
-  # Create .pipelines.toml
-  if (first_pipeline_setup) {
-    initial_pipeline_toml(
-      path = pipelines_folder,
-      name = pipeline_name,
-      order = order #cant always assume this, need some logic
+  # Create .strata.toml
+  if (first_stratum_setup) {
+    initial_stratum_toml(
+      path = strata_folder,
+      name = stratum_name,
+      order = order # cant always assume this, need some logic
     )
   }
 
 
   # read the .toml file
-  toml_snapshot <- snapshot_toml(pipelines_toml)
+  toml_snapshot <- snapshot_toml(strata_toml)
 
-  if (!first_pipeline_setup) {
-     current_pipelines <-
+  if (!first_stratum_setup) {
+    current_strata <-
       toml_snapshot |>
       dplyr::pull("name")
 
-    # update .pipelines.toml
-     if (!pipeline_name %in% current_pipelines) {
+    # update .strata.toml
+    if (!stratum_name %in% current_strata) {
       cat(
         paste0(
-          pipeline_name, " = { created = ", lubridate::today(),
+          stratum_name, " = { created = ", lubridate::today(),
           ", order = ", order,
           " }\n"
         ),
-        file = pipelines_toml,
+        file = strata_toml,
         append = TRUE
       )
 
-       #trust but verify
-       toml_snapshot <- snapshot_toml(pipelines_toml)
+      # trust but verify
+      toml_snapshot <- snapshot_toml(strata_toml)
 
-       sorted_toml <-
-         manage_toml_order(toml_snapshot)
+      sorted_toml <-
+        manage_toml_order(toml_snapshot)
 
-       if (!identical(sorted_toml, toml_snapshot)) {
-         rewrite_from_dataframe(sorted_toml, pipelines_toml)
-       }
+      if (!identical(sorted_toml, toml_snapshot)) {
+        rewrite_from_dataframe(sorted_toml, strata_toml)
+      }
 
-       base::invisible(target_pipeline)
-
+      base::invisible(target_stratum)
     } else {
       log_error(
         paste(
-          pipeline_name,
+          stratum_name,
           "already exists in",
-          fs::path(pipelines_folder)
+          fs::path(strata_folder)
         )
       )
-
     }
   }
-  invisible(target_pipeline)
+  invisible(target_stratum)
 }
 
 
-build_module <- function(module_name, pipeline_path, order = 1, skip_if_fail = FALSE ) {
-  #grab the strata structure
+build_module <- function(module_name, stratum_path, order = 1, skip_if_fail = FALSE) {
+  # grab the strata structure
   module_name <- clean_name(module_name)
-  pipeline_path <- fs::path(pipeline_path)
+  stratum_path <- fs::path(stratum_path)
 
-  checkmate::assert_true(check_pipeline(pipeline_path))
+  checkmate::assert_true(check_stratum(stratum_path))
 
-  modules_path <- pipeline_path
+  modules_path <- stratum_path
   modules_toml <- fs::path(modules_path, ".modules.toml")
 
 
-  #create the new module's folder
-  new_module_path <- fs::path(pipeline_path, module_name)
+  # create the new module's folder
+  new_module_path <- fs::path(stratum_path, module_name)
   fs::dir_create(new_module_path)
 
   # .module.toml if it doesn't exist
@@ -140,12 +134,12 @@ build_module <- function(module_name, pipeline_path, order = 1, skip_if_fail = F
       paste(
         module_name,
         "already exists in",
-        fs::path(pipeline_path, "modules")
+        fs::path(stratum_path, "modules")
       )
     )
   }
 
-  #trust but verify
+  # trust but verify
   toml_snapshot <- snapshot_toml(modules_toml)
 
   sorted_toml <-
@@ -161,9 +155,9 @@ build_module <- function(module_name, pipeline_path, order = 1, skip_if_fail = F
 
 
 build_main <- function(project_path) {
- project_path <- fs::path(project_path)
- main_path <- fs::path(project_path, "main.R")
- is_main <- fs::file_exists(main_path)
+  project_path <- fs::path(project_path)
+  main_path <- fs::path(project_path, "main.R")
+  is_main <- fs::file_exists(main_path)
   if (!is_main) {
     fs::file_create(main_path)
     cat(
@@ -173,5 +167,3 @@ build_main <- function(project_path) {
     )
   }
 }
-
-
