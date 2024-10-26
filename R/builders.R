@@ -1,3 +1,8 @@
+#TODO check that strata and laminae are being built in the
+# correct folders
+
+
+
 #' Add a stratum skeleton to your project space
 #'
 #' @param stratum_name Name of your stratum
