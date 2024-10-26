@@ -31,7 +31,7 @@ initial_lamina_toml <- function(path) {
 
 snapshot_toml <- function(toml_path) {
   toml_path <- fs::path(toml_path)
-  toml <- RcppTOML::tomlparse(toml_path)
+  toml <- read_toml(toml_path)
   toml_type <- names(toml)
 
   vars <- c("type", "name", "order", "skip_if_fail", "created")
@@ -198,4 +198,72 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
 
   write_toml_lines(new_toml, toml_path)
   invisible(toml_path)
+}
+
+
+read_toml <- function(toml_path) {
+  toml_path <- fs::path(toml_path)
+
+  toml_lines <- readLines(toml_path)
+  toml_type <-
+    toml_lines[1] |>
+    stringr::str_remove_all("\\[|\\]")
+
+
+ toml_length <- length(toml_lines)
+
+ toml_list <-
+   tibble::lst(
+     !!toml_type := tibble::lst()
+   )
+
+
+ if (toml_length > 1) {
+ created <- order <- skip_if_fail <- NULL
+   for (i in 2:toml_length) {
+     line <- toml_lines[i]
+
+     name <-
+       stringr::word(line)
+
+     vars <-
+       line |>
+       stringr::str_remove_all(
+         pattern = paste0(name, " = \\{|\\}")
+       ) |>
+       stringr::str_trim() |>
+       stringr::str_split_1(", ") |>
+       purrr::map(
+         \(x) {
+           x |>
+             stringr::str_split_1(" = ") |>
+             purrr::set_names(c("key", "value"))
+         }
+       )
+
+
+     for (i in 1:length(vars)) {
+       assign(vars[[i]][["key"]], vars[[i]][["value"]],
+              # envir = toml[[toml_type]][[name]]
+       )
+     }
+
+     var_list <-
+       tibble::lst(
+         created = lubridate::as_date(created),
+         order = as.integer(order)
+       )
+
+
+     if(toml_type == "laminae") {
+       var_list <-
+         c(var_list, tibble::lst(  skip_if_fail = as.logical(skip_if_fail)))
+     }
+
+     row_vars <-  tibble::lst(!!name := var_list)
+     toml_list[[1]] <- c(toml_list[[1]], row_vars)
+   }
+ }
+
+ toml_list
 }
