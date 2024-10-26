@@ -60,11 +60,6 @@ often alphabetically.
 at run time, and are available for use inside of users’ code if they
 desire.
 
-An example strata project may look like the following file tree:
-
-project_folder ├── main.R └── strata ├── .strata.toml └── stratum1 ├──
-lamina1 │   └── script1.R └── .laminae.toml
-
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
@@ -106,14 +101,14 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp,"main.R"))
-#> [2024-10-26 11:38:12.387699] INFO: Strata started 
-#> [2024-10-26 11:38:12.387811] INFO: Stratum: first_stratum initialized 
-#> [2024-10-26 11:38:12.387863] INFO: Lamina: first_lamina initialized 
-#> [2024-10-26 11:38:12.387957] INFO: Executing: my_code1 
+#> [2024-10-26 11:41:05.785279] INFO: Strata started 
+#> [2024-10-26 11:41:05.785383] INFO: Stratum: first_stratum initialized 
+#> [2024-10-26 11:41:05.785435] INFO: Lamina: first_lamina initialized 
+#> [2024-10-26 11:41:05.78553] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-10-26 11:38:12.388242] INFO: Lamina: first_lamina finished 
-#> [2024-10-26 11:38:12.388307] INFO: Lamina: second_lamina initialized 
-#> [2024-10-26 11:38:12.388355] INFO: Executing: my_code2 
+#> [2024-10-26 11:41:05.785805] INFO: Lamina: first_lamina finished 
+#> [2024-10-26 11:41:05.785875] INFO: Lamina: second_lamina initialized 
+#> [2024-10-26 11:41:05.785927] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-10-26 11:38:12.388973] INFO: Strata finished - duration: 0.0012 seconds
+#> [2024-10-26 11:41:05.786538] INFO: Strata finished - duration: 0.0011 seconds
 ```

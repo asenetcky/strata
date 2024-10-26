@@ -75,19 +75,6 @@ are used at run time, and are available for use inside of users'
 code if they desire.
 
 
-An example strata project may look like the following file tree:
-
-project_folder
-├── main.R
-└── strata
-    ├── .strata.toml
-    └── stratum1
-        ├── lamina1
-        │   └── script1.R
-        └── .laminae.toml
-
-
-
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
