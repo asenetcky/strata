@@ -199,3 +199,82 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   write_toml_lines(new_toml, toml_path)
   invisible(toml_path)
 }
+
+
+read_toml <- function(toml_path) {
+  toml_path <- fs::path(toml_path)
+
+  toml_lines <- readLines(toml_path)
+  toml_type <-
+    toml_lines[1] |>
+    stringr::str_remove_all("\\[|\\]")
+
+ # toml <-
+ #   list(
+ #     {{ toml_type }}
+ #   )
+
+ toml_length <- length(toml_lines)
+
+ for (i in 2:toml_length) {
+   line <- toml_lines[i]
+   if (line == "") {
+     break
+   }
+
+   name <-
+     stringr::word(line)
+
+   vars <-
+     line |>
+     stringr::str_remove_all(
+       pattern = paste0(name, " = \\{|\\}")
+     ) |>
+     stringr::str_trim() |>
+     stringr::str_split_1(", ") |>
+     purrr::map(
+       \(x) {
+         x |>
+           stringr::str_split_1(" = ") |>
+           purrr::set_names(c("key", "value"))
+       }
+     )
+
+
+   for (i in 1:length(vars)) {
+     assign(vars[[i]][["key"]], vars[[i]][["value"]],
+            # envir = toml[[toml_type]][[name]]
+            )
+   }
+
+   # created <- vars[["created"]]$value
+   # order <- vars[["order"]]$value
+   # if (toml_type == "lamina") {
+   #   skip_if_fail <- vars[["skip_if_fail"]]$value
+   # }:w
+
+
+
+#   list(
+#     {{ toml_type }} = list(
+#        name = list(
+#         created = created,
+#         order = order
+#       )
+#     )
+#   )
+#
+# first <- list(
+#   {{ toml_type }}
+# )
+#
+# second <- list(
+#   {{ name }}
+# )
+# second[[1]] <- list(
+#   created = created,
+#   order = order
+# )
+
+ }
+}
