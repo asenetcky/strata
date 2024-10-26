@@ -1,4 +1,4 @@
-#' Entry point into your strata project and automation target
+#' Entry point and automation target for your strata project
 #'
 #' @param project_path A path to automation project folder
 #'
