@@ -2,7 +2,7 @@
 % Please edit documentation in R/main.R
 \name{main}
 \alias{main}
-\title{Entry point into your strata project and automation target}
+\title{Entry point and automation target for your strata project}
 \usage{
 main(project_path = NULL)
 }
@@ -13,7 +13,7 @@ main(project_path = NULL)
 invisible execution plan
 }
 \description{
-Entry point into your strata project and automation target
+Entry point and automation target for your strata project
 }
 \examples{
 \dontrun{

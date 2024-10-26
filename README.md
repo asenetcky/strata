@@ -27,6 +27,39 @@ You can install the development version of strata from
 pak::pak("asenetcky/strata")
 ```
 
+## Getting Started Using `strata`
+
+`strata` provides users with framework for easier automation with the
+tools they already have at hand. Users will want to make a folder for
+their `strata` project. `strata` works best when bundled inside of an
+RStudio project folder and the `renv` package, but can be made to work
+without those is desired.
+
+After calling the `strata` package users will want to start hollowing
+out spaces for their code to live. Calling `strata::build_stratum` and
+providing a name and path to your project folder will add a ‘stratum’ to
+project, as well as a `main.R` script and a `.strata.toml` file.
+
+Next users will want to call `strata::build_lamina` with a name and path
+to your stratum you created in the previous step. This creates a
+subfolder of your stratum where you R code will live, as well as a
+`.laminae.toml`. It’s good to group like-code together inside of a
+‘lamina’. Users can have as many stratum as needed with as many laminae
+and their associated R scripts that users deem necessary.
+
+`main.R` and its associated function `main` is the entry point to your
+project and the target that users will automate the execution of. When
+executed `main` will read those `.toml` files and begin sourcing the
+pipelines in the order specified by the user/.toml files, and within a
+stratum it will execute the laminae in the order specified by the user
+and their specific .toml file. Within a lamina the scripts will be
+sourced however the user’s operating system has ordered the scripts,
+often alphabetically.
+
+`strata` provides basic, but consistent logging functions that are used
+at run time, and are available for use inside of users’ code if they
+desire.
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
