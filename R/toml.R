@@ -31,7 +31,7 @@ initial_lamina_toml <- function(path) {
 
 snapshot_toml <- function(toml_path) {
   toml_path <- fs::path(toml_path)
-  toml <- RcppTOML::tomlparse(toml_path)
+  toml <- read_toml(toml_path)
   toml_type <- names(toml)
 
   vars <- c("type", "name", "order", "skip_if_fail", "created")
@@ -209,13 +209,15 @@ read_toml <- function(toml_path) {
     toml_lines[1] |>
     stringr::str_remove_all("\\[|\\]")
 
- # toml <-
- #   list(
- #     {{ toml_type }}
- #   )
 
  toml_length <- length(toml_lines)
 
+ toml_list <-
+   tibble::lst(
+     !!toml_type := tibble::lst()
+   )
+
+ created <- order <- skip_if_fail <- NULL
  for (i in 2:toml_length) {
    line <- toml_lines[i]
    if (line == "") {
@@ -247,34 +249,20 @@ read_toml <- function(toml_path) {
             )
    }
 
-   # created <- vars[["created"]]$value
-   # order <- vars[["order"]]$value
-   # if (toml_type == "lamina") {
-   #   skip_if_fail <- vars[["skip_if_fail"]]$value
-   # }:w
+   var_list <-
+     tibble::lst(
+       created = lubridate::as_date(created),
+       order = as.integer(order)
+     )
 
 
+   if(toml_type == "laminae") {
+     var_list <-
+       c(var_list, tibble::lst(  skip_if_fail = as.logical(skip_if_fail)))
+   }
 
-#   list(
-#     {{ toml_type }} = list(
-#        name = list(
-#         created = created,
-#         order = order
-#       )
-#     )
-#   )
-#
-# first <- list(
-#   {{ toml_type }}
-# )
-#
-# second <- list(
-#   {{ name }}
-# )
-# second[[1]] <- list(
-#   created = created,
-#   order = order
-# )
-
+   row_vars <-  tibble::lst(!!name := var_list)
+  toml_list[[1]] <- c(toml_list[[1]], row_vars)
  }
+ toml_list
 }
