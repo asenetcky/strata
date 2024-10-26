@@ -9,7 +9,7 @@ Description: Tools for a simple, human-focused pipeline framework for
     is designed to get developers up and running quickly with the code
     they already have, and provide simple automation targets for use with
     tools like 'cron' or 'Task Scheduler'.
-License: GPL (>= 3)
+License: MIT + file LICENSE
 URL: https://github.com/asenetcky/strata
 BugReports: https://github.com/asenetcky/strata/issues
 Imports: 
@@ -20,9 +20,9 @@ Imports:
     lifecycle,
     lubridate (>= 1.9.3),
     purrr (>= 1.0.2),
-    RcppTOML (>= 0.2.2),
     rlang (>= 1.1.4),
-    stringr (>= 1.5.1)
+    stringr (>= 1.5.1),
+    tibble (>= 3.2.1)
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
