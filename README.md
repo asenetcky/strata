@@ -27,6 +27,44 @@ You can install the development version of strata from
 pak::pak("asenetcky/strata")
 ```
 
+## Getting Started Using `strata`
+
+`strata` provides users with framework for easier automation with the
+tools they already have at hand. Users will want to make a folder for
+their `strata` project. `strata` works best when bundled inside of an
+RStudio project folder and the `renv` package, but can be made to work
+without those is desired.
+
+After calling the `strata` package users will want to start hollowing
+out spaces for their code to live. Calling `strata::build_stratum` and
+providing a name and path to your project folder will add a ‘stratum’ to
+project, as well as a `main.R` script and a `.strata.toml` file.
+
+Next users will want to call `strata::build_lamina` with a name and path
+to your stratum you created in the previous step. This creates a
+subfolder of your stratum where you R code will live, as well as a
+`.laminae.toml`. It’s good to group like-code together inside of a
+‘lamina’. Users can have as many stratum as needed with as many laminae
+and their associated R scripts that users deem necessary.
+
+`main.R` and its associated function `main` is the entry point to your
+project and the target that users will automate the execution of. When
+executed `main` will read those `.toml` files and begin sourcing the
+pipelines in the order specified by the user/.toml files, and within a
+stratum it will execute the laminae in the order specified by the user
+and their specific .toml file. Within a lamina the scripts will be
+sourced however the user’s operating system has ordered the scripts,
+often alphabetically.
+
+`strata` provides basic, but consistent logging functions that are used
+at run time, and are available for use inside of users’ code if they
+desire.
+
+An example strata project may look like the following file tree:
+
+project_folder ├── main.R └── strata ├── .strata.toml └── stratum1 ├──
+lamina1 │   └── script1.R └── .laminae.toml
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
@@ -68,14 +106,14 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp,"main.R"))
-#> [2024-10-25 08:31:12.288163] INFO: Strata started 
-#> [2024-10-25 08:31:12.288272] INFO: Stratum: first_stratum initialized 
-#> [2024-10-25 08:31:12.288332] INFO: Lamina: first_lamina initialized 
-#> [2024-10-25 08:31:12.288433] INFO: Executing: my_code1 
+#> [2024-10-26 11:38:12.387699] INFO: Strata started 
+#> [2024-10-26 11:38:12.387811] INFO: Stratum: first_stratum initialized 
+#> [2024-10-26 11:38:12.387863] INFO: Lamina: first_lamina initialized 
+#> [2024-10-26 11:38:12.387957] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-10-25 08:31:12.28873] INFO: Lamina: first_lamina finished 
-#> [2024-10-25 08:31:12.288796] INFO: Lamina: second_lamina initialized 
-#> [2024-10-25 08:31:12.288848] INFO: Executing: my_code2 
+#> [2024-10-26 11:38:12.388242] INFO: Lamina: first_lamina finished 
+#> [2024-10-26 11:38:12.388307] INFO: Lamina: second_lamina initialized 
+#> [2024-10-26 11:38:12.388355] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-10-25 08:31:12.289503] INFO: Strata finished - duration: 0.0012 seconds
+#> [2024-10-26 11:38:12.388973] INFO: Strata finished - duration: 0.0012 seconds
 ```
