@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 # strata
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/asenetcky/strata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/asenetcky/strata/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/asenetcky/strata/graph/badge.svg)](https://app.codecov.io/gh/asenetcky/strata)
 <!-- badges: end -->
 
 The goal of strata is to provide a framework for workflow automation

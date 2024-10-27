@@ -4,6 +4,10 @@
 # strata
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/asenetcky/strata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/asenetcky/strata/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/asenetcky/strata/graph/badge.svg)](https://app.codecov.io/gh/asenetcky/strata)
 <!-- badges: end -->
 
 The goal of strata is to provide a framework for workflow automation and
@@ -101,14 +105,14 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp,"main.R"))
-#> [2024-10-25 08:31:12.288163] INFO: Strata started 
-#> [2024-10-25 08:31:12.288272] INFO: Stratum: first_stratum initialized 
-#> [2024-10-25 08:31:12.288332] INFO: Lamina: first_lamina initialized 
-#> [2024-10-25 08:31:12.288433] INFO: Executing: my_code1 
+#> [2024-10-27 19:54:32.939358] INFO: Strata started 
+#> [2024-10-27 19:54:32.939469] INFO: Stratum: first_stratum initialized 
+#> [2024-10-27 19:54:32.939527] INFO: Lamina: first_lamina initialized 
+#> [2024-10-27 19:54:32.939629] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-10-25 08:31:12.28873] INFO: Lamina: first_lamina finished 
-#> [2024-10-25 08:31:12.288796] INFO: Lamina: second_lamina initialized 
-#> [2024-10-25 08:31:12.288848] INFO: Executing: my_code2 
+#> [2024-10-27 19:54:32.939936] INFO: Lamina: first_lamina finished 
+#> [2024-10-27 19:54:32.940006] INFO: Lamina: second_lamina initialized 
+#> [2024-10-27 19:54:32.940056] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-10-25 08:31:12.289503] INFO: Strata finished - duration: 0.0012 seconds
+#> [2024-10-27 19:54:32.940667] INFO: Strata finished - duration: 0.0012 seconds
 ```
