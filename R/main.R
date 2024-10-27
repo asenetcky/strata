@@ -126,7 +126,7 @@ list_to_tibble <- function(list, name) {
         x |>
           dplyr::as_tibble() |>
           dplyr::mutate(stratum = idx) |>
-          dplyr::rename({{ name }} := .data$value)
+          dplyr::rename({{ name }} := "value")
       }
     ) |>
     purrr::list_rbind()
