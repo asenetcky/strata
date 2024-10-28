@@ -210,60 +210,61 @@ read_toml <- function(toml_path) {
     stringr::str_remove_all("\\[|\\]")
 
 
- toml_length <- length(toml_lines)
+  toml_length <- length(toml_lines)
 
- toml_list <-
-   tibble::lst(
-     !!toml_type := tibble::lst()
-   )
-
-
- if (toml_length > 1) {
- created <- order <- skip_if_fail <- NULL
-   for (i in 2:toml_length) {
-     line <- toml_lines[i]
-
-     name <-
-       stringr::word(line)
-
-     vars <-
-       line |>
-       stringr::str_remove_all(
-         pattern = paste0(name, " = \\{|\\}")
-       ) |>
-       stringr::str_trim() |>
-       stringr::str_split_1(", ") |>
-       purrr::map(
-         \(x) {
-           x |>
-             stringr::str_split_1(" = ") |>
-             purrr::set_names(c("key", "value"))
-         }
-       )
+  toml_list <-
+    tibble::lst(
+      !!toml_type := tibble::lst()
+    )
 
 
-     for (i in 1:length(vars)) {
-       assign(vars[[i]][["key"]], vars[[i]][["value"]],
-              # envir = toml[[toml_type]][[name]]
-       )
-     }
+  if (toml_length > 1) {
+    created <- order <- skip_if_fail <- NULL
+    for (i in 2:toml_length) {
+      line <- toml_lines[i]
 
-     var_list <-
-       tibble::lst(
-         created = lubridate::as_date(created),
-         order = as.integer(order)
-       )
+      name <-
+        stringr::word(line)
+
+      vars <-
+        line |>
+        stringr::str_remove_all(
+          pattern = paste0(name, " = \\{|\\}")
+        ) |>
+        stringr::str_trim() |>
+        stringr::str_split_1(", ") |>
+        purrr::map(
+          \(x) {
+            x |>
+              stringr::str_split_1(" = ") |>
+              purrr::set_names(c("key", "value"))
+          }
+        )
 
 
-     if(toml_type == "laminae") {
-       var_list <-
-         c(var_list, tibble::lst(  skip_if_fail = as.logical(skip_if_fail)))
-     }
+      for (i in 1:length(vars)) {
+        assign(
+          vars[[i]][["key"]], vars[[i]][["value"]],
+          # envir = toml[[toml_type]][[name]]
+        )
+      }
 
-     row_vars <-  tibble::lst(!!name := var_list)
-     toml_list[[1]] <- c(toml_list[[1]], row_vars)
-   }
- }
+      var_list <-
+        tibble::lst(
+          created = lubridate::as_date(created),
+          order = as.integer(order)
+        )
 
- toml_list
+
+      if (toml_type == "laminae") {
+        var_list <-
+          c(var_list, tibble::lst(skip_if_fail = as.logical(skip_if_fail)))
+      }
+
+      row_vars <- tibble::lst(!!name := var_list)
+      toml_list[[1]] <- c(toml_list[[1]], row_vars)
+    }
+  }
+
+  toml_list
 }

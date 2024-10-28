@@ -42,5 +42,4 @@ test_that("main returns execution plan", {
       lamina_name = c("first_lamina", "second_lamina")
     )
   )
-
 })

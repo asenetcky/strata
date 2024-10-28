@@ -1,4 +1,4 @@
-#TODO check that strata and laminae are being built in the
+# TODO check that strata and laminae are being built in the
 # correct folders
 
 
@@ -13,9 +13,9 @@
 #' @export
 #'
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
-#'}
+#' }
 build_stratum <- function(stratum_name, path = ".", order = 1) {
   # Clean file name
   stratum_name <- clean_name(stratum_name)
@@ -100,11 +100,11 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
 #' @export
 #'
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' build_lamina("my_lamina_name", "PATH/TO/STRATUM/FOLDER/")
-#'}
+#' }
 build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
-  #TODO replace stratum_path with stratum_name
+  # TODO replace stratum_path with stratum_name
   # to make it more user friendly
 
   # grab the strata structure
