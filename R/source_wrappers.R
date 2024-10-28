@@ -58,3 +58,43 @@ if (!silent) {
 # TODO implement the following functions for adhoc work
 # pick_stratum()
 # pick_lamina()
+
+
+#' @importFrom rlang .data
+adhoc_stratum <- function(stratum_path, silent = FALSE) {
+  stratum_name <-  fs::path_file(stratum_path)
+  project_path <-
+    fs::path_dir(
+      fs::path_dir(stratum_path)
+    )
+
+  if (!check_stratum(stratum_path)) log_error("Stratum does not exist")
+
+  execution_plan <-
+    build_execution_plan(project_path) |>
+    dplyr::filter(.data$stratum == stratum_name)
+
+  run_execution_plan(execution_plan, silent)
+  invisible(execution_plan)
+
+}
+
+
+#' @importFrom rlang .data
+adhoc_lamina <- function(lamina_path, silent = FALSE) {
+  lamina_name <-  fs::path_file(lamina_path)
+  project_path <-
+    purrr::reduce(
+      1:3,
+      \(x, y) fs::path_dir(x),
+      .init = lamina_path
+    )
+
+
+  execution_plan <-
+    build_execution_plan(project_path) |>
+    dplyr::filter(.data$lamina_name == lamina_name)
+
+  run_execution_plan(execution_plan, silent)
+  invisible(execution_plan)
+}
