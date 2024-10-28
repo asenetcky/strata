@@ -1,3 +1,6 @@
+# strata 0.2.0
+
+* Added silence feature that allows users to suppress logging messages
 
 # strata 0.1.1
 

@@ -4,10 +4,12 @@
 \alias{main}
 \title{Entry point and automation target for your strata project}
 \usage{
-main(project_path = NULL)
+main(project_path = NULL, silent = FALSE)
 }
 \arguments{
 \item{project_path}{A path to automation project folder}
+
+\item{silent}{A logical flag to suppress logging output}
 }
 \value{
 invisible execution plan

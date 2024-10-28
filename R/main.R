@@ -1,6 +1,7 @@
 #' Entry point and automation target for your strata project
 #'
 #' @param project_path A path to automation project folder
+#' @param silent A logical flag to suppress logging output
 #'
 #' @return invisible execution plan
 #' @export
@@ -9,7 +10,7 @@
 #' \dontrun{
 #' main("/PATH/TO/PROJECT/FOLDER")
 #' }
-main <- function(project_path = NULL) {
+main <- function(project_path = NULL, silent = FALSE) {
   if (is.null(project_path)) stop("main() has no path")
 
   project_path <- fs::path(project_path)
@@ -17,7 +18,7 @@ main <- function(project_path = NULL) {
   execution_plan <-
     build_execution_plan(project_path)
 
-  run_execution_plan(execution_plan)
+  run_execution_plan(execution_plan, silent)
 
   invisible(execution_plan)
 }
