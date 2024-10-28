@@ -6,9 +6,9 @@
 #' @export
 #'
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' main("/PATH/TO/PROJECT/FOLDER")
-#'}
+#' }
 main <- function(project_path = NULL) {
   if (is.null(project_path)) stop("main() has no path")
 

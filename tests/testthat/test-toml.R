@@ -10,7 +10,6 @@ test_that("returns invisble path upon success", {
     initial_stratum_toml(path = path, name = "test", order = 1),
     fs::path(path, ".strata.toml")
   )
-
 })
 
 test_that("returns a dataframe", {
@@ -20,7 +19,7 @@ test_that("returns a dataframe", {
   initial_lamina_toml(path)
   expect_equal(
     class(snapshot_toml(toml_path)),
-    c( "tbl_df", "tbl", "data.frame")
+    c("tbl_df", "tbl", "data.frame")
   )
 })
 
@@ -53,7 +52,7 @@ test_that("fixes order", {
   )
 })
 
-test_that("write, read and rewrite are identical",{
+test_that("write, read and rewrite are identical", {
   path <- fs::file_temp()
   fs::dir_create(path)
   toml_path <-
