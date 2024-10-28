@@ -63,3 +63,58 @@ test_that("main built and runs", {
   source(fs::path(tmp, "main.R"))
   expect_true(TRUE)
 })
+
+
+test_that("build_stratum creates the initial toml", {
+  tmp <- fs::dir_create(fs::file_temp())
+  strata::build_stratum(
+    path = tmp,
+    stratum_name = "first_stratum",
+    order = 1
+  )
+  expect_true(fs::file_exists(fs::path(tmp, "strata",".strata.toml")))
+  expect_equal(
+    snapshot_toml(fs::path(tmp, "strata", ".strata.toml"))$name,
+    "first_stratum"
+  )
+  expect_equal(
+    snapshot_toml(fs::path(tmp, "strata", ".strata.toml"))$order,
+    1
+  )
+  expect_equal(
+    snapshot_toml(fs::path(tmp, "strata", ".strata.toml"))$type,
+    "strata"
+  )
+})
+
+
+test_that("build_lamina creates the initial toml", {
+  tmp <- fs::dir_create(fs::file_temp())
+  strata::build_stratum(
+    path = tmp,
+    stratum_name = "first_stratum",
+    order = 1
+  )
+  stratum_path <-
+    fs::path(
+      tmp, "strata", "first_stratum"
+    )
+  strata::build_lamina(
+    stratum_path = stratum_path,
+    lamina_name = "first_lamina",
+    order = 1
+  )
+  expect_true(fs::file_exists(fs::path(stratum_path, ".laminae.toml")))
+  expect_equal(
+    snapshot_toml(fs::path(stratum_path, ".laminae.toml"))$name,
+    "first_lamina"
+  )
+  expect_equal(
+    snapshot_toml(fs::path(stratum_path, ".laminae.toml"))$order,
+    1
+  )
+  expect_equal(
+    snapshot_toml(fs::path(stratum_path, ".laminae.toml"))$type,
+    "laminae"
+  )
+})
