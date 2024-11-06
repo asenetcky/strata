@@ -1,8 +1,4 @@
-test_that("main with no path", {
-  expect_error(main())
-})
-
-test_that("main returns execution plan", {
+test_that("adhoc_stratum works", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
     path = tmp,
@@ -13,6 +9,7 @@ test_that("main returns execution plan", {
     fs::path(
       tmp, "strata", "first_stratum"
     )
+
   strata::build_lamina(
     stratum_path = stratum_path,
     lamina_name = "first_lamina",
@@ -26,25 +23,38 @@ test_that("main returns execution plan", {
 
   first_lamina_code <- fs::path(stratum_path, "first_lamina", "my_code1.R")
   second_lamina_code <- fs::path(stratum_path, "second_lamina", "my_code2.R")
-
   my_code1 <- fs::file_create(first_lamina_code)
   my_code2 <- fs::file_create(second_lamina_code)
   cat(file = my_code1, "print('Hello, World!')")
   cat(file = my_code2, "print('Goodbye, World!')")
 
-  execution_plan <- main(tmp)
-  expect_equal(
-    execution_plan |> dplyr::mutate(path = as.character(path)),
-    tibble::tibble(
-      path = c(first_lamina_code, second_lamina_code),
-      stratum = c("first_stratum", "first_stratum"),
-      script = c("my_code1", "my_code2"),
-      lamina = c("first_lamina", "second_lamina")
+
+  stratum2_path <-
+    strata::build_stratum(
+      path = tmp,
+      stratum_name = "bad_stratum",
+      order = 2
     )
+
+
+  strata::build_lamina(
+    stratum_path = stratum2_path,
+    lamina_name = "bad_apple",
+    order = 1
   )
+
+
+  bad_apple_path <- fs::path(stratum2_path, "bad_apple", "bad_code.R")
+  bad_apple <- fs::file_create(bad_apple_path)
+  cat(file = bad_apple, "stop('test failed')")
+
+  expect_error(adhoc_stratum(stratum2_path))
+  expect_error(main(tmp))
+  expect_no_error(adhoc_stratum(stratum_path))
+
 })
 
-test_that("main is silent", {
+test_that("adhoc_lamina works", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
     path = tmp,
@@ -55,6 +65,7 @@ test_that("main is silent", {
     fs::path(
       tmp, "strata", "first_stratum"
     )
+
   strata::build_lamina(
     stratum_path = stratum_path,
     lamina_name = "first_lamina",
@@ -68,11 +79,36 @@ test_that("main is silent", {
 
   first_lamina_code <- fs::path(stratum_path, "first_lamina", "my_code1.R")
   second_lamina_code <- fs::path(stratum_path, "second_lamina", "my_code2.R")
-
   my_code1 <- fs::file_create(first_lamina_code)
   my_code2 <- fs::file_create(second_lamina_code)
-  cat(file = my_code1, "my_cars <- c('Toyota', 'Ford', 'Chevy')")
-  cat(file = my_code2, "my_colors <- c('Red', 'Blue', 'Green')")
+  cat(file = my_code1, "print('Hello, World!')")
+  cat(file = my_code2, "print('Goodbye, World!')")
 
-  expect_silent(main(tmp, silent = TRUE))
+
+  stratum2_path <-
+    strata::build_stratum(
+      path = tmp,
+      stratum_name = "bad_stratum",
+      order = 2
+    )
+
+
+  strata::build_lamina(
+    stratum_path = stratum2_path,
+    lamina_name = "bad_apple",
+    order = 1
+  )
+
+
+  bad_apple_path <- fs::path(stratum2_path, "bad_apple", "bad_code.R")
+  bad_apple <- fs::file_create(bad_apple_path)
+  cat(file = bad_apple, "stop('test failed')")
+
+  expect_error(main(tmp))
+  expect_error(adhoc_lamina(fs::path(tmp, "strata/bad_stratum/bad_apple")))
+
+  expect_no_error(adhoc_lamina(fs::path(stratum_path, "first_lamina")))
+  expect_no_error(adhoc_lamina(fs::path(stratum_path, "second_lamina")))
+
 })
+

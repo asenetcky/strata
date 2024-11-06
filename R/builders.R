@@ -1,8 +1,3 @@
-# TODO check that strata and laminae are being built in the
-# correct folders
-
-
-
 #' Add a stratum skeleton to your project space
 #'
 #' @param stratum_name Name of your stratum
@@ -104,8 +99,6 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
 #' build_lamina("my_lamina_name", "PATH/TO/STRATUM/FOLDER/")
 #' }
 build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
-  # TODO replace stratum_path with stratum_name
-  # to make it more user friendly
 
   # grab the strata structure
   lamina_name <- clean_name(lamina_name)
