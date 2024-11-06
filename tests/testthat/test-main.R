@@ -38,8 +38,8 @@ test_that("main returns execution plan", {
     tibble::tibble(
       path = c(first_lamina_code, second_lamina_code),
       stratum = c("first_stratum", "first_stratum"),
-      script_name = c("my_code1", "my_code2"),
-      lamina_name = c("first_lamina", "second_lamina")
+      script = c("my_code1", "my_code2"),
+      lamina = c("first_lamina", "second_lamina")
     )
   )
 })

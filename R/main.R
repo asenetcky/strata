@@ -10,9 +10,7 @@
 #' \dontrun{
 #' main("/PATH/TO/PROJECT/FOLDER")
 #' }
-main <- function(project_path = NULL, silent = FALSE) {
-  if (is.null(project_path)) stop("main() has no path")
-
+main <- function(project_path, silent = FALSE) {
   project_path <- fs::path(project_path)
 
   execution_plan <-
@@ -23,23 +21,7 @@ main <- function(project_path = NULL, silent = FALSE) {
   invisible(execution_plan)
 }
 
-find_strata <- function(project_path = NULL) {
-  if (is.null(project_path)) stop("main() has no path")
 
-  path <- fs::path(project_path)
-  toml_path <- fs::path(path, "strata/.strata.toml")
-
-  toml_path |>
-    build_paths()
-}
-
-find_laminae <- function(path = ".") {
-  toml_path <- fs::path(path, ".laminae.toml")
-
-  toml_path |>
-    build_paths() |>
-    fs::dir_ls(glob = "*.R")
-}
 
 #' @importFrom rlang .data
 build_paths <- function(toml_path) {
@@ -72,10 +54,10 @@ build_paths <- function(toml_path) {
     purrr::list_c()
 }
 
-build_execution_plan <- function(path) {
-  path <- fs::path(path)
+build_execution_plan <- function(project_path) {
+  project_path <- fs::path(project_path)
 
-  strata <- find_strata(path)
+  strata <- find_strata(project_path)
   stratum_name <- fs::path_file(strata)
 
   plan <-
@@ -84,7 +66,7 @@ build_execution_plan <- function(path) {
     purrr::set_names() |>
     purrr::map(find_laminae)
 
-  lamina_names <-
+  laminae <-
     plan |>
     purrr::map(
       \(path) {
@@ -93,10 +75,10 @@ build_execution_plan <- function(path) {
         )
       }
     ) |>
-    list_to_tibble("lamina_name") |>
+    list_to_tibble("lamina") |>
     dplyr::select(-"stratum")
 
-  script_names <-
+  scripts <-
     plan |>
     purrr::map(
       \(path) {
@@ -105,7 +87,7 @@ build_execution_plan <- function(path) {
           fs::path_ext_remove()
       }
     ) |>
-    list_to_tibble("script_name") |>
+    list_to_tibble("script") |>
     dplyr::select(-"stratum")
 
   paths <-
@@ -113,8 +95,8 @@ build_execution_plan <- function(path) {
     list_to_tibble("path")
 
   paths |>
-    dplyr::bind_cols(script_names) |>
-    dplyr::bind_cols(lamina_names) |>
+    dplyr::bind_cols(scripts) |>
+    dplyr::bind_cols(laminae) |>
     dplyr::mutate(
       stratum = fs::path_file(.data$stratum)
     )
@@ -131,4 +113,22 @@ list_to_tibble <- function(list, name) {
       }
     ) |>
     purrr::list_rbind()
+}
+
+find_strata <- function(project_path = NULL) {
+  if (is.null(project_path)) stop("main() has no path")
+
+  path <- fs::path(project_path)
+  toml_path <- fs::path(path, "strata/.strata.toml")
+
+  toml_path |>
+    build_paths()
+}
+
+find_laminae <- function(path = ".") {
+  toml_path <- fs::path(path, ".laminae.toml")
+
+  toml_path |>
+    build_paths() |>
+    fs::dir_ls(glob = "*.R")
 }

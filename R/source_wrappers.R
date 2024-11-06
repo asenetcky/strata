@@ -2,7 +2,7 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
   strata_start <- lubridate::now()
 
   initial_stratum <- execution_plan[1, ]$stratum
-  initial_lamina <- execution_plan[1, ]$lamina_name
+  initial_lamina <- execution_plan[1, ]$lamina
 if (!silent) {
     log_message("Strata started")
     log_message(paste("Stratum:", initial_stratum, "initialized"))
@@ -10,7 +10,7 @@ if (!silent) {
     for (row in seq_len(nrow(execution_plan))) {
       row_scope <- execution_plan[row, ]
       row_stratum <- row_scope$stratum
-      row_lamina <- row_scope$lamina_name
+      row_lamina <- row_scope$lamina
 
 
       if (row_stratum != initial_stratum) {
@@ -25,7 +25,7 @@ if (!silent) {
         initial_lamina <- row_lamina
       }
 
-      log_message(paste("Executing:", row_scope$script_name))
+      log_message(paste("Executing:", row_scope$script))
       source(row_scope$path)
     }
 
@@ -39,7 +39,7 @@ if (!silent) {
     for (row in seq_len(nrow(execution_plan))) {
       row_scope <- execution_plan[row, ]
       row_stratum <- row_scope$stratum
-      row_lamina <- row_scope$lamina_name
+      row_lamina <- row_scope$lamina
 
 
       if (row_stratum != initial_stratum) {
@@ -54,10 +54,6 @@ if (!silent) {
     }
   }
 }
-
-# TODO implement the following functions for adhoc work
-# pick_stratum()
-# pick_lamina()
 
 
 #' @importFrom rlang .data
@@ -93,7 +89,7 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
 
   execution_plan <-
     build_execution_plan(project_path) |>
-    dplyr::filter(.data$lamina_name == lamina_name)
+    dplyr::filter(.data$lamina == lamina_name)
 
   run_execution_plan(execution_plan, silent)
   invisible(execution_plan)
