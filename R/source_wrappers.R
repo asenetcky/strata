@@ -56,6 +56,18 @@ if (!silent) {
 }
 
 
+#' Run a stratum adhoc by itself
+#'
+#' @param stratum_path Path to stratum
+#' @param silent Suppress log output
+#'
+#' @return invisible data frame of execution plan
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' adhoc_stratum("PATH/TO/STRATUM/FOLDER/")
+#' }
 #' @importFrom rlang .data
 adhoc_stratum <- function(stratum_path, silent = FALSE) {
   stratum_name <-  fs::path_file(stratum_path)
@@ -72,10 +84,20 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 
   run_execution_plan(execution_plan, silent)
   invisible(execution_plan)
-
 }
 
-
+#' Run a lamina adhoc by itself
+#'
+#' @param lamina_path Path to lamina
+#' @param silent Suppress log output
+#'
+#' @return invisible data frame of execution plan
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' adhoc_lamina("PATH/TO/LAMINA/FOLDER/")
+#' }
 #' @importFrom rlang .data
 adhoc_lamina <- function(lamina_path, silent = FALSE) {
   lamina_name <-  fs::path_file(lamina_path)
