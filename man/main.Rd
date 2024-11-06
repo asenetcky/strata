@@ -4,7 +4,7 @@
 \alias{main}
 \title{Entry point and automation target for your strata project}
 \usage{
-main(project_path = NULL, silent = FALSE)
+main(project_path, silent = FALSE)
 }
 \arguments{
 \item{project_path}{A path to automation project folder}
