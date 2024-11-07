@@ -227,14 +227,15 @@ read_toml <- function(toml_paths) {
         toml_lines[x]
       }
     ) |>
-    purrr::set_names(toml_paths)
+    purrr::set_names(toml_paths) |>
+    purrr::map(
+      \(x, idx) {
+        x |>
+          stringr::str_remove_all("\\[|\\]")
+      }
+    )
 #goal making this vector friendly as best I can
 #TODO reconfigure everything below here
-  # grab type indices
-  toml_type <-
-    toml_lines[1] |>
-    stringr::str_remove_all("\\[|\\]")
-
 
   toml_length <- length(toml_lines)
 
