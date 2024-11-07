@@ -20,6 +20,7 @@ Imports:
     lifecycle,
     lubridate (>= 1.9.3),
     purrr (>= 1.0.2),
+    readr,
     rlang (>= 1.1.4),
     stringr (>= 1.5.1),
     tibble (>= 3.2.1)
