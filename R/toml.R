@@ -209,21 +209,22 @@ read_toml <- function(toml_paths) {
 
   type_indices <- stringr::str_which(toml_lines, "\\[.*\\]")
 
-  purrr::map(
-    1:(length(type_indices)),
-    \(index) {
-      if (index == length(type_indices)) {
-        return(toml_lines[(type_indices[index]):length(toml_lines)])
-      }
-      toml_lines[(type_indices[index] + 1):(type_indices[index + 1]) - 1]
-    }
-  ) |>
-    purrr::set_names(toml_paths)
+  toml_content <-
+    dplyr::lst(
+      content =
+        purrr::map(
+          1:(length(type_indices)),
+          \(index) {
+            if (index == length(type_indices)) {
+              return(toml_lines[(type_indices[index]):length(toml_lines)])
+            }
+            toml_lines[(type_indices[index] + 1):(type_indices[index + 1]) - 1]
+          }
+        ) |>
+        purrr::set_names(toml_paths)
+    )
 
-
-
-
-  type_lines <-
+  toml_types <-
     type_indices |>
     purrr::map(
       \(x) {
@@ -231,7 +232,8 @@ read_toml <- function(toml_paths) {
       }
     ) |>
     purrr::set_names(toml_paths)
-
+#goal making this vector friendly as best I can
+#TODO reconfigure everything below here
   # grab type indices
   toml_type <-
     toml_lines[1] |>
