@@ -12,8 +12,6 @@
 #' }
 main <- function(project_path, silent = FALSE) {
 
-
-  ## TODO consider purrr::quietly
   project_path <- fs::path(project_path)
 
   execution_plan <-
@@ -26,42 +24,37 @@ main <- function(project_path, silent = FALSE) {
 
 
 
-#' @importFrom rlang .data
-build_paths <- function(toml_path) {
-  toml_path <- fs::path(toml_path)
 
-  tomls <-
-    toml_path |>
-    # purrr::set_names() |>
-    purrr::map(
-      \(toml) snapshot_toml(toml)
+#TODO reconfigure this to use tibbles
+#TODO combine the tibbles and keep all the extra information
+#like parents and skips if fail etc...
+build_execution_plan <- function(project_path) {
+
+  #survey the strata
+  strata <-
+    find_strata(
+      fs::path(project_path)
     )
 
-  target_paths <- fs::path_dir(toml_path)
+  laminae <-
+    purrr::map_vec(
+      strata$paths,
+      find_laminae
+    )
 
-  purrr::map2(
-    tomls,
-    target_paths,
-    \(x, idx) {
-      x |>
-        dplyr::arrange(.data$order) |>
-        dplyr::mutate(
-          paths = fs::path(
-            idx,
-            .data$name
-          )
-        ) |>
-        dplyr::pull(.data$paths)
-    }
-  ) |>
-    purrr::list_c()
-}
 
-build_execution_plan <- function(project_path) {
-  project_path <- fs::path(project_path)
+  # laminae_tomls <-
+  #   strata |>
+  #   purrr::map(
+  #     \(stratum) {
+  #       fs::path(stratum, ".laminae.toml")
+  #     }
+  #   ) |>
+  #   purrr::map(
+  #     \(toml) snapshot_toml(toml)
+  #   )
+  #
 
-  strata <- find_strata(project_path)
-  stratum_name <- fs::path_file(strata)
 
   plan <-
     strata |>
@@ -105,6 +98,7 @@ build_execution_plan <- function(project_path) {
     )
 }
 
+
 list_to_tibble <- function(list, name) {
   list |>
     purrr::imap(
@@ -118,20 +112,80 @@ list_to_tibble <- function(list, name) {
     purrr::list_rbind()
 }
 
-find_strata <- function(project_path = NULL) {
-  if (is.null(project_path)) stop("main() has no path")
+#given a toml file path return the relevant paths in the toml-specified order
+#' @importFrom rlang .data
+build_paths <- function(toml_path) {
+  toml_path <- fs::path(toml_path)
 
-  path <- fs::path(project_path)
-  toml_path <- fs::path(path, "strata/.strata.toml")
+  tomls <-
+    toml_path |>
+    # purrr::set_names() |>
+    purrr::map(
+      \(toml) snapshot_toml(toml)
+    )
 
-  toml_path |>
-    build_paths()
+  target_paths <- fs::path_dir(toml_path)
+
+  purrr::map2(
+    tomls,
+    target_paths,
+    \(x, idx) {
+      x |>
+        dplyr::arrange(.data$order) |>
+        dplyr::mutate(
+          paths = fs::path(
+            idx,
+            .data$name
+          )
+        ) |>
+        dplyr::pull(.data$paths)
+    }
+  ) |>
+    purrr::list_c()
 }
 
-find_laminae <- function(path = ".") {
-  toml_path <- fs::path(path, ".laminae.toml")
+# given project folder read the strata.toml and report back
+find_strata <- function(project_path) {
+  parent_project <- fs::path_file(project_path)
 
-  toml_path |>
+  toml_path <-
+    fs::path(project_path, "strata/.strata.toml")
+
+  strata_paths <-
+    toml_path |>
+    build_paths()
+
+  snapshot_toml(toml_path) |>
+    dplyr::mutate(
+      paths = strata_paths,
+      parent = parent_project
+      ) |>
+    dplyr::relocate(
+      "parent",
+      .before = "type"
+    )
+}
+
+#TODO make find_laminae (and reading the tomls) vector friendly
+# given stratum folder read the laminae.toml and report back
+find_laminae <- function(strata_path) {
+  parent_strata <- fs::path_file(strata_path)
+
+  toml_paths <-
+    fs::path(strata_path, ".laminae.toml")
+
+  laminae_paths <-
+    toml_paths |>
     build_paths() |>
     fs::dir_ls(glob = "*.R")
+
+  snapshot_toml(toml_paths) |>
+    dplyr::mutate(
+      paths = laminae_paths,
+      parent = parent_strata
+    ) |>
+    dplyr::relocate(
+      "parent",
+      .before = "type"
+    )
 }
