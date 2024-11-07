@@ -201,10 +201,38 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
 }
 
 
-read_toml <- function(toml_path) {
-  toml_path <- fs::path(toml_path)
+read_toml <- function(toml_paths) {
+  toml_lines <-
+    readr::read_lines(
+      fs::path(toml_paths)
+    )
 
-  toml_lines <- readLines(toml_path)
+  type_indices <- stringr::str_which(toml_lines, "\\[.*\\]")
+
+  purrr::map(
+    1:(length(type_indices)),
+    \(index) {
+      if (index == length(type_indices)) {
+        return(toml_lines[(type_indices[index]):length(toml_lines)])
+      }
+      toml_lines[(type_indices[index] + 1):(type_indices[index + 1]) - 1]
+    }
+  ) |>
+    purrr::set_names(toml_paths)
+
+
+
+
+  type_lines <-
+    type_indices |>
+    purrr::map(
+      \(x) {
+        toml_lines[x]
+      }
+    ) |>
+    purrr::set_names(toml_paths)
+
+  # grab type indices
   toml_type <-
     toml_lines[1] |>
     stringr::str_remove_all("\\[|\\]")
