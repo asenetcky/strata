@@ -210,18 +210,14 @@ read_toml <- function(toml_paths) {
   type_indices <- stringr::str_which(toml_lines, "\\[.*\\]")
 
   toml_content <-
-    dplyr::lst(
-      content =
-        purrr::map(
-          1:(length(type_indices)),
-          \(index) {
-            if (index == length(type_indices)) {
-              return(toml_lines[(type_indices[index]):length(toml_lines)])
-            }
-            toml_lines[(type_indices[index] + 1):(type_indices[index + 1]) - 1]
-          }
-        ) |>
-        purrr::set_names(toml_paths)
+    purrr::map(
+      1:(length(type_indices)),
+      \(index) {
+        if (index == length(type_indices)) {
+          return(toml_lines[(type_indices[index]):length(toml_lines)])
+        }
+        toml_lines[(type_indices[index] + 1):(type_indices[index + 1]) - 1]
+      }
     )
 
   toml_types <-
