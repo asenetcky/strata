@@ -316,10 +316,23 @@ create_var_dictionary <- function(toml_content){
 
 polish_toml_list <- function(x) {
   toml_names <- names(x)
-  laminae_names <-
+
+  toml_type <-
+    fs::path_file(toml_names) |>
+    stringr::str_remove("\\.toml") |>
+    stringr::str_remove("\\.") |>
+    stringr::str_to_lower()
+
+  toml_substrates <-
     purrr::map(
       x,
      \(x) names(x) |> unique()
+    )
+
+  candidate_toml_list <-
+    dplyr::lst(
+      toml_name = toml_names,
+      toml_type = toml_type
     )
 
 
