@@ -41,6 +41,8 @@ build_execution_plan <- function(project_path) {
 
   #TODO sidestep all the list shenanigans
   #try joining up lam and strat etc.. and avoid list to tibble?
+  #grab strata order and add to lam order, arrange and then make
+  # row number the new order
 
   # plan <-
   #   find_laminae(strata$paths)
