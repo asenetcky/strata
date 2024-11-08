@@ -37,23 +37,13 @@ build_execution_plan <- function(project_path) {
     )
 
   laminae <-
-    purrr::map_vec(
+    purrr::map(
       strata$paths,
       find_laminae
     )
 
 
-  # laminae_tomls <-
-  #   strata |>
-  #   purrr::map(
-  #     \(stratum) {
-  #       fs::path(stratum, ".laminae.toml")
-  #     }
-  #   ) |>
-  #   purrr::map(
-  #     \(toml) snapshot_toml(toml)
-  #   )
-  #
+
 
 
   plan <-
@@ -179,7 +169,11 @@ find_laminae <- function(strata_path) {
     build_paths() |>
     fs::dir_ls(glob = "*.R")
 
-  snapshot_toml(toml_paths) |>
+  purrr::map(
+    toml_paths,
+    snapshot_toml
+  ) |>
+  purrr::list_rbind() |>
     dplyr::mutate(
       paths = laminae_paths,
       parent = parent_strata
