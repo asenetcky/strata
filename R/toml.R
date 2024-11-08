@@ -200,7 +200,7 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   invisible(toml_path)
 }
 
-
+# TODO clean up this mess - attempt in plan_rework - but not happy with that
 read_toml <- function(toml_path) {
   toml_path <- fs::path(toml_path)
 
