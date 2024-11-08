@@ -331,8 +331,8 @@ polish_toml_list <- function(x) {
 
   candidate_toml_list <-
     dplyr::lst(
-      toml_name = toml_names,
-      toml_type = toml_type
+      toml_names,
+      # toml_type = toml_type
     )
 
 
