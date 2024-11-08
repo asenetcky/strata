@@ -201,33 +201,45 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
 }
 
 
-read_toml <- function(toml_paths) {
-  toml_raw_content <-
-    grab_toml_raw_content(toml_paths)
+read_toml <- function(toml_path) {
+  toml_path <- fs::path(toml_path)
 
-#goal making this vector friendly as best I can
-#TODO reconfigure everything below here
-#
-#   toml_length <- length(toml_lines)
-#
-#   toml_list <-
-#     tibble::lst(
-#       !!toml_type := tibble::lst()
-#     )
-toml_content <-
-  toml_raw_content |>
-  purrr::map(
-    \(content) {
-      # print(content)
-      create_var_dictionary(content)
-    }
-  ) |>
-  purrr::set_names(toml_paths)
+  toml_lines <- readLines(toml_path)
+  toml_type <-
+    toml_lines[1] |>
+    stringr::str_remove_all("\\[|\\]")
 
 
+  toml_length <- length(toml_lines)
+
+  toml_list <-
+    tibble::lst(
+      !!toml_type := tibble::lst()
+    )
 
 
+  if (toml_length > 1) {
+    created <- order <- skip_if_fail <- NULL
+    for (i in 2:toml_length) {
+      line <- toml_lines[i]
 
+      name <-
+        stringr::word(line)
+
+      vars <-
+        line |>
+        stringr::str_remove_all(
+          pattern = paste0(name, " = \\{|\\}")
+        ) |>
+        stringr::str_trim() |>
+        stringr::str_split_1(", ") |>
+        purrr::map(
+          \(x) {
+            x |>
+              stringr::str_split_1(" = ") |>
+              purrr::set_names(c("key", "value"))
+          }
+        )
 
 
       for (i in 1:length(vars)) {
@@ -255,110 +267,4 @@ toml_content <-
   }
 
   toml_list
-}
-
-
-# given a toml path return a list of lines per toml
-grab_toml_raw_content <- function(toml_paths) {
-  toml_lines <-
-    readr::read_lines(
-      fs::path(toml_paths)
-    )
-
-  type_indices <- stringr::str_which(toml_lines, "\\[.*\\]")
-
-  purrr::map(
-    1:(length(type_indices)),
-    \(index) {
-      if (index == length(type_indices)) {
-        return(toml_lines[(type_indices[index]):length(toml_lines)])
-      }
-      toml_lines[(type_indices[index] + 1):(type_indices[index + 1]) - 1]
-    }
-  ) |>
-  purrr::keep(
-    \(toml) length(toml) > 1
-  ) |>
-  purrr::set_names(toml_paths)
-}
-
-
-
-create_var_dictionary <- function(toml_content){
-  length <- length(toml_content)
-
-  purrr::map(
-    2:length,
-    \(index) {
-      line <- toml_content[index]
-      name <- stringr::word(line)
-      vars <-
-        line |>
-        stringr::str_remove_all(
-          pattern = paste0(name, " = \\{|\\}")
-        ) |>
-        stringr::str_trim() |>
-        stringr::str_split_1(", ") |>
-        purrr::map(
-          \(string) {
-            string |>
-              #poor mans dictionary/hash map
-              stringr::str_split_1(" = ") |>
-              purrr::set_names(c("key", "value"))
-          }
-        ) |>
-        purrr::set_names(name)
-    }
-  ) |>
-    purrr::list_flatten()
-
-}
-
-polish_toml_list <- function(x) {
-  toml_names <- names(x)
-
-  toml_type <-
-    fs::path_file(toml_names) |>
-    stringr::str_remove("\\.toml") |>
-    stringr::str_remove("\\.") |>
-    stringr::str_to_lower()
-
-  toml_substrates <-
-    purrr::map(
-      x,
-     \(x) names(x) |> unique()
-    )
-
-  candidate_toml_list <-
-    dplyr::lst(
-      toml_names,
-      # toml_type = toml_type
-    )
-
-
-#   for (i in 1:length(vars)) {
-#     assign(
-#       vars[[i]][["key"]], vars[[i]][["value"]],
-#       # envir = toml[[toml_type]][[name]]
-#     )
-#   }
-#
-#   var_list <-
-#     tibble::lst(
-#       created = lubridate::as_date(created),
-#       order = as.integer(order)
-#     )
-#
-#
-#   if (toml_type == "laminae") {
-#     var_list <-
-#       c(var_list, tibble::lst(skip_if_fail = as.logical(skip_if_fail)))
-#   }
-#
-#   row_vars <- tibble::lst(!!name := var_list)
-#   toml_list[[1]] <- c(toml_list[[1]], row_vars)
-# }
-# }
-#
-# toml_list
 }
