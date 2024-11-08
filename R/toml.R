@@ -224,14 +224,6 @@ toml_content <-
   ) |>
   purrr::set_names(toml_paths)
 
-toml_content |>
-  purrr::map(
-    \(x) {
-      assign(
-        vars[[x]][["key"]], vars[[x]][["value"]],
-      )
-    }
-  )
 
 
   if (toml_length > 1) {
@@ -313,7 +305,6 @@ grab_toml_raw_content <- function(toml_paths) {
 
 
 create_var_dictionary <- function(toml_content){
-  created <- order <- skip_if_fail <- NULL
   length <- length(toml_content)
 
   purrr::map(
@@ -335,9 +326,11 @@ create_var_dictionary <- function(toml_content){
               stringr::str_split_1(" = ") |>
               purrr::set_names(c("key", "value"))
           }
-        )
+        ) |>
+        purrr::set_names(name)
     }
-  )
+  ) |>
+    purrr::list_flatten()
 
 }
 
