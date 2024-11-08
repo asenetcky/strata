@@ -128,9 +128,22 @@ find_laminae <- function(strata_path) {
     fs::dir_ls(glob = "*.R")
 
   #TODO make this work with unequal number of scripts to paths
-  laminae_names <-
+  script_names <-
     laminae_paths |>
     purrr::map_chr(fs::path_file)
+
+  paths_and_scripts <-
+    tibble::tibble(
+      path = laminae_paths,
+      script = laminae_names
+    ) |>
+    dplyr::mutate(
+      lamina = fs::path_dir(path),
+      stratum = fs::path_file(
+        fs::path_dir(lamina)
+      ),
+      lamina = fs::path_file(lamina)
+    )
 
 
   purrr::map(
@@ -138,10 +151,10 @@ find_laminae <- function(strata_path) {
     snapshot_toml
   ) |>
   purrr::list_rbind() |>
-    dplyr::mutate(
-      path = laminae_paths,
-      stratum = parent_strata
-    ) |>
-    dplyr::rename(lamina = name) |>
-    dplyr::select(-type)
+  dplyr::rename(lamina = name) |>
+  dplyr::left_join(
+    paths_and_scripts,
+    by = dplyr::join_by(lamina)
+  ) |>
+  dplyr::select(-type)
 }
