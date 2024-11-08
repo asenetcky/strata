@@ -202,41 +202,9 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
 
 
 read_toml <- function(toml_paths) {
-  toml_lines <-
-    readr::read_lines(
-      fs::path(toml_paths)
-    )
-
-  type_indices <- stringr::str_which(toml_lines, "\\[.*\\]")
-
   toml_raw_content <-
-    purrr::map(
-      1:(length(type_indices)),
-      \(index) {
-        if (index == length(type_indices)) {
-          return(toml_lines[(type_indices[index]):length(toml_lines)])
-        }
-        toml_lines[(type_indices[index] + 1):(type_indices[index + 1]) - 1]
-      }
-    ) |>
-    purrr::keep(
-      \(toml) length(toml) > 1
-    )
+    grab_toml_raw_content(toml_paths)
 
-  toml_types <-
-    type_indices |>
-    purrr::map(
-      \(x) {
-        toml_lines[x]
-      }
-    ) |>
-    purrr::set_names(toml_paths) |>
-    purrr::map(
-      \(x, idx) {
-        x |>
-          stringr::str_remove_all("\\[|\\]")
-      }
-    )
 #goal making this vector friendly as best I can
 #TODO reconfigure everything below here
 #
@@ -318,6 +286,32 @@ toml_content |>
 }
 
 
+# given a toml path return a list of lines per toml
+grab_toml_raw_content <- function(toml_paths) {
+  toml_lines <-
+    readr::read_lines(
+      fs::path(toml_paths)
+    )
+
+  type_indices <- stringr::str_which(toml_lines, "\\[.*\\]")
+
+  purrr::map(
+    1:(length(type_indices)),
+    \(index) {
+      if (index == length(type_indices)) {
+        return(toml_lines[(type_indices[index]):length(toml_lines)])
+      }
+      toml_lines[(type_indices[index] + 1):(type_indices[index + 1]) - 1]
+    }
+  ) |>
+  purrr::keep(
+    \(toml) length(toml) > 1
+  ) |>
+  purrr::set_names(toml_paths)
+}
+
+
+
 create_var_dictionary <- function(toml_content){
   created <- order <- skip_if_fail <- NULL
   length <- length(toml_content)
@@ -347,4 +341,3 @@ create_var_dictionary <- function(toml_content){
 
 }
 
-# toml_content |> purrr::map(parse_toml_line)
