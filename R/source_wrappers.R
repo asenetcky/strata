@@ -69,7 +69,8 @@ source_plan <- function(execution_plan, silent) {
         tryCatch(
           source(row_scope$path),
           error = function(e) {
-            log_error(paste("Error in", row_scope$script))
+            log_error(paste("Error in", row_scope$script, "skipping script"))
+
           }
         )
       } else {
