@@ -127,6 +127,12 @@ find_laminae <- function(strata_path) {
     build_paths() |>
     fs::dir_ls(glob = "*.R")
 
+  #TODO make this work with unequal number of scripts to paths
+  laminae_names <-
+    laminae_paths |>
+    purrr::map_chr(fs::path_file)
+
+
   purrr::map(
     toml_paths,
     snapshot_toml
