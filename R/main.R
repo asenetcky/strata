@@ -22,12 +22,6 @@ main <- function(project_path, silent = FALSE) {
   invisible(execution_plan)
 }
 
-
-
-
-#TODO reconfigure this to use tibbles
-#TODO combine the tibbles and keep all the extra information
-#like parents and skips if fail etc...
 build_execution_plan <- function(project_path) {
 
   #survey the strata
@@ -37,7 +31,7 @@ build_execution_plan <- function(project_path) {
     )
 
   laminae <-
-    find_laminae(strata$paths)
+    find_laminae(strata$path)
 
   # rework order
   strata_order <-
@@ -49,28 +43,23 @@ build_execution_plan <- function(project_path) {
   laminae |>
     dplyr::left_join(
       strata_order,
-      by = dplyr::join_by(parent == name)
+      by = dplyr::join_by(stratum == name)
     ) |>
     dplyr::mutate(new_order = order + stratum_order) |>
     dplyr::arrange(new_order) |>
     dplyr::mutate(
-      order = dplyr::row_number()
+      order = dplyr::row_number(),
+      script = fs::path_file(path)
     ) |>
-    dplyr::select(-new_order)
-}
-
-
-list_to_tibble <- function(list, name) {
-  list |>
-    purrr::imap(
-      \(x, idx) {
-        x |>
-          dplyr::as_tibble() |>
-          dplyr::mutate(stratum = idx) |>
-          dplyr::rename({{ name }} := "value")
-      }
-    ) |>
-    purrr::list_rbind()
+    dplyr::select(
+      stratum,
+      lamina,
+      order,
+      skip_if_fail,
+      created,
+      script,
+      path
+    )
 }
 
 #given a toml file path return the relevant paths in the toml-specified order
@@ -80,7 +69,6 @@ build_paths <- function(toml_path) {
 
   tomls <-
     toml_path |>
-    # purrr::set_names() |>
     purrr::map(
       \(toml) snapshot_toml(toml)
     )
@@ -118,7 +106,7 @@ find_strata <- function(project_path) {
 
   snapshot_toml(toml_path) |>
     dplyr::mutate(
-      paths = strata_paths,
+      path = strata_paths,
       parent = parent_project
       ) |>
     dplyr::relocate(
@@ -127,7 +115,6 @@ find_strata <- function(project_path) {
     )
 }
 
-#TODO make find_laminae (and reading the tomls) vector friendly
 # given stratum folder read the laminae.toml and report back
 find_laminae <- function(strata_path) {
   parent_strata <- fs::path_file(strata_path)
@@ -146,11 +133,9 @@ find_laminae <- function(strata_path) {
   ) |>
   purrr::list_rbind() |>
     dplyr::mutate(
-      paths = laminae_paths,
-      parent = parent_strata
+      path = laminae_paths,
+      stratum = parent_strata
     ) |>
-    dplyr::relocate(
-      "parent",
-      .before = "type"
-    )
+    dplyr::rename(lamina = name) |>
+    dplyr::select(-type)
 }
