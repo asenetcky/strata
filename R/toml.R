@@ -209,7 +209,7 @@ read_toml <- function(toml_paths) {
 
   type_indices <- stringr::str_which(toml_lines, "\\[.*\\]")
 
-  toml_content <-
+  toml_raw_content <-
     purrr::map(
       1:(length(type_indices)),
       \(index) {
@@ -218,6 +218,9 @@ read_toml <- function(toml_paths) {
         }
         toml_lines[(type_indices[index] + 1):(type_indices[index + 1]) - 1]
       }
+    ) |>
+    purrr::keep(
+      \(toml) length(toml) > 1
     )
 
   toml_types <-
@@ -236,13 +239,32 @@ read_toml <- function(toml_paths) {
     )
 #goal making this vector friendly as best I can
 #TODO reconfigure everything below here
+#
+#   toml_length <- length(toml_lines)
+#
+#   toml_list <-
+#     tibble::lst(
+#       !!toml_type := tibble::lst()
+#     )
+toml_content <-
+  toml_raw_content |>
+  purrr::map(
+    \(content) {
+      # print(content)
+      create_var_dictionary(content)
+    }
+  ) |>
+  purrr::set_names(toml_paths)
 
-  toml_length <- length(toml_lines)
-
-  toml_list <-
-    tibble::lst(
-      !!toml_type := tibble::lst()
-    )
+toml_content |>
+  purrr::map_depth(
+    .depth = 2,
+    \(x) {
+      assign(
+        vars[[x]][["key"]], vars[[x]][["value"]],
+      )
+    }
+  )
 
 
   if (toml_length > 1) {
@@ -295,3 +317,35 @@ read_toml <- function(toml_paths) {
 
   toml_list
 }
+
+
+create_var_dictionary <- function(toml_content){
+  created <- order <- skip_if_fail <- NULL
+  length <- length(toml_content)
+
+  purrr::map(
+    2:length,
+    \(index) {
+      line <- toml_content[index]
+      name <- stringr::word(line)
+      vars <-
+        line |>
+        stringr::str_remove_all(
+          pattern = paste0(name, " = \\{|\\}")
+        ) |>
+        stringr::str_trim() |>
+        stringr::str_split_1(", ") |>
+        purrr::map(
+          \(string) {
+            string |>
+              #poor mans dictionary/hash map
+              stringr::str_split_1(" = ") |>
+              purrr::set_names(c("key", "value"))
+          }
+        )
+    }
+  )
+
+}
+
+# toml_content |> purrr::map(parse_toml_line)
