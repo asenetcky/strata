@@ -37,32 +37,25 @@ build_execution_plan <- function(project_path) {
     )
 
   laminae <-
-    purrr::map(
-      strata$paths,
-      find_laminae
-    )
+    find_laminae(strata$paths)
 
+  #TODO sidestep all the list shenanigans
+  #try joining up lam and strat etc.. and avoid list to tibble?
 
-
-
-
-  plan <-
-    strata |>
-    purrr::map(purrr::pluck) |>
-    purrr::set_names() |>
-    purrr::map(find_laminae)
-
-  laminae <-
-    plan |>
-    purrr::map(
-      \(path) {
-        fs::path_file(
-          fs::path_dir(path)
-        )
-      }
-    ) |>
-    list_to_tibble("lamina") |>
-    dplyr::select(-"stratum")
+  # plan <-
+  #   find_laminae(strata$paths)
+  #
+  # laminae <-
+  #   plan |>
+  #   purrr::map(
+  #     \(path) {
+  #       fs::path_file(
+  #         fs::path_dir(path)
+  #       )
+  #     }
+  #   ) |>
+  #   list_to_tibble("lamina") |>
+  #   dplyr::select(-"stratum")
 
   scripts <-
     plan |>
