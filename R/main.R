@@ -39,48 +39,24 @@ build_execution_plan <- function(project_path) {
   laminae <-
     find_laminae(strata$paths)
 
-  #TODO sidestep all the list shenanigans
-  #try joining up lam and strat etc.. and avoid list to tibble?
-  #grab strata order and add to lam order, arrange and then make
-  # row number the new order
+  # rework order
+  strata_order <-
+    strata |>
+    dplyr::select(name, order) |>
+    dplyr::rename(stratum_order = order) |>
+    unique()
 
-  # plan <-
-  #   find_laminae(strata$paths)
-  #
-  # laminae <-
-  #   plan |>
-  #   purrr::map(
-  #     \(path) {
-  #       fs::path_file(
-  #         fs::path_dir(path)
-  #       )
-  #     }
-  #   ) |>
-  #   list_to_tibble("lamina") |>
-  #   dplyr::select(-"stratum")
-
-  scripts <-
-    plan |>
-    purrr::map(
-      \(path) {
-        path |>
-          fs::path_file() |>
-          fs::path_ext_remove()
-      }
+  laminae |>
+    dplyr::left_join(
+      strata_order,
+      by = dplyr::join_by(parent == name)
     ) |>
-    list_to_tibble("script") |>
-    dplyr::select(-"stratum")
-
-  paths <-
-    plan |>
-    list_to_tibble("path")
-
-  paths |>
-    dplyr::bind_cols(scripts) |>
-    dplyr::bind_cols(laminae) |>
+    dplyr::mutate(new_order = order + stratum_order) |>
+    dplyr::arrange(new_order) |>
     dplyr::mutate(
-      stratum = fs::path_file(.data$stratum)
-    )
+      order = dplyr::row_number()
+    ) |>
+    dplyr::select(-new_order)
 }
 
 
