@@ -257,8 +257,7 @@ toml_content <-
   purrr::set_names(toml_paths)
 
 toml_content |>
-  purrr::map_depth(
-    .depth = 2,
+  purrr::map(
     \(x) {
       assign(
         vars[[x]][["key"]], vars[[x]][["value"]],
