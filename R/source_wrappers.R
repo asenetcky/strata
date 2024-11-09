@@ -4,10 +4,6 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
   initial_stratum <- execution_plan[1, ]$stratum
   initial_lamina <- execution_plan[1, ]$lamina
 
-  source_plan(execution_plan, silent)
-}
-
-source_plan <- function(execution_plan, silent) {
   if (!silent) {
     log_message("Strata started")
     log_message(paste("Stratum:", initial_stratum, "initialized"))
@@ -79,8 +75,6 @@ source_plan <- function(execution_plan, silent) {
     }
   }
 }
-
-
 
 #' Run a stratum adhoc by itself
 #'
