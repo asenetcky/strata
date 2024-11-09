@@ -47,10 +47,7 @@ build_execution_plan <- function(project_path) {
     ) |>
     dplyr::mutate(new_order = order + stratum_order) |>
     dplyr::arrange(new_order) |>
-    dplyr::mutate(
-      order = dplyr::row_number(),
-      script = fs::path_file(path)
-    ) |>
+    dplyr::mutate(order = dplyr::row_number()) |>
     dplyr::select(
       stratum,
       lamina,
@@ -122,20 +119,20 @@ find_laminae <- function(strata_path) {
   toml_paths <-
     fs::path(strata_path, ".laminae.toml")
 
-  laminae_paths <-
+  laminae_wscript_paths <-
     toml_paths |>
     build_paths() |>
     fs::dir_ls(glob = "*.R")
 
-  #TODO make this work with unequal number of scripts to paths
   script_names <-
-    laminae_paths |>
-    purrr::map_chr(fs::path_file)
+   laminae_wscript_paths |>
+   fs::path_file() |>
+   fs::path_ext_remove()
 
   paths_and_scripts <-
     tibble::tibble(
-      path = laminae_paths,
-      script = laminae_names
+      path = laminae_wscript_paths,
+      script = script_names
     ) |>
     dplyr::mutate(
       lamina = fs::path_dir(path),
