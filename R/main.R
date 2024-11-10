@@ -23,6 +23,8 @@ main <- function(project_path, silent = FALSE) {
 }
 
 build_execution_plan <- function(project_path) {
+  path <- stratum <- lamina <- name <- type <- stratum_order <- NULL
+  new_order <- skip_if_fail <- script <- created <- NULL
 
   #survey the strata
   strata <-
@@ -114,6 +116,7 @@ find_strata <- function(project_path) {
 
 # given stratum folder read the laminae.toml and report back
 find_laminae <- function(strata_path) {
+  path <- lamina <- name <- type <- NULL
   parent_strata <- fs::path_file(strata_path)
 
   toml_paths <-
@@ -135,7 +138,7 @@ find_laminae <- function(strata_path) {
       script = script_names
     ) |>
     dplyr::mutate(
-      lamina = fs::path_dir(path),
+      lamina = fs::path_dir(.data$path),
       stratum = fs::path_file(
         fs::path_dir(lamina)
       ),
