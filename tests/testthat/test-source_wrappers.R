@@ -112,3 +112,84 @@ test_that("adhoc_lamina works", {
 
 })
 
+test_that("skip if fail works", {
+  tmp <- fs::dir_create(fs::file_temp())
+
+  # Build the stratum and capture path
+  stratum_path <-
+    strata::build_stratum(
+      path = tmp,
+      stratum_name = "first_stratum",
+      order = 1
+    )
+
+
+  # Build the lamina
+  strata::build_lamina(
+    stratum_path = stratum_path,
+    lamina_name = "first_lamina",
+    order = 1,
+    skip_if_fail = TRUE
+  )
+
+  lamina_path1 <- fs::path(stratum_path, "first_lamina")
+  code_path1 <- fs::path(lamina_path1, "my_code1.R")
+  my_code1 <- fs::file_create(code_path1)
+
+  # Write code that causes an error
+  cat(file = my_code1, "stop('This lamina has failed')")
+
+  # Write code that runs in main.R after the "error"
+  cat(
+    file = fs::path(tmp, "main.R"),
+    "print('This code should run')",
+    append = TRUE
+  )
+
+  # Verify that the process doesn't throw and error
+  expect_no_error(source(fs::path(tmp, "main.R")))
+
+  # verify it throws a message
+  expect_message(source(fs::path(tmp, "main.R")))
+
+  #verify it captures the message AFTER the error
+  expect_contains(source(fs::path(tmp, "main.R")), "This code should run")
+})
+
+test_that("skip_if_fail= FALSE halts execution", {
+  tmp <- fs::dir_create(fs::file_temp())
+
+  # Build the stratum and capture path
+  stratum_path <-
+    strata::build_stratum(
+      path = tmp,
+      stratum_name = "first_stratum",
+      order = 1
+    )
+
+  # Build the lamina
+  strata::build_lamina(
+    stratum_path = stratum_path,
+    lamina_name = "first_lamina",
+    order = 1,
+    skip_if_fail = FALSE
+  )
+
+  lamina_path1 <- fs::path(stratum_path, "first_lamina")
+  code_path1 <- fs::path(lamina_path1, "my_code1.R")
+  my_code1 <- fs::file_create(code_path1)
+
+  # Write code that causes an error
+  cat(file = my_code1, "stop('This lamina has failed')")
+
+  # Write code that runs in main.R after the "error"
+  cat(
+    file = fs::path(tmp, "main.R"),
+    "print('This code should run')",
+    append = TRUE
+  )
+
+  # Verify the process throws an error and halts
+
+  expect_error(source(fs::path(tmp, "main.R")))
+})
