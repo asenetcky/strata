@@ -150,7 +150,11 @@ test_that("skip if fail works", {
   expect_no_error(source(fs::path(tmp, "main.R")))
 
   # verify it throws a message
-  expect_message(source(fs::path(tmp, "main.R")))
+  expect_message(
+    source(fs::path(tmp, "main.R")),
+    regexp = "ERROR: Error in my_code1"
+  )
+
 
   #verify it captures the message AFTER the error
   expect_contains(source(fs::path(tmp, "main.R")), "This code should run")
