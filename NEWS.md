@@ -1,3 +1,6 @@
+# strata 0.3.0
+
+* Added skip_if_fail feature that allows users to skip a lamina if it fails
 # strata 0.2.0
 
 * Added silence feature that allows users to suppress logging messages

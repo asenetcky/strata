@@ -5,7 +5,7 @@ initial_stratum_toml <- function(path, name, order) {
   toml_file <- fs::path(path, ".strata.toml")
   fs::file_create(toml_file)
 
-  writeLines(
+  readr::write_lines(
     paste0(
       "[strata]\n",
       name, " = { created = ", lubridate::today(),
@@ -22,7 +22,7 @@ initial_lamina_toml <- function(path) {
   toml_file <- fs::path(path, ".laminae.toml")
   fs::file_create(toml_file)
 
-  writeLines(
+  readr::write_lines(
     paste0("[laminae]"),
     toml_file
   )
@@ -200,11 +200,11 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   invisible(toml_path)
 }
 
-
+# TODO clean up this mess - attempt in plan_rework - but not happy with that
 read_toml <- function(toml_path) {
   toml_path <- fs::path(toml_path)
 
-  toml_lines <- readLines(toml_path)
+  toml_lines <- readr::read_lines(toml_path)
   toml_type <-
     toml_lines[1] |>
     stringr::str_remove_all("\\[|\\]")

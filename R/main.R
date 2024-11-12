@@ -11,6 +11,7 @@
 #' main("/PATH/TO/PROJECT/FOLDER")
 #' }
 main <- function(project_path, silent = FALSE) {
+
   project_path <- fs::path(project_path)
 
   execution_plan <-
@@ -21,15 +22,52 @@ main <- function(project_path, silent = FALSE) {
   invisible(execution_plan)
 }
 
+build_execution_plan <- function(project_path) {
+  path <- stratum <- lamina <- name <- type <- stratum_order <- NULL
+  new_order <- skip_if_fail <- script <- created <- NULL
 
+  #survey the strata
+  strata <-
+    find_strata(
+      fs::path(project_path)
+    )
 
+  laminae <-
+    find_laminae(strata$path)
+
+  # rework order
+  strata_order <-
+    strata |>
+    dplyr::select(name, order) |>
+    dplyr::rename(stratum_order = order) |>
+    unique()
+
+  laminae |>
+    dplyr::left_join(
+      strata_order,
+      by = dplyr::join_by(stratum == name)
+    ) |>
+    dplyr::mutate(new_order = order + stratum_order) |>
+    dplyr::arrange(new_order) |>
+    dplyr::mutate(order = dplyr::row_number()) |>
+    dplyr::select(
+      stratum,
+      lamina,
+      order,
+      skip_if_fail,
+      created,
+      script,
+      path
+    )
+}
+
+#given a toml file path return the relevant paths in the toml-specified order
 #' @importFrom rlang .data
 build_paths <- function(toml_path) {
   toml_path <- fs::path(toml_path)
 
   tomls <-
     toml_path |>
-    # purrr::set_names() |>
     purrr::map(
       \(toml) snapshot_toml(toml)
     )
@@ -54,81 +92,69 @@ build_paths <- function(toml_path) {
     purrr::list_c()
 }
 
-build_execution_plan <- function(project_path) {
-  project_path <- fs::path(project_path)
+# given project folder read the strata.toml and report back
+find_strata <- function(project_path) {
+  parent_project <- fs::path_file(project_path)
 
-  strata <- find_strata(project_path)
-  stratum_name <- fs::path_file(strata)
+  toml_path <-
+    fs::path(project_path, "strata/.strata.toml")
 
-  plan <-
-    strata |>
-    purrr::map(purrr::pluck) |>
-    purrr::set_names() |>
-    purrr::map(find_laminae)
+  strata_paths <-
+    toml_path |>
+    build_paths()
 
-  laminae <-
-    plan |>
-    purrr::map(
-      \(path) {
-        fs::path_file(
-          fs::path_dir(path)
-        )
-      }
-    ) |>
-    list_to_tibble("lamina") |>
-    dplyr::select(-"stratum")
-
-  scripts <-
-    plan |>
-    purrr::map(
-      \(path) {
-        path |>
-          fs::path_file() |>
-          fs::path_ext_remove()
-      }
-    ) |>
-    list_to_tibble("script") |>
-    dplyr::select(-"stratum")
-
-  paths <-
-    plan |>
-    list_to_tibble("path")
-
-  paths |>
-    dplyr::bind_cols(scripts) |>
-    dplyr::bind_cols(laminae) |>
+  snapshot_toml(toml_path) |>
     dplyr::mutate(
-      stratum = fs::path_file(.data$stratum)
+      path = strata_paths,
+      parent = parent_project
+      ) |>
+    dplyr::relocate(
+      "parent",
+      .before = "type"
     )
 }
 
-list_to_tibble <- function(list, name) {
-  list |>
-    purrr::imap(
-      \(x, idx) {
-        x |>
-          dplyr::as_tibble() |>
-          dplyr::mutate(stratum = idx) |>
-          dplyr::rename({{ name }} := "value")
-      }
-    ) |>
-    purrr::list_rbind()
-}
+# given stratum folder read the laminae.toml and report back
+find_laminae <- function(strata_path) {
+  path <- lamina <- name <- type <- NULL
+  parent_strata <- fs::path_file(strata_path)
 
-find_strata <- function(project_path = NULL) {
-  if (is.null(project_path)) stop("main() has no path")
+  toml_paths <-
+    fs::path(strata_path, ".laminae.toml")
 
-  path <- fs::path(project_path)
-  toml_path <- fs::path(path, "strata/.strata.toml")
-
-  toml_path |>
-    build_paths()
-}
-
-find_laminae <- function(path = ".") {
-  toml_path <- fs::path(path, ".laminae.toml")
-
-  toml_path |>
+  laminae_wscript_paths <-
+    toml_paths |>
     build_paths() |>
     fs::dir_ls(glob = "*.R")
+
+  script_names <-
+   laminae_wscript_paths |>
+   fs::path_file() |>
+   fs::path_ext_remove()
+
+  paths_and_scripts <-
+    tibble::tibble(
+      path = laminae_wscript_paths,
+      script = script_names
+    ) |>
+    dplyr::mutate(
+      lamina = fs::path_dir(.data$path),
+      stratum = fs::path_file(
+        fs::path_dir(lamina)
+      ),
+      lamina = fs::path_file(lamina)
+    )
+
+
+  purrr::map(
+    toml_paths,
+    snapshot_toml
+  ) |>
+  purrr::list_rbind() |>
+  dplyr::rename(lamina = name) |>
+  dplyr::left_join(
+    paths_and_scripts,
+    by = dplyr::join_by(lamina)
+  ) |>
+  dplyr::select(-type)
 }

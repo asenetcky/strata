@@ -3,7 +3,8 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
 
   initial_stratum <- execution_plan[1, ]$stratum
   initial_lamina <- execution_plan[1, ]$lamina
-if (!silent) {
+
+  if (!silent) {
     log_message("Strata started")
     log_message(paste("Stratum:", initial_stratum, "initialized"))
     log_message(paste("Lamina:", initial_lamina, "initialized"))
@@ -26,7 +27,17 @@ if (!silent) {
       }
 
       log_message(paste("Executing:", row_scope$script))
-      source(row_scope$path)
+
+      if (row_scope$skip_if_fail) {
+        tryCatch(
+          source(row_scope$path),
+          error = function(e) {
+            log_error(paste("Error in", row_scope$script))
+          }
+        )
+      } else {
+        source(row_scope$path)
+      }
     }
 
 
@@ -35,7 +46,7 @@ if (!silent) {
     log_message(
       paste("Strata finished - duration:", total_time, "seconds")
     )
-} else {
+  } else {
     for (row in seq_len(nrow(execution_plan))) {
       row_scope <- execution_plan[row, ]
       row_stratum <- row_scope$stratum
@@ -50,11 +61,20 @@ if (!silent) {
         initial_lamina <- row_lamina
       }
 
-      source(row_scope$path)
+       if(row_scope$skip_if_fail) {
+        tryCatch(
+          source(row_scope$path),
+          error = function(e) {
+            log_error(paste("Error in", row_scope$script, "skipping script"))
+
+          }
+        )
+      } else {
+        source(row_scope$path)
+      }
     }
   }
 }
-
 
 #' Run a stratum adhoc by itself
 #'

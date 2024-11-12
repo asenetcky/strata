@@ -36,10 +36,13 @@ test_that("main returns execution plan", {
   expect_equal(
     execution_plan |> dplyr::mutate(path = as.character(path)),
     tibble::tibble(
-      path = c(first_lamina_code, second_lamina_code),
       stratum = c("first_stratum", "first_stratum"),
+      lamina = c("first_lamina", "second_lamina"),
+      order = c(1,2),
+      skip_if_fail = c(FALSE, FALSE),
+      created = lubridate::today(),
       script = c("my_code1", "my_code2"),
-      lamina = c("first_lamina", "second_lamina")
+      path = c(first_lamina_code, second_lamina_code)
     )
   )
 })
