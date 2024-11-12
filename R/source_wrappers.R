@@ -28,7 +28,7 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
 
       log_message(paste("Executing:", row_scope$script))
 
-      if(row_scope$skip_if_fail) {
+      if (row_scope$skip_if_fail) {
         tryCatch(
           source(row_scope$path),
           error = function(e) {
