@@ -36,6 +36,17 @@ check_stratum <- function(stratum_path) {
   !strata_issue
 }
 
+#' Survey the layout and execution order of your project
+#'
+#' @param project_path path to your project folder
+#'
+#' @return data frame of the layout of your project based on the .tomls
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' survey_strata("PATH/TO/PROJECT/FOLDER/")
+#' }
 survey_strata <- function(project_path) {
   stratum <- lamina <- path <- order <- script <-  created <- NULL
   skip_if_fail <- execution_order <- script_path <- stratum_name <- NULL
