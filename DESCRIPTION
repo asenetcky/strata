@@ -10,7 +10,7 @@ Description: Tools for a simple, human-focused pipeline framework for
     they already have, and provide simple automation targets for use with
     tools like 'cron' or 'Task Scheduler'.
 License: MIT + file LICENSE
-URL: https://github.com/asenetcky/strata
+URL: https://github.com/asenetcky/strata, https://asenetcky.github.io/strata/
 BugReports: https://github.com/asenetcky/strata/issues
 Imports: 
     checkmate (>= 2.3.2),
