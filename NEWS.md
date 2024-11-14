@@ -1,3 +1,7 @@
+# strata 0.4.0
+
+* Added pkgdown website 
+
 # strata 0.3.0
 
 * Added skip_if_fail feature that allows users to skip a lamina if it fails

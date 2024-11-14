@@ -12,12 +12,13 @@ Tools for a simple, human-focused pipeline framework for developers with only th
 Useful links:
 \itemize{
   \item \url{https://github.com/asenetcky/strata}
+  \item \url{https://asenetcky.github.io/strata/}
   \item Report bugs at \url{https://github.com/asenetcky/strata/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Alexander Senetcky \email{asenetcky@gmail.com.com} (\href{https://orcid.org/0009-0009-3730-5397}{ORCID})
+\strong{Maintainer}: Alexander Senetcky \email{asenetcky@gmail.com.com} (\href{https://orcid.org/0009-0009-3730-5397}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}
