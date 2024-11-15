@@ -40,5 +40,23 @@ build_outline <- function(outline) {
 }
 
 check_outline <- function(outline) {
-  # check outline
+  checkmate::assert_data_frame(
+    outline,
+    ncols = 5,
+    min.rows = 1L,
+    any.missing = FALSE,
+    all.missing = FALSE,
+    types = c("character", "numeric", "character", "numeric", "logical")
+  )
+
+  checkmate::assert_subset(
+    names(outline),
+    c(
+      "stratum_nam",
+      "stratum_order",
+      "lamina_name",
+      "lamina_order",
+      "skip_if_fail"
+    )
+  )
 }
