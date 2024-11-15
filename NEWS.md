@@ -1,3 +1,11 @@
+# strata 0.6.0
+
+- added user-facing functions for easier toml editing from inside of R
+  - `survey_tomls` lists all .toml files in a project
+  - `view_toml` returns a dataframe of the contents of toml
+  - `edit_toml` replaces a toml at the user-provided path with the contents of a
+  user-provided dataframe
+
 # strata 0.5.0
 
 - added survey_strata function to allow users to survey the details and 
