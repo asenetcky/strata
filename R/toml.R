@@ -245,7 +245,6 @@ read_toml <- function(toml_path) {
       for (i in 1:length(vars)) {
         assign(
           vars[[i]][["key"]], vars[[i]][["value"]],
-          # envir = toml[[toml_type]][[name]]
         )
       }
 
