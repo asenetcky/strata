@@ -1,3 +1,8 @@
+# strata 0.5.0
+
+- added survey_strata function to allow users to survey the details and 
+execution order of the strata, laminae and scripts in their project folder
+
 # strata 0.4.0
 
 * Added pkgdown website 
