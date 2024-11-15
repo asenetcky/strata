@@ -107,3 +107,107 @@ test_that("edit_toml works on lamina toml", {
     fs::file_exists(backup_path)
   )
 })
+
+
+test_that("check_toml_dataframe manages order", {
+  toml_snapshot <-
+    tibble::tibble(
+      type = "strata",
+      name = "test",
+      order = c(1, 2, 3, 4, 4),
+      created = lubridate::today()
+    )
+
+  expect_equal(
+    check_toml_dataframe(toml_snapshot)$order,
+    c(1, 2, 3, 4, 5)
+  )
+})
+
+test_that("check_toml_dataframe drops bad columns", {
+  toml_snapshot <-
+    tibble::tibble(
+      type = "strata",
+      name = "test",
+      bad_column0 = "test",
+      order = c(1, 2, 3, 4, 5),
+      created = lubridate::today(),
+      bad_column1 = "test",
+      bad_column2 = "test",
+      bad_column3 = "test"
+    )
+
+  expected_toml_snapshot <-
+    tibble::tibble(
+      type = "strata",
+      name = "test",
+      order = c(1, 2, 3, 4, 5),
+      created = lubridate::today()
+    )
+
+  expect_equal(
+    check_toml_dataframe(toml_snapshot),
+    expected_toml_snapshot
+  )
+})
+
+test_that("check_toml_dataframe errors with missing columns", {
+  toml_snapshot <-
+    tibble::tibble(
+      type = "strata",
+      name = "test",
+      order = c(1, 2, 3, 4, 5)
+    )
+
+  expect_error(check_toml_dataframe(toml_snapshot))
+})
+
+test_that("check_toml_dataframe works with strata", {
+  toml_snapshot <-
+    tibble::tibble(
+      type = "strata",
+      name = "test",
+      order = c(1, 2, 3, 4, 5),
+      created = lubridate::today()
+    )
+
+  expected_toml_snapshot <- toml_snapshot
+
+  expect_equal(
+    check_toml_dataframe(toml_snapshot),
+    expected_toml_snapshot
+  )
+})
+
+test_that("check_toml_dataframe works with laminae", {
+  toml_snapshot <-
+    tibble::tibble(
+      type = "laminae",
+      name = "test",
+      order = c(1, 2, 3, 4, 5),
+      skip_if_fail = FALSE,
+      created = lubridate::today()
+    )
+
+  expected_toml_snapshot <- toml_snapshot
+
+  expect_equal(
+    check_toml_dataframe(toml_snapshot),
+    expected_toml_snapshot
+  )
+})
+
+test_that("check_toml_dataframe returns a dataframe", {
+  toml_snapshot <-
+    tibble::tibble(
+      type = "strata",
+      name = "test",
+      order = c(1, 2, 3, 4, 5),
+      created = lubridate::today()
+    )
+
+  expect_equal(
+    class(check_toml_dataframe(toml_snapshot)),
+    c("tbl_df", "tbl", "data.frame")
+  )
+})
