@@ -53,8 +53,7 @@ survey_strata <- function(project_path) {
 
   project_path <- fs::path(project_path)
 
-  plan <-
-    build_execution_plan(project_path) |>
+  build_execution_plan(project_path) |>
     dplyr::rename(
       stratum_name = stratum,
       lamina_name = lamina,
