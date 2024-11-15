@@ -9,6 +9,7 @@
 <url><loc>https://asenetcky.github.io/strata/reference/adhoc_stratum.html</loc></url>
 <url><loc>https://asenetcky.github.io/strata/reference/build_lamina.html</loc></url>
 <url><loc>https://asenetcky.github.io/strata/reference/build_stratum.html</loc></url>
+<url><loc>https://asenetcky.github.io/strata/reference/edit_toml.html</loc></url>
 <url><loc>https://asenetcky.github.io/strata/reference/index.html</loc></url>
 <url><loc>https://asenetcky.github.io/strata/reference/log_error.html</loc></url>
 <url><loc>https://asenetcky.github.io/strata/reference/log_message.html</loc></url>
@@ -16,5 +17,7 @@
 <url><loc>https://asenetcky.github.io/strata/reference/main.html</loc></url>
 <url><loc>https://asenetcky.github.io/strata/reference/strata-package.html</loc></url>
 <url><loc>https://asenetcky.github.io/strata/reference/survey_strata.html</loc></url>
+<url><loc>https://asenetcky.github.io/strata/reference/survey_tomls.html</loc></url>
+<url><loc>https://asenetcky.github.io/strata/reference/view_toml.html</loc></url>
 </urlset>
 

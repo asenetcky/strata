@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">strata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,9 +29,20 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/asenetcky/strata/blob/v0.5.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/asenetcky/strata/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.0" id="strata-060">strata 0.6.0<a class="anchor" aria-label="anchor" href="#strata-060"></a></h2>
+<ul><li>added user-facing functions for easier toml editing from inside of R
+<ul><li>
+<code>survey_tomls</code> lists all .toml files in a project</li>
+<li>
+<code>view_toml</code> returns a dataframe of the contents of toml</li>
+<li>
+<code>edit_toml</code> replaces a toml at the user-provided path with the contents of a user-provided dataframe</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.0" id="strata-050">strata 0.5.0<a class="anchor" aria-label="anchor" href="#strata-050"></a></h2>
 <ul><li>added survey_strata function to allow users to survey the details and execution order of the strata, laminae and scripts in their project folder</li>
