@@ -1,13 +1,6 @@
-# im thinking pass a number of strata and it creates that number, and you can
-# pass it a number of laminae and it creates that number per strata, so maybe
-# defaults are 1 and 1 and names are statum_1, stratum_2 etc...
-# and stratum_1_lamina_1, stratum_1_lamina_2 etc...
-#
 # and then maybe another fun where the user passes a tibble of stratum_name,
 # stratum_order, lamina_name, lamina_order,
 # and skip_if_fail as optional(revert to default FALSE)
-
-
 
 quick_build_strata_project <- function(project_path,
                                        num_strata = 1,
@@ -39,4 +32,13 @@ quick_build_strata_project <- function(project_path,
     }
   }
   invisible(project_path)
+}
+
+build_outline <- function(outline) {
+  # check outline
+  # build project to spec
+}
+
+check_outline <- function(outline) {
+  # check outline
 }
