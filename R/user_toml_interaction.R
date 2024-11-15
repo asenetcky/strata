@@ -44,8 +44,7 @@ view_toml <- function(toml_path) {
 #' }
 edit_toml <- function(original_toml_path, new_toml_dataframe) {
   new_toml_dataframe <-
-    manage_toml_order(new_toml_dataframe) |>
-    check_toml_dataframe()
+    check_toml_dataframe(new_toml_dataframe)
 
   rewrite_from_dataframe(new_toml_dataframe, original_toml_path)
   invisible(original_toml_path)
@@ -55,6 +54,11 @@ edit_toml <- function(original_toml_path, new_toml_dataframe) {
 check_toml_dataframe <- function(toml_dataframe) {
   expected_columns <-
     c("type", "name", "order", "skip_if_fail", "created")
+
+  toml_type <- unique(toml_dataframe$type)
+  if (toml_type == "strata")  {
+    expected_columns <- c("type", "name", "order", "created")
+  }
 
   non_valid_names <-
     !names(toml_dataframe) %in% expected_columns
@@ -69,9 +73,22 @@ check_toml_dataframe <- function(toml_dataframe) {
     )
   }
 
+  missing_names <-
+    expected_columns[!expected_columns %in% names(toml_dataframe)]
+
+  if (length(missing_names) > 0) {
+      stop(
+        paste(
+          "The following columns are missing:",
+          paste(missing_names, collapse = ", ")
+        )
+      )
+  }
+
   toml_dataframe <-
     toml_dataframe |>
-    dplyr::select(dplyr::any_of(expected_columns))
+    dplyr::select(dplyr::any_of(expected_columns)) |>
+    manage_toml_order()
 
   checkmate::assert_character(toml_dataframe$type)
   checkmate::assert_character(toml_dataframe$name)
