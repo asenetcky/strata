@@ -268,3 +268,14 @@ read_toml <- function(toml_path) {
 
   toml_list
 }
+
+
+find_tomls <- function(project_path) {
+  project_path |>
+    fs::path() |>
+    fs::dir_ls(
+      recurse = TRUE,
+      all = TRUE,
+      glob = "*.toml"
+    )
+}
