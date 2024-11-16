@@ -94,22 +94,46 @@ check_unique <- function(x) {
 build_outline_row <- function(outline_row) {
 
   #check if stratum exists and handle it
-
   stratum_path <-
+    fs::path(
+      outline_row$project_path,
+      "strata",
+      outline_row$stratum_name
+    )
+
+  stratum_exist <- fs::dir_exists(stratum_path)
+
+  if (!stratum_exist) {
     build_stratum(
       stratum_name = outline_row$stratum_name,
       path = outline_row$project_path,
       order = outline_row$stratum_order
     )
+  }
+
+  lamina_path <-
+    fs::path(
+      stratum_path,
+      outline_row$lamina_name
+    )
 
   # check if lamina exists and handle it
-  # build lamina
+  lamina_exist <- fs::dir_exists(lamina_path)
 
+  if(!lamina_exist) {
+    build_lamina(
+      lamina_name = outline_row$lamina_name,
+      stratum_path = stratum_path,
+      order = outline_row$lamina_order,
+      skip_if_fail = outline_row$skip_if_fail
+    )
+  }
+  invisible(TRUE)
 }
 
 # outline <-
   # dplyr::tibble(
-  #   project_path = "~/repos/strata_testing",
+  #   project_path = "~/repos/quick_build",
   #   stratum_name = "stratum1",
   #   stratum_order = 1,
   #   lamina_name = "lam1",
