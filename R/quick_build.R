@@ -73,7 +73,7 @@ check_outline <- function(outline) {
 
   check <-
     outline |>
-    dplyr::select(-skip_if_fail) |>
+    dplyr::select(-c("skip_if_fail", "lamina_order")) |>
     purrr::map_lgl(check_unique) |>
     all()
 
