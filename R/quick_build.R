@@ -44,11 +44,15 @@ quick_build_strata_project <- function(project_path,
 
 build_outline <- function( outline) {
 
-  outline |>
-    check_outline() # |>
-    # purrr::walk(
-    # # use build_outline_row
-    # )
+
+  outline <- check_outline(outline)
+
+  purrr::walk(
+    .x = seq_len(nrow(outline)),
+    \(row_index) {
+      build_outline_row(outline[row_index,])
+    }
+  )
 
   #give some kind of confirmatory response
 }
@@ -75,9 +79,9 @@ check_outline <- function(outline) {
     )
   )
 
-  check <-
+  check_uniqueness <-
     outline |>
-    dplyr::select(-c("project_path", "skip_if_fail", "lamina_order")) |>
+    dplyr::select("stratum_name", "stratum_order") |>
     purrr::map_lgl(check_unique) |>
     all()
 
@@ -140,3 +144,14 @@ build_outline_row <- function(outline_row) {
   #   lamina_order = 1,
   #   skip_if_fail = FALSE
   # )
+
+
+# outline <-
+#   dplyr::tibble(
+#     project_path = "~/repos/quick_build",
+#     stratum_name = c("stratum1", "stratum2"),
+#     stratum_order = c(1,1),
+#     lamina_name = c("lam1","lam1"),
+#     lamina_order = c(1,1),
+#     skip_if_fail = FALSE
+#   )
