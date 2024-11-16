@@ -12,9 +12,6 @@ quick_build_strata_project <- function(project_path,
     recurse = TRUE
   )
 
-
-
-
   purrr::walk(
     .x = seq_along(1:num_strata),
     \(outer_index) {
@@ -45,24 +42,31 @@ quick_build_strata_project <- function(project_path,
   invisible(project_path)
 }
 
-build_outline <- function(outline) {
-  # check outline
-  # build project to spec
+build_outline <- function( outline) {
+
+  outline |>
+    check_outline() # |>
+    # purrr::walk(
+    # # use build_outline_row
+    # )
+
+  #give some kind of confirmatory response
 }
 
 check_outline <- function(outline) {
   checkmate::assert_data_frame(
     outline,
-    ncols = 5,
+    ncols = 6,
     min.rows = 1L,
     any.missing = FALSE,
     all.missing = FALSE,
-    types = c("character", "numeric", "character", "numeric", "logical")
+    types = c("project_path", "character", "numeric", "character", "numeric", "logical")
   )
 
   checkmate::assert_subset(
     names(outline),
     c(
+      "project_path",
       "stratum_name",
       "stratum_order",
       "lamina_name",
@@ -73,19 +77,39 @@ check_outline <- function(outline) {
 
   check <-
     outline |>
-    dplyr::select(-c("skip_if_fail", "lamina_order")) |>
+    dplyr::select(-c("project_path", "skip_if_fail", "lamina_order")) |>
     purrr::map_lgl(check_unique) |>
     all()
 
   checkmate::assert_true(check)
+
+  outline
 }
 
 check_unique <- function(x) {
   dplyr::if_else(length(x) == length(unique(x)), TRUE, FALSE)
 }
 
+
+build_outline_row <- function(outline_row) {
+
+  #check if stratum exists and handle it
+
+  stratum_path <-
+    build_stratum(
+      stratum_name = outline_row$stratum_name,
+      path = outline_row$project_path,
+      order = outline_row$stratum_order
+    )
+
+  # check if lamina exists and handle it
+  # build lamina
+
+}
+
 # outline <-
   # dplyr::tibble(
+  #   project_path = "~/repos/strata_testing",
   #   stratum_name = "stratum1",
   #   stratum_order = 1,
   #   lamina_name = "lam1",
