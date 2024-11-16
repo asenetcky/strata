@@ -12,25 +12,36 @@ quick_build_strata_project <- function(project_path,
     recurse = TRUE
   )
 
-  for (i in 1:num_strata) {
-    stratum_path <- build_stratum(
-      path = project_path,
-      stratum_name = paste0("stratum_", i),
-      order = i
-    )
 
-    for (j in 1:num_laminae_per) {
-      name <- paste0("s", i, "_lamina_", j)
-      strata::build_lamina(
-        stratum_path = stratum_path,
-        lamina_name = name,
-        order = j
+
+
+  purrr::walk(
+    .x = seq_along(1:num_strata),
+    \(outer_index) {
+      stratum_path <- build_stratum(
+        path = project_path,
+        stratum_name = paste0("stratum_", outer_index),
+        order = outer_index
       )
-      lamina_code <- fs::path(stratum_path, name, "my_code.R")
-      my_code <- fs::file_create(lamina_code)
-      cat(file = my_code, "print('Hello, World!')")
+
+      purrr::walk(
+        .x = seq_along(1:num_laminae_per),
+        \(inner_index) {
+          name <- paste0("s", outer_index, "_lamina_", inner_index)
+
+          strata::build_lamina(
+            stratum_path = stratum_path,
+            lamina_name = name,
+            order = inner_index
+          )
+
+          lamina_code <- fs::path(stratum_path, name, "my_code.R")
+          my_code <- fs::file_create(lamina_code)
+          cat(file = my_code, "print('Hello, World!')")
+        }
+      )
     }
-  }
+  )
   invisible(project_path)
 }
 
