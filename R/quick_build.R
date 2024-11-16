@@ -52,11 +52,32 @@ check_outline <- function(outline) {
   checkmate::assert_subset(
     names(outline),
     c(
-      "stratum_nam",
+      "stratum_name",
       "stratum_order",
       "lamina_name",
       "lamina_order",
       "skip_if_fail"
     )
   )
+
+  check <-
+    outline |>
+    dplyr::select(-skip_if_fail) |>
+    purrr::map_lgl(check_unique) |>
+    all()
+
+  checkmate::assert_true(check)
 }
+
+check_unique <- function(x) {
+  dplyr::if_else(length(x) == length(unique(x)), TRUE, FALSE)
+}
+
+# outline <-
+  # dplyr::tibble(
+  #   stratum_name = "stratum1",
+  #   stratum_order = 1,
+  #   lamina_name = "lam1",
+  #   lamina_order = 1,
+  #   skip_if_fail = FALSE
+  # )
