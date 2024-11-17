@@ -1,7 +1,3 @@
-# and then maybe another fun where the user passes a tibble of stratum_name,
-# stratum_order, lamina_name, lamina_order,
-# and skip_if_fail as optional(revert to default FALSE)
-
 quick_build_strata_project <- function(project_path,
                                        num_strata = 1,
                                        num_laminae_per = 1) {
@@ -39,12 +35,12 @@ quick_build_strata_project <- function(project_path,
       )
     }
   )
-  invisible(project_path)
+
+  invisible(survey_strata(project_path))
 }
 
-build_outline <- function( outline) {
-
-
+build_outline <- function(outline) {
+  project_path <- NULL
   outline <- check_outline(outline)
 
   purrr::walk(
@@ -54,7 +50,14 @@ build_outline <- function( outline) {
     }
   )
 
-  #give some kind of confirmatory response
+  execution_plans <-
+    outline |>
+    dplyr::pull("project_path") |>
+    unique() |>
+    purrr::map(survey_strata) |>
+    purrr::list_rbind()
+
+  invisible(execution_plans)
 }
 
 check_outline <- function(outline) {
