@@ -8,6 +8,8 @@ quick_build_strata_project <- function(project_path,
     recurse = TRUE
   )
 
+  # outer loop create the strata
+  # inner loop create the laminae per stratum
   purrr::walk(
     .x = seq_along(1:num_strata),
     \(outer_index) {
@@ -36,6 +38,7 @@ quick_build_strata_project <- function(project_path,
     }
   )
 
+  # return the survey of the results
   invisible(survey_strata(project_path))
 }
 
@@ -43,6 +46,7 @@ build_outline <- function(outline) {
   project_path <- NULL
   outline <- check_outline(outline)
 
+  # build the spec in the outline line by line
   purrr::walk(
     .x = seq_len(nrow(outline)),
     \(row_index) {
@@ -50,6 +54,7 @@ build_outline <- function(outline) {
     }
   )
 
+  # return the survey of the results
   execution_plans <-
     outline |>
     dplyr::pull("project_path") |>
@@ -61,6 +66,8 @@ build_outline <- function(outline) {
 }
 
 check_outline <- function(outline) {
+
+  # need to be a data frame
   checkmate::assert_data_frame(
     outline,
     ncols = 6,
@@ -70,6 +77,7 @@ check_outline <- function(outline) {
     types = c("project_path", "character", "numeric", "character", "numeric", "logical")
   )
 
+  # need to have the right columns
   checkmate::assert_subset(
     names(outline),
     c(
@@ -88,6 +96,7 @@ check_outline <- function(outline) {
     purrr::map_lgl(check_unique) |>
     all()
 
+  # strata name and order need to be unique
   checkmate::assert_true(check_uniqueness)
 
   outline
