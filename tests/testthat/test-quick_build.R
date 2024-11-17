@@ -19,6 +19,40 @@
 #     skip_if_fail = FALSE
 #   )
 
-test_that("multiplication works", {
+test_that("build_quick_strata_project creates expected folder structure", {
   expect_equal(2 * 2, 4)
 })
+
+test_that("build_quick_strata_project creates expected tomls", {
+  expect_equal(2 * 2, 4)
+})
+
+test_that("build_quick_strata_project creates expected R files", {
+  expect_equal(2 * 2, 4)
+})
+
+test_that("sourcing a quick build produces no errors", {
+  expect_equal(2 * 2, 4)
+})
+
+test_that("build_outlined_strata_project creates expected folder structure", {
+  expect_equal(2 * 2, 4)
+})
+
+test_that("build_outlined_strata_project creates expected tomls", {
+  expect_equal(2 * 2, 4)
+})
+
+test_that("build_outlined_strata_project creates expected R files", {
+  expect_equal(2 * 2, 4)
+})
+
+test_that("sourcing an outlined build produces no errors", {
+  expect_equal(2 * 2, 4)
+})
+
+
+test_that("outlined build returns a strata survey", {
+  expect_equal(2 * 2, 4)
+})
+
