@@ -1,4 +1,17 @@
-quick_build_strata_project <- function(project_path,
+#' Quickly build strata project with minimal input and standard names
+#'
+#' @param project_path Path to the project folder
+#' @param num_strata Number of strata to create
+#' @param num_laminae_per Number of laminae to create per stratum
+#'
+#' @return invisible dataframe of the survey of the strata project
+#' @export
+#'
+#' @examples
+#' tmp <- fs::dir_create(fs::file_temp())
+#' result <- build_quick_strata_project(tmp, 2, 2)
+#' dplyr::glimpse(result)
+build_quick_strata_project <- function(project_path,
                                        num_strata = 1,
                                        num_laminae_per = 1) {
 
@@ -42,7 +55,27 @@ quick_build_strata_project <- function(project_path,
   invisible(survey_strata(project_path))
 }
 
-build_outline <- function(outline) {
+
+#' Build a strata project from an outline
+#'
+#' @param outline A data frame with the following columns: project_path,
+#' stratum_name, stratum_order, lamina_name, lamina_order, skip_if_fail
+#'
+#' @return invisible dataframe of the survey of the strata project
+#' @export
+#'
+#' @examples
+#' outline <- tibble::tibble(
+#'  project_path = fs::dir_create(fs::file_temp()),
+#'  stratum_name = "test",
+#'  stratum_order = 1,
+#'  lamina_name = "test",
+#'  lamina_order = 1,
+#'  skip_if_fail = FALSE
+#'  )
+#'  result <- build_outlined_strata_project(outline)
+#'  dplyr::glimpse(result)
+build_outlined_strata_project <- function(outline) {
   project_path <- NULL
   outline <- check_outline(outline)
 
@@ -146,24 +179,3 @@ build_outline_row <- function(outline_row) {
   }
   invisible(TRUE)
 }
-
-# outline <-
-  # dplyr::tibble(
-  #   project_path = "~/repos/quick_build",
-  #   stratum_name = "stratum1",
-  #   stratum_order = 1,
-  #   lamina_name = "lam1",
-  #   lamina_order = 1,
-  #   skip_if_fail = FALSE
-  # )
-
-
-# outline <-
-#   dplyr::tibble(
-#     project_path = "~/repos/quick_build",
-#     stratum_name = c("stratum1", "stratum2"),
-#     stratum_order = c(1,1),
-#     lamina_name = c("lam1","lam1"),
-#     lamina_order = c(1,1),
-#     skip_if_fail = FALSE
-#   )
