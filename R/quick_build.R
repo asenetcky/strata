@@ -88,7 +88,7 @@ check_outline <- function(outline) {
     purrr::map_lgl(check_unique) |>
     all()
 
-  checkmate::assert_true(check)
+  checkmate::assert_true(check_uniqueness)
 
   outline
 }
