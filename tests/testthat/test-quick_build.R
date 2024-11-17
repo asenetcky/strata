@@ -20,7 +20,35 @@
 #   )
 
 test_that("build_quick_strata_project creates expected folder structure", {
-  expect_equal(2 * 2, 4)
+  tmp <- fs::dir_create(fs::file_temp())
+  result <-
+    strata::build_quick_strata_project(
+      project_path = tmp,
+      num_strata = 3,
+      num_laminae_per = 2
+    ) |>
+    dplyr::pull("script_path") |>
+    as.character()
+
+  expected_paths <-
+    c(
+      fs::path(tmp, "strata", "stratum_1", "s1_lamina_1", "my_code.R"),
+      fs::path(tmp, "strata", "stratum_1", "s1_lamina_2", "my_code.R"),
+      fs::path(tmp, "strata", "stratum_2", "s2_lamina_1", "my_code.R"),
+      fs::path(tmp, "strata", "stratum_2", "s2_lamina_2", "my_code.R"),
+      fs::path(tmp, "strata", "stratum_3", "s3_lamina_1", "my_code.R"),
+      fs::path(tmp, "strata", "stratum_3", "s3_lamina_2", "my_code.R")
+    ) |>
+    as.character()
+
+  what_was_created <-
+    fs::dir_ls(fs::path(tmp, "strata"), recurse = TRUE, glob = "*.R") |>
+    as.character()
+
+  expect_equal(result, expected_paths)
+  expect_equal(result, what_was_created)
+  expect_equal(expected_paths, what_was_created)
+
 })
 
 test_that("build_quick_strata_project creates expected tomls", {
@@ -52,6 +80,7 @@ test_that("sourcing an outlined build produces no errors", {
 })
 
 
+#this might fail because there wont be fill-in code
 test_that("outlined build returns a strata survey", {
   expect_equal(2 * 2, 4)
 })
