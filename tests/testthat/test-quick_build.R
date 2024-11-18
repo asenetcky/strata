@@ -97,6 +97,9 @@ test_that("build_outlined_strata_project creates expected folder structure", {
       skip_if_fail = FALSE
     )
 
+  #TODO script name is going to NA atm, need a better test
+  # and better code BUT stratum name is also NA, and that SHOULD
+  # NOT be the case
   result <-
     strata::build_outlined_strata_project(outline) |>
     dplyr::pull("script_path") |>
