@@ -108,7 +108,7 @@ test_that("build_outlined_strata_project creates expected folder structure", {
   expected_paths <-
     c(
       fs::path(
-        outline$project_path, "strata", "stratum1", "s1_lamina_1", "my_code.R"
+        outline$project_path, "strata", "stratum1", "lam1", "my_code.R"
       )
     ) |>
     as.character()

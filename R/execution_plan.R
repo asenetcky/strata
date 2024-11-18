@@ -82,7 +82,8 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
 #and the order of execution
 build_execution_plan <- function(project_path) {
   path <- stratum <- lamina <- name <- type <- stratum_order <- NULL
-  new_order <- skip_if_fail <- script <- created <- NULL
+  new_order <- skip_if_fail <- script <- created <- parent <- NULL
+  script_name <- script_path <- NULL
 
   #survey the strata
   strata <-
@@ -103,11 +104,17 @@ build_execution_plan <- function(project_path) {
   laminae |>
     dplyr::left_join(
       strata_order,
-      by = dplyr::join_by(stratum == name)
+      by = dplyr::join_by(parent == name)
     ) |>
     dplyr::mutate(new_order = order + stratum_order) |>
     dplyr::arrange(new_order) |>
     dplyr::mutate(order = dplyr::row_number()) |>
+    dplyr::rename(
+      stratum = parent,
+      lamina = name,
+      script = script_name,
+      path = script_path
+    ) |>
     dplyr::select(
       stratum,
       lamina,
