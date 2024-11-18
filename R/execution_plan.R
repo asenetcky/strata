@@ -151,38 +151,88 @@ build_paths <- function(toml_path) {
 }
 
 # given project folder read the strata.toml and report back
+# based solely on toml content and not what's in the folder
 find_strata <- function(project_path) {
+
+  name <- NULL
+  good_paths <- FALSE
+
+  strata_toml <-
+    find_tomls(
+      fs::path(project_path)
+    ) |>
+    fs::path_filter(regexp = "\\.strata\\.toml$")
+
+  if (length(strata_toml) == 0) {
+    stop("No .strata.toml found")
+  }
+
+  if (length(strata_toml) > 1) {
+    stop("Multiple .strata.toml found")
+  }
+
   parent_project <- fs::path_file(project_path)
 
-  toml_path <-
-    fs::path(project_path, "strata/.strata.toml")
+  found_strata <-
+    snapshot_toml(strata_toml) |>
+      dplyr::mutate(
+        path = fs::path(project_path, "strata", name),
+        parent = parent_project
+      ) |>
+      dplyr::relocate(
+        "parent",
+        .before = "type"
+      )
 
-  strata_paths <-
-    toml_path |>
-    build_paths()
+ good_paths <-
+   fs::dir_exists(found_strata$path) |>
+   all()
 
-  snapshot_toml(toml_path) |>
-    dplyr::mutate(
-      path = strata_paths,
-      parent = parent_project
-    ) |>
-    dplyr::relocate(
-      "parent",
-      .before = "type"
-    )
+ if (!good_paths) stop("Strata paths do not exist")
+
+ found_strata
+
 }
 
 # given stratum folder read the laminae.toml and report back
 find_laminae <- function(strata_path) {
-  path <- lamina <- name <- type <- NULL
+
+  lamina_path <- script_path <- name <- type <- NULL
+
+  good_laminae_paths <- FALSE
+  good_script_paths <- FALSE
+
+  laminae_toml <-
+    find_tomls(
+      fs::path(strata_path)
+    ) |>
+    fs::path_filter(regexp = "\\.laminae\\.toml$")
+
+  if (length(laminae_toml) == 0) {
+    stop("No .laminae.toml found")
+  }
+
   parent_strata <- fs::path_file(strata_path)
 
-  toml_paths <-
-    fs::path(strata_path, ".laminae.toml")
+  found_laminae <-
+    laminae_toml |>
+    purrr::map(
+      \(toml) {
+        snapshot_toml(toml) |>
+          dplyr::mutate(
+            lamina_path = fs::path(strata_path, name),
+            parent = parent_strata
+          )
+      }
+    ) |>
+    purrr::list_rbind() |>
+    dplyr::relocate(
+      "parent",
+      .before = "type"
+    )
 
   laminae_wscript_paths <-
-    toml_paths |>
-    build_paths() |>
+    found_laminae$lamina_path |>
     fs::dir_ls(glob = "*.R")
 
   script_names <-
@@ -192,27 +242,27 @@ find_laminae <- function(strata_path) {
 
   paths_and_scripts <-
     tibble::tibble(
-      path = laminae_wscript_paths,
-      script = script_names
+      script_path = laminae_wscript_paths,
+      script_name = script_names
     ) |>
     dplyr::mutate(
-      lamina = fs::path_dir(.data$path),
-      stratum = fs::path_file(
-        fs::path_dir(lamina)
-      ),
-      lamina = fs::path_file(lamina)
+      name = fs::path_dir(script_path)
     )
 
+  found_laminae <-
+    found_laminae |>
+    dplyr::left_join(paths_and_scripts, by = "name")
 
-  purrr::map(
-    toml_paths,
-    snapshot_toml
-  ) |>
-    purrr::list_rbind() |>
-    dplyr::rename(lamina = name) |>
-    dplyr::left_join(
-      paths_and_scripts,
-      by = dplyr::join_by(lamina)
-    ) |>
-    dplyr::select(-type)
+  good_laminae_paths <-
+    fs::dir_exists(found_laminae$lamina_path) |>
+    all()
+
+  good_script_paths <-
+    fs::file_exists(found_laminae$script_path) |>
+    all()
+
+  if (!good_laminae_paths) stop("Laminae paths do not exist")
+  if (!good_script_paths) stop("Script paths do not exist")
+
+  found_laminae
 }
