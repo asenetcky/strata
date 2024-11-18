@@ -145,6 +145,6 @@ find_tomls <- function(project_path) {
     fs::dir_ls(
       recurse = TRUE,
       all = TRUE,
-      glob = "*.toml"
+      regexp = "\\.laminae\\.toml$|\\.strata\\.toml$"
     )
 }
