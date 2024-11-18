@@ -1,5 +1,4 @@
-# this needs way more cleanup but will work for now
-
+#given a target path, stratum name and order setup a blank slate strata toml
 initial_stratum_toml <- function(path, name, order) {
   path <- fs::path(path)
   toml_file <- fs::path(path, ".strata.toml")
@@ -17,6 +16,7 @@ initial_stratum_toml <- function(path, name, order) {
   base::invisible(toml_file)
 }
 
+#given a target path setup a blank slate laminae toml
 initial_lamina_toml <- function(path) {
   path <- fs::path(path)
   toml_file <- fs::path(path, ".laminae.toml")
@@ -29,6 +29,8 @@ initial_lamina_toml <- function(path) {
   base::invisible(toml_file)
 }
 
+# given a path to a toml, read and parse the content of the toml and return
+# the results as a tibble
 snapshot_toml <- function(toml_path) {
   toml_path <- fs::path(toml_path)
   toml <- read_toml(toml_path)
@@ -49,6 +51,7 @@ snapshot_toml <- function(toml_path) {
     dplyr::select(dplyr::any_of(vars))
 }
 
+#given a toml snapshot dataframe,
 #' @importFrom rlang .data
 manage_toml_order <- function(toml_snapshot) {
   duplicate_orders <-
@@ -93,6 +96,7 @@ manage_toml_order <- function(toml_snapshot) {
     dplyr::mutate(order = dplyr::row_number())
 }
 
+#given a toml path create a copy of that toml with a .bak extension
 backup_toml <- function(toml_path) {
   file_root <- fs::path_dir(toml_path)
   file_name <-
@@ -112,10 +116,8 @@ backup_toml <- function(toml_path) {
   )
 }
 
-
-
-
-
+#given a toml snapshot dataframe and a toml path, write a .toml file
+# to that path with the contents of the dataframe
 rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   toml_path <- fs::path(toml_path)
 
@@ -136,9 +138,7 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   invisible(toml_path)
 }
 
-
-
-
+# given a project path, find and list all the toml files in that project
 find_tomls <- function(project_path) {
   project_path |>
     fs::path() |>
