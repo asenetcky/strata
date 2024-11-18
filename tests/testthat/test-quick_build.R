@@ -64,9 +64,9 @@ test_that("build_quick_strata_project creates expected tomls", {
   expected_toml_paths <-
     c(
       fs::path(tmp, "strata", ".strata.toml"),
-      fs::path(tmp, "strata", "stratum_1", ".laminiae.toml"),
-      fs::path(tmp, "strata", "stratum_2", ".laminiae.toml"),
-      fs::path(tmp, "strata", "stratum_3", ".laminiae.toml")
+      fs::path(tmp, "strata", "stratum_1", ".laminae.toml"),
+      fs::path(tmp, "strata", "stratum_2", ".laminae.toml"),
+      fs::path(tmp, "strata", "stratum_3", ".laminae.toml")
     ) |>
     as.character()
 
