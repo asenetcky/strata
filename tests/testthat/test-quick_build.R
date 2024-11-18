@@ -52,7 +52,25 @@ test_that("build_quick_strata_project creates expected folder structure", {
 })
 
 test_that("build_quick_strata_project creates expected tomls", {
-  expect_equal(2 * 2, 4)
+  tmp <- fs::dir_create(fs::file_temp())
+  result <-
+    strata::build_quick_strata_project(
+      project_path = tmp,
+      num_strata = 3,
+      num_laminae_per = 2
+    )
+
+  tomls_paths <- survey_tomls(tmp) |> as.character()
+  expected_toml_paths <-
+    c(
+      fs::path(tmp, "strata", ".strata.toml"),
+      fs::path(tmp, "strata", "stratum_1", ".laminiae.toml"),
+      fs::path(tmp, "strata", "stratum_2", ".laminiae.toml"),
+      fs::path(tmp, "strata", "stratum_3", ".laminiae.toml")
+    ) |>
+    as.character()
+
+  expect_equal(tomls_paths, expected_toml_paths)
 })
 
 test_that("build_quick_strata_project creates expected R files", {
