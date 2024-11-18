@@ -107,12 +107,16 @@ test_that("build_outlined_strata_project creates expected folder structure", {
 
   expected_paths <-
     c(
-      fs::path(outline$project_path, "strata", "stratum1", "s1_lamina_1", "my_code.R")
+      fs::path(
+        outline$project_path, "strata", "stratum1", "s1_lamina_1", "my_code.R"
+      )
     ) |>
     as.character()
 
   what_was_created <-
-    fs::dir_ls(fs::path(outline$project_path, "strata"), recurse = TRUE, glob = "*.R") |>
+    fs::dir_ls(
+      fs::path(outline$project_path, "strata"), recurse = TRUE, glob = "*.R"
+    ) |>
     as.character()
 
   expect_equal(result, expected_paths)

@@ -45,7 +45,12 @@ build_quick_strata_project <- function(project_path,
 
           lamina_code <- fs::path(stratum_path, name, "my_code.R")
           my_code <- fs::file_create(lamina_code)
-          cat(file = my_code, "print('Hello, World!')")
+          cat(
+            file = my_code,
+            "print(
+            'I am a placeholder, do not forget to replace me!'
+            )"
+          )
         }
       )
     }
@@ -107,7 +112,11 @@ check_outline <- function(outline) {
     min.rows = 1L,
     any.missing = FALSE,
     all.missing = FALSE,
-    types = c("project_path", "character", "numeric", "character", "numeric", "logical")
+    types =
+      c(
+        "project_path", "character", "numeric",
+        "character", "numeric", "logical"
+      )
   )
 
   # need to have the right columns
@@ -169,7 +178,7 @@ build_outline_row <- function(outline_row) {
   # check if lamina exists and handle it
   lamina_exist <- fs::dir_exists(lamina_path)
 
-  if(!lamina_exist) {
+  if (!lamina_exist) {
     build_lamina(
       lamina_name = outline_row$lamina_name,
       stratum_path = stratum_path,
