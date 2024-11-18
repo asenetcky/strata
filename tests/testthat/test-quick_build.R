@@ -73,16 +73,48 @@ test_that("build_quick_strata_project creates expected tomls", {
   expect_equal(tomls_paths, expected_toml_paths)
 })
 
-test_that("build_quick_strata_project creates expected R files", {
-  expect_equal(2 * 2, 4)
-})
-
 test_that("sourcing a quick build produces no errors", {
-  expect_equal(2 * 2, 4)
+  tmp <- fs::dir_create(fs::file_temp())
+  result <-
+    strata::build_quick_strata_project(
+      project_path = tmp,
+      num_strata = 3,
+      num_laminae_per = 2
+    )
+
+  expect_no_error(source(fs::path(tmp, "main.R")))
 })
 
 test_that("build_outlined_strata_project creates expected folder structure", {
-  expect_equal(2 * 2, 4)
+  tmp <- fs::dir_create(fs::file_temp())
+  outline <-
+    dplyr::tibble(
+      project_path = tmp,
+      stratum_name = "stratum1",
+      stratum_order = 1,
+      lamina_name = "lam1",
+      lamina_order = 1,
+      skip_if_fail = FALSE
+    )
+
+  result <-
+    strata::build_outlined_strata_project(outline) |>
+    dplyr::pull("script_path") |>
+    as.character()
+
+  expected_paths <-
+    c(
+      fs::path(outline$project_path, "strata", "stratum1", "s1_lamina_1", "my_code.R")
+    ) |>
+    as.character()
+
+  what_was_created <-
+    fs::dir_ls(fs::path(outline$project_path, "strata"), recurse = TRUE, glob = "*.R") |>
+    as.character()
+
+  expect_equal(result, expected_paths)
+  expect_equal(result, what_was_created)
+  expect_equal(expected_paths, what_was_created)
 })
 
 test_that("build_outlined_strata_project creates expected tomls", {
