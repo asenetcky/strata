@@ -125,7 +125,27 @@ test_that("build_outlined_strata_project creates expected folder structure", {
 })
 
 test_that("build_outlined_strata_project creates expected tomls", {
-  expect_equal(2 * 2, 4)
+  tmp <- fs::dir_create(fs::file_temp())
+  outline <-
+    dplyr::tibble(
+      project_path = tmp,
+      stratum_name = "stratum1",
+      stratum_order = 1,
+      lamina_name = "lam1",
+      lamina_order = 1,
+      skip_if_fail = FALSE
+    )
+
+  expected_tomls <-
+    c(
+      fs::path(tmp, "strata", ".strata.toml"),
+      fs::path(tmp, "strata", "stratum1", ".laminae.toml")
+    ) |>
+    as.character()
+
+  result <- strata::build_outlined_strata_project(outline)
+  survey <- survey_tomls(tmp) |> as.character()
+  expect_equal(survey, expected_tomls)
 })
 
 test_that("build_outlined_strata_project creates expected R files", {
@@ -136,8 +156,6 @@ test_that("sourcing an outlined build produces no errors", {
   expect_equal(2 * 2, 4)
 })
 
-
-#this might fail because there wont be fill-in code
 test_that("outlined build returns a strata survey", {
   expect_equal(2 * 2, 4)
 })
