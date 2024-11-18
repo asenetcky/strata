@@ -185,6 +185,15 @@ build_outline_row <- function(outline_row) {
       order = outline_row$lamina_order,
       skip_if_fail = outline_row$skip_if_fail
     )
+
+    lamina_code <- fs::path(stratum_path, outline_row$lamina_name, "my_code.R")
+    my_code <- fs::file_create(lamina_code)
+    cat(
+      file = my_code,
+      "print(
+            'I am a placeholder, do not forget to replace me!'
+            )"
+    )
   }
   invisible(TRUE)
 }
