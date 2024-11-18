@@ -126,36 +126,6 @@ build_execution_plan <- function(project_path) {
     )
 }
 
-#given a toml file path return the relevant paths in the toml-specified order
-#' @importFrom rlang .data
-build_paths <- function(toml_path) {
-  toml_path <- fs::path(toml_path)
-
-  tomls <-
-    toml_path |>
-    purrr::map(
-      \(toml) snapshot_toml(toml)
-    )
-
-  target_paths <- fs::path_dir(toml_path)
-
-  purrr::map2(
-    tomls,
-    target_paths,
-    \(x, idx) {
-      x |>
-        dplyr::arrange(.data$order) |>
-        dplyr::mutate(
-          paths = fs::path(
-            idx,
-            .data$name
-          )
-        ) |>
-        dplyr::pull(.data$paths)
-    }
-  ) |>
-    purrr::list_c()
-}
 
 # given project folder read the strata.toml and report back
 # based solely on toml content and not what's in the folder
