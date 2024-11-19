@@ -1,5 +1,5 @@
-#given a dataframe of toml content and a toml path, write the toml content to
-#the toml path
+# given a dataframe of toml content and a toml path, write the toml content to
+# the toml path
 write_toml_lines <- function(toml_content, toml_path) {
   toml_path <- fs::path(toml_path)
   toml_type <- base::unique(toml_content$type)
