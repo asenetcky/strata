@@ -64,9 +64,9 @@ often alphabetically.
 at run time, and are available for use inside of users’ code if they
 desire.
 
-## Example
+## Examples
 
-This is a basic example which shows you how to solve a common problem:
+Here is a standard example using strata:
 
 ``` r
 library(strata)
@@ -105,14 +105,52 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp,"main.R"))
-#> [2024-10-27 19:54:32.939358] INFO: Strata started 
-#> [2024-10-27 19:54:32.939469] INFO: Stratum: first_stratum initialized 
-#> [2024-10-27 19:54:32.939527] INFO: Lamina: first_lamina initialized 
-#> [2024-10-27 19:54:32.939629] INFO: Executing: my_code1 
+#> [2024-11-18 20:05:28.2429] INFO: Strata started 
+#> [2024-11-18 20:05:28.2432] INFO: Stratum: first_stratum initialized 
+#> [2024-11-18 20:05:28.2434] INFO: Lamina: first_lamina initialized 
+#> [2024-11-18 20:05:28.2437] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-10-27 19:54:32.939936] INFO: Lamina: first_lamina finished 
-#> [2024-10-27 19:54:32.940006] INFO: Lamina: second_lamina initialized 
-#> [2024-10-27 19:54:32.940056] INFO: Executing: my_code2 
+#> [2024-11-18 20:05:28.2441] INFO: Lamina: first_lamina finished 
+#> [2024-11-18 20:05:28.2443] INFO: Lamina: second_lamina initialized 
+#> [2024-11-18 20:05:28.2445] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-10-27 19:54:32.940667] INFO: Strata finished - duration: 0.0012 seconds
+#> [2024-11-18 20:05:28.2453] INFO: Strata finished - duration: 0.0025 seconds
+```
+
+``` r
+fs::dir_delete(tmp)
+```
+
+Users can also opt to use quick build functions if speed is the priority
+and the naming conventions are not important.
+
+``` r
+
+tmp <- fs::dir_create(fs::file_temp())
+
+strata::build_quick_strata_project(
+  project_path = tmp,
+  num_strata = 3,
+  num_laminae_per = 2
+)
+
+fs::dir_tree(tmp)
+#> /tmp/RtmpYt2FzO/file120ff226c471e8
+#> ├── main.R
+#> └── strata
+#>     ├── stratum_1
+#>     │   ├── s1_lamina_1
+#>     │   │   └── my_code.R
+#>     │   └── s1_lamina_2
+#>     │       └── my_code.R
+#>     ├── stratum_2
+#>     │   ├── s2_lamina_1
+#>     │   │   └── my_code.R
+#>     │   └── s2_lamina_2
+#>     │       └── my_code.R
+#>     └── stratum_3
+#>         ├── s3_lamina_1
+#>         │   └── my_code.R
+#>         └── s3_lamina_2
+#>             └── my_code.R
 ```

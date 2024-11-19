@@ -77,11 +77,12 @@ are used at run time, and are available for use inside of users'
 code if they desire.
 
 
-## Example
+## Examples
 
-This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+Here is a standard example using strata:
+
+```{r standard-example}
 library(strata)
 
 tmp <- fs::dir_create(fs::file_temp())
@@ -118,6 +119,24 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp,"main.R"))
+fs::dir_delete(tmp)
+
+```
+
+Users can also opt to use quick build functions if speed is the priority
+and the naming conventions are not important. 
+
+```{r quick-build-example}
+
+tmp <- fs::dir_create(fs::file_temp())
+
+strata::build_quick_strata_project(
+  project_path = tmp,
+  num_strata = 3,
+  num_laminae_per = 2
+)
+
+fs::dir_tree(tmp)
 
 ```
 
