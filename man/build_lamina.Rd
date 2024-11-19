@@ -9,7 +9,7 @@ build_lamina(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE)
 \arguments{
 \item{lamina_name}{Name of your Lamina}
 
-\item{stratum_path}{Path to the parent stratum}
+\item{stratum_path}{Path to stratum folder}
 
 \item{order}{Execution order, default is \code{1}}
 

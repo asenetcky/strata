@@ -7,7 +7,7 @@
 adhoc_stratum(stratum_path, silent = FALSE)
 }
 \arguments{
-\item{stratum_path}{Path to stratum}
+\item{stratum_path}{Path to stratum folder}
 
 \item{silent}{Suppress log messages? If \code{FALSE} (the default), log messages
 will be printed to the console. If \code{TRUE}, log messages will be suppressed.}
