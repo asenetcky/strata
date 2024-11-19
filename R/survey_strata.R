@@ -1,8 +1,19 @@
 #' Survey the layout and execution order of your project
 #'
-#' @param project_path path to your project folder
+#' @description
+#' `survey_strata()` will examine the `project_path` provided and
+#' return a dataframe with the following information about the project:
 #'
-#' @return data frame of the layout of your project based on the .tomls
+#' * `stratum_name`: the name of the stratum
+#' * `lamina_name`: the name of the lamina
+#' * `execution_order`: the order in which the stratum-lamina-code combination
+#' will be executed
+#' * `script_name`: the name of the script to be executed
+#' * `script_path`: the path to the script
+#'
+#' @inheritParams main
+#'
+#' @return dataframe housing the layout of your project based on the .tomls
 #' @export
 #'
 #' @examples
