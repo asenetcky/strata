@@ -7,14 +7,15 @@
 log_error(message)
 }
 \arguments{
-\item{message}{A string to print to stderr}
+\item{message}{A string containing a message to log.}
 }
 \value{
-A message is printed to stdout or stderr
+A message printed to stderr
 }
 \description{
-Wrapper around log_message for ERROR messages in the log
+\code{log_error()} does \emph{not} stop the execution of the script, but it does print
+the message to stderr.
 }
 \examples{
-log_message("This is an error message")
+log_error("This is an error message")
 }

@@ -2,21 +2,24 @@
 % Please edit documentation in R/logging.R
 \name{log_total_time}
 \alias{log_total_time}
-\title{Print time difference in a standard for the log}
+\title{Print time difference in a standard message for logging purposes}
 \usage{
 log_total_time(begin, end)
 }
 \arguments{
-\item{begin}{A data-time object}
+\item{begin}{A data-time object, signifying the beginning or a process}
 
-\item{end}{A data-time object}
+\item{end}{A data-time object, signifying the end of a process}
 }
 \value{
 A numeric value of the time difference in seconds
 }
 \description{
-Print time difference in a standard for the log
+Print time difference in a standard message for logging purposes
 }
 \examples{
-log_total_time(Sys.time(), Sys.time() + 999)
+begin <- Sys.time()
+# do something
+end <- Sys.time() + 999
+log_total_time(begin, end)
 }

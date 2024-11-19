@@ -1,14 +1,21 @@
-#' Send a standardized message to stdout or stderr
+#' Send a standardized log message to stdout or stderr
 #'
-#' @param message A string message to log
-#' @param level The level of the message (e.g. INFO, WARNING, ERROR)
-#' @param out_or_err Whether to log to stdout or stderr
+#' `log_message()` does _not_ stop the execution of the script, regardless of
+#' the level of the message, and whether or not it prints to STDOUT or STDERR.
 #'
-#' @return A message is printed to stdout or stderr
+#' @param message A string containing a message to log.
+#' @param level The level of the message (e.g. INFO, WARNING, ERROR), defaults
+#'   to "INFO" but will accept any string.
+#' @param out_or_err Send log output to stdout or stderr, choices are `"OUT"`
+#'   or `"ERR"` and the defaults is `"OUT"`.
+#'
+#' @return A message printed to stdout or stderr.
 #' @export
 #'
 #' @examples
 #' log_message("This is an info message", "INFO", "OUT")
+#' log_message("This is an error message", "ERROR", "ERR")
+#' log_message("This is a warning message", "WARNING", "OUT")
 log_message <- function(message, level = "INFO", out_or_err = "OUT") {
   # check for stdout or stderr
   checkmate::assert_choice(out_or_err, c("OUT", "ERR"))
@@ -26,32 +33,35 @@ log_message <- function(message, level = "INFO", out_or_err = "OUT") {
   }
 }
 
-
-
 #' Wrapper around log_message for ERROR messages in the log
 #'
-#' @param message A string to print to stderr
+#' `log_error()` does _not_ stop the execution of the script, but it does print
+#' the message to stderr.
 #'
-#' @return A message is printed to stdout or stderr
+#' @inheritParams log_message
+#'
+#' @return A message printed to stderr
 #' @export
 #'
 #' @examples
-#' log_message("This is an error message")
+#' log_error("This is an error message")
 log_error <- function(message) {
   log_message(message, level = "ERROR", out_or_err = "ERR")
 }
 
-
-#' Print time difference in a standard for the log
+#' Print time difference in a standard message for logging purposes
 #'
-#' @param begin A data-time object
-#' @param end A data-time object
+#' @param begin A data-time object, signifying the beginning or a process
+#' @param end A data-time object, signifying the end of a process
 #'
 #' @return A numeric value of the time difference in seconds
 #' @export
 #'
 #' @examples
-#' log_total_time(Sys.time(), Sys.time() + 999)
+#' begin <- Sys.time()
+#' # do something
+#' end <- Sys.time() + 999
+#' log_total_time(begin, end)
 log_total_time <- function(begin, end) {
   checkmate::assert_posixct(c(begin, end))
 
