@@ -1,3 +1,11 @@
+# strata 0.7.0
+
+- added `build_quick_strata_project` 
+  - allows users to quickly build a project with standard names
+- added `build_outlined_strata_project` 
+  - allows users to quickly build a project by providing a dataframe
+  outline of the expected project structure
+
 # strata 0.6.0
 
 - added user-facing functions for easier toml editing from inside of R
