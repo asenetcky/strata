@@ -36,7 +36,6 @@ To install the latest CRAN release, just run:
 
 ```{r eval=FALSE}
 install.packages("strata")
-
 ```
 
 
