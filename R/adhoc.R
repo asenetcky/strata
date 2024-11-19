@@ -7,9 +7,11 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' adhoc_stratum("PATH/TO/STRATUM/FOLDER/")
-#' }
+#' tmp <- fs::dir_create(fs::file_temp())
+#' result <- strata::build_quick_strata_project(tmp, 1, 1)
+#' adhoc_stratum(
+#'  fs::path(tmp, "strata", "stratum_1"),
+#' )
 #' @importFrom rlang .data
 adhoc_stratum <- function(stratum_path, silent = FALSE) {
   stratum_name <- fs::path_file(stratum_path)
