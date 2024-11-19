@@ -7,7 +7,7 @@
 build_lamina(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE)
 }
 \arguments{
-\item{lamina_name}{Name of your Lamina}
+\item{lamina_name}{Name of lamina}
 
 \item{stratum_path}{Path to stratum folder}
 
@@ -22,7 +22,9 @@ invisibly returns fs::path to lamina
 Add a lamina to the project space
 }
 \examples{
-\dontrun{
-build_lamina("my_lamina_name", "PATH/TO/STRATUM/FOLDER/")
-}
+tmp <- fs::dir_create(fs::file_temp())
+result_stratum_path <- build_stratum("my_stratum_name", tmp)
+result_lamina_path <- build_lamina("my_lamina_name", result_stratum_path)
+result_lamina_path
+fs::dir_delete(tmp)
 }

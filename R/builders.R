@@ -1,21 +1,17 @@
-# TODO change path to projet_path in build_stratum
-# TODO setup project path to be inherited by all the functions
-# TODO describe default values in params
-# TODO setup up order to be inheried, describe default value
-
 #' Add a stratum to the project space
 #'
 #' @inheritParams main
-#' @param stratum_name Name of your stratum
+#' @param stratum_name Name of stratum
 #' @param order Execution order, default is `1`
 #'
 #' @return invisibly returns fs::path to stratum
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
-#' }
+#' tmp <- fs::dir_create(fs::file_temp())
+#' result <- build_stratum("my_stratum_name", tmp)
+#' result
+#' fs::dir_delete(tmp)
 build_stratum <- function(stratum_name, project_path, order = 1) {
   # Clean file name
   stratum_name <- clean_name(stratum_name)
@@ -92,7 +88,7 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
 #' Add a lamina to the project space
 #'
 #' @inheritParams build_stratum
-#' @param lamina_name Name of your Lamina
+#' @param lamina_name Name of lamina
 #' @param stratum_path Path to stratum folder
 #' @param skip_if_fail Skip this lamina if it fails, default is `FALSE`
 #'
@@ -100,9 +96,11 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' build_lamina("my_lamina_name", "PATH/TO/STRATUM/FOLDER/")
-#' }
+#' tmp <- fs::dir_create(fs::file_temp())
+#' result_stratum_path <- build_stratum("my_stratum_name", tmp)
+#' result_lamina_path <- build_lamina("my_lamina_name", result_stratum_path)
+#' result_lamina_path
+#' fs::dir_delete(tmp)
 build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
   # grab the strata structure
   lamina_name <- clean_name(lamina_name)

@@ -7,7 +7,7 @@
 build_stratum(stratum_name, project_path, order = 1)
 }
 \arguments{
-\item{stratum_name}{Name of your stratum}
+\item{stratum_name}{Name of stratum}
 
 \item{project_path}{A path to strata project folder}
 
@@ -20,7 +20,8 @@ invisibly returns fs::path to stratum
 Add a stratum to the project space
 }
 \examples{
-\dontrun{
-build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
-}
+tmp <- fs::dir_create(fs::file_temp())
+result <- build_stratum("my_stratum_name", tmp)
+result
+fs::dir_delete(tmp)
 }
