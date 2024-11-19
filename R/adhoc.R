@@ -4,8 +4,8 @@
 #' laminae and the code therein contained as specified by `stratum_path`
 #' with or without log messages.
 #'
+#' @inheritParams main
 #' @param stratum_path Path to stratum
-#' @param silent Suppress log output
 #'
 #' @return invisible data frame of execution plan
 #' @export
@@ -41,8 +41,8 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #' therein contained as specified by `lamina_path`
 #' with or without log messages.
 #'
+#' @inheritParams main
 #' @param lamina_path Path to lamina
-#' @param silent Suppress log output
 #'
 #' @return invisible data frame of execution plan
 #' @export
