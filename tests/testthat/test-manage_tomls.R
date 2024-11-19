@@ -31,7 +31,7 @@ test_that("fixes order", {
       name = "test",
       order = c(1, 2, 3, 4, 5),
       skip_if_fail = c("FALSE", "FALSE", "FALSE", "FALSE", "FALSE"),
-      created = lubridate::today()
+      created = Sys.Date()
     )
 
   expect_equal(
@@ -43,7 +43,7 @@ test_that("fixes order", {
     type = "strata",
     name = "test",
     order = c(1, 2, 3, 4, 4),
-    created = lubridate::today()
+    created = Sys.Date()
   )
 
   expect_equal(

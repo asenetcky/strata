@@ -1,7 +1,7 @@
 # given a dataframe of an execution_plan, source each script in the order
 # specified in the plan, with or without logging as specified by the user
 run_execution_plan <- function(execution_plan, silent = FALSE) {
-  strata_start <- lubridate::now()
+  strata_start <- Sys.time()
 
   initial_stratum <- execution_plan[1, ]$stratum
   initial_lamina <- execution_plan[1, ]$lamina
@@ -41,7 +41,7 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
       }
     }
 
-    strata_end <- lubridate::now()
+    strata_end <- Sys.time()
     total_time <- log_total_time(strata_start, strata_end)
     log_message(
       paste("Strata finished - duration:", total_time, "seconds")

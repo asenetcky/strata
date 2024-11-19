@@ -20,7 +20,7 @@ log_message <- function(message, level = "INFO", out_or_err = "OUT") {
   # check for stdout or stderr
   checkmate::assert_choice(out_or_err, c("OUT", "ERR"))
   timestamp <-
-    lubridate::now() |>
+    Sys.time() |>
     as.character() |>
     stringr::str_trunc(width = 24, ellipsis = "")
 

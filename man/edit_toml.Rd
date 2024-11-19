@@ -64,9 +64,9 @@ original_toml_path <- survey_tomls(tmp)[[1]]
 original_toml <- view_toml(original_toml_path)
 original_toml
 new_toml <- original_toml |>
-dplyr::mutate(
-  created = lubridate::ymd("2021-01-01")
-)
+  dplyr::mutate(
+    created = as.Date("2021-01-01")
+  )
 new_toml_path <- edit_toml(original_toml_path, new_toml)
 view_toml(new_toml_path)
 fs::dir_delete(tmp)

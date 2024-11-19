@@ -7,7 +7,7 @@ initial_stratum_toml <- function(path, name, order) {
   readr::write_lines(
     paste0(
       "[strata]\n",
-      name, " = { created = ", lubridate::today(),
+      name, " = { created = ", Sys.Date(),
       ", order = ", order,
       " }"
     ),
