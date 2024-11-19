@@ -1,6 +1,6 @@
 #' Find all toml files in a project
 #'
-#' @param project_path Path to the project
+#' @inheritParams main
 #'
 #' @return an fs_path of all toml files
 #' @export
