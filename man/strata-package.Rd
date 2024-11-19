@@ -4,9 +4,9 @@
 \name{strata-package}
 \alias{strata}
 \alias{strata-package}
-\title{strata: Simple Data Pipelines For Simple Automation}
+\title{strata: Simple Framework for Simple Automation}
 \description{
-Tools for a simple, human-focused pipeline framework for developers with only the most basic automation tool suite. The package is designed to get developers up and running quickly with the code they already have, and provide simple automation targets for use with tools like 'cron' or 'Task Scheduler'.
+Tools for building a framework for developers with access to only the most basic automation tool-suite. The package is designed to help developers organize their projects into a series of strata, and laminae with options for logging, execution order, and error handling. Developers can use the code they already have, and get up and running quickly. There is only one automation target - main.R created in the project root directory. This allows a strata-based project to play nicely, and more easily with packages like 'cronR' or 'taskscheduleR'. Configuration is handled by .toml files, that can be tracked with source control and easily edited with the strata package, or by hand with a user's text editor of choice.
 }
 \seealso{
 Useful links:
