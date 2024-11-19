@@ -1,3 +1,8 @@
+# strata 0.7.1
+
+- styled with `styler` package
+- added github action workflow: 'style'
+
 # strata 0.7.0
 
 - added `build_quick_strata_project` 
