@@ -25,7 +25,6 @@ Imports:
     fs (>= 1.6.4),
     glue (>= 1.8.0),
     lifecycle (>= 1.0.0),
-    lubridate (>= 1.9.3),
     purrr (>= 1.0.2),
     readr (>= 2.0.0),
     rlang (>= 1.1.4),

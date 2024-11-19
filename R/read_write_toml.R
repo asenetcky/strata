@@ -118,7 +118,7 @@ read_toml <- function(toml_path) {
 
       var_list <-
         tibble::lst(
-          created = lubridate::as_date(created),
+          created = as.Date(created),
           order = as.integer(order)
         )
 

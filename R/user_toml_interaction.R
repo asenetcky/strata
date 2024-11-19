@@ -82,7 +82,7 @@ view_toml <- function(toml_path) {
 #' original_toml
 #' new_toml <- original_toml |>
 #'   dplyr::mutate(
-#'     created = lubridate::ymd("2021-01-01")
+#'     created = as.Date("2021-01-01")
 #'   )
 #' new_toml_path <- edit_toml(original_toml_path, new_toml)
 #' view_toml(new_toml_path)
