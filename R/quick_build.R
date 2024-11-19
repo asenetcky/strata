@@ -1,6 +1,6 @@
 #' Quickly build strata project with minimal input and standard names
 #'
-#' @param project_path Path to the project folder
+#' @inheritParams main
 #' @param num_strata Number of strata to create
 #' @param num_laminae_per Number of laminae to create per stratum
 #'
@@ -26,7 +26,7 @@ build_quick_strata_project <- function(project_path,
     .x = seq_along(1:num_strata),
     \(outer_index) {
       stratum_path <- build_stratum(
-        path = project_path,
+        project_path = project_path,
         stratum_name = paste0("stratum_", outer_index),
         order = outer_index
       )
@@ -161,7 +161,7 @@ build_outline_row <- function(outline_row) {
   if (!stratum_exist) {
     build_stratum(
       stratum_name = outline_row$stratum_name,
-      path = outline_row$project_path,
+      project_path = outline_row$project_path,
       order = outline_row$stratum_order
     )
   }
