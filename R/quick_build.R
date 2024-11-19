@@ -14,10 +14,9 @@
 build_quick_strata_project <- function(project_path,
                                        num_strata = 1,
                                        num_laminae_per = 1) {
-
-  #create project_path if it doesn't exist
+  # create project_path if it doesn't exist
   fs::dir_create(
-      project_path,
+    project_path,
     recurse = TRUE
   )
 
@@ -71,15 +70,15 @@ build_quick_strata_project <- function(project_path,
 #'
 #' @examples
 #' outline <- tibble::tibble(
-#'  project_path = fs::dir_create(fs::file_temp()),
-#'  stratum_name = "test",
-#'  stratum_order = 1,
-#'  lamina_name = "test",
-#'  lamina_order = 1,
-#'  skip_if_fail = FALSE
-#'  )
-#'  result <- build_outlined_strata_project(outline)
-#'  dplyr::glimpse(result)
+#'   project_path = fs::dir_create(fs::file_temp()),
+#'   stratum_name = "test",
+#'   stratum_order = 1,
+#'   lamina_name = "test",
+#'   lamina_order = 1,
+#'   skip_if_fail = FALSE
+#' )
+#' result <- build_outlined_strata_project(outline)
+#' dplyr::glimpse(result)
 build_outlined_strata_project <- function(outline) {
   project_path <- NULL
   outline <- check_outline(outline)
@@ -88,7 +87,7 @@ build_outlined_strata_project <- function(outline) {
   purrr::walk(
     .x = seq_len(nrow(outline)),
     \(row_index) {
-      build_outline_row(outline[row_index,])
+      build_outline_row(outline[row_index, ])
     }
   )
 
@@ -104,7 +103,6 @@ build_outlined_strata_project <- function(outline) {
 }
 
 check_outline <- function(outline) {
-
   # need to be a data frame
   checkmate::assert_data_frame(
     outline,
@@ -150,8 +148,7 @@ check_unique <- function(x) {
 
 
 build_outline_row <- function(outline_row) {
-
-  #check if stratum exists and handle it
+  # check if stratum exists and handle it
   stratum_path <-
     fs::path(
       outline_row$project_path,

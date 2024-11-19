@@ -18,13 +18,13 @@ Build a strata project from an outline
 }
 \examples{
 outline <- tibble::tibble(
- project_path = fs::dir_create(fs::file_temp()),
- stratum_name = "test",
- stratum_order = 1,
- lamina_name = "test",
- lamina_order = 1,
- skip_if_fail = FALSE
- )
- result <- build_outlined_strata_project(outline)
- dplyr::glimpse(result)
+  project_path = fs::dir_create(fs::file_temp()),
+  stratum_name = "test",
+  stratum_order = 1,
+  lamina_name = "test",
+  lamina_order = 1,
+  skip_if_fail = FALSE
+)
+result <- build_outlined_strata_project(outline)
+dplyr::glimpse(result)
 }

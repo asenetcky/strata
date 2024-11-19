@@ -71,5 +71,4 @@ test_that("main returns ane xecution plan", {
   execution_plan <- main(tmp)
 
   expect_true(checkmate::check_data_frame(execution_plan))
-
 })

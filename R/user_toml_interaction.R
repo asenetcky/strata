@@ -9,8 +9,8 @@
 #' \dontrun{
 #' find_tomls("PATH/TO/PROJECT/FOLDER/")
 #' }
-survey_tomls <-  function(project_path) {
-  #since this is a wrapper i'll likely add more user-facing functionality
+survey_tomls <- function(project_path) {
+  # since this is a wrapper i'll likely add more user-facing functionality
   find_tomls(project_path)
 }
 
@@ -26,7 +26,7 @@ survey_tomls <-  function(project_path) {
 #' view_toml("PATH/TO/TOML/FILE.toml")
 #' }
 view_toml <- function(toml_path) {
-  #since this is a wrapper i'll likely add more user-facing functionality
+  # since this is a wrapper i'll likely add more user-facing functionality
   snapshot_toml(fs::path(toml_path))
 }
 
@@ -56,7 +56,7 @@ check_toml_dataframe <- function(toml_dataframe) {
     c("type", "name", "order", "skip_if_fail", "created")
 
   toml_type <- unique(toml_dataframe$type)
-  if (toml_type == "strata")  {
+  if (toml_type == "strata") {
     expected_columns <- c("type", "name", "order", "created")
   }
 
@@ -77,12 +77,12 @@ check_toml_dataframe <- function(toml_dataframe) {
     expected_columns[!expected_columns %in% names(toml_dataframe)]
 
   if (length(missing_names) > 0) {
-      stop(
-        paste(
-          "The following columns are missing:",
-          paste(missing_names, collapse = ", ")
-        )
+    stop(
+      paste(
+        "The following columns are missing:",
+        paste(missing_names, collapse = ", ")
       )
+    )
   }
 
   toml_dataframe <-

@@ -1,4 +1,3 @@
-
 #' Survey the layout and execution order of your project
 #'
 #' @param project_path path to your project folder
@@ -11,7 +10,7 @@
 #' survey_strata("PATH/TO/PROJECT/FOLDER/")
 #' }
 survey_strata <- function(project_path) {
-  stratum <- lamina <- path <- order <- script <-  created <- NULL
+  stratum <- lamina <- path <- order <- script <- created <- NULL
   skip_if_fail <- execution_order <- script_path <- stratum_name <- NULL
 
   project_path <- fs::path(project_path)
@@ -33,5 +32,3 @@ survey_strata <- function(project_path) {
       .before = stratum_name
     )
 }
-
-

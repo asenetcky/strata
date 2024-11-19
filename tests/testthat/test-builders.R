@@ -72,7 +72,7 @@ test_that("build_stratum creates the initial toml", {
     stratum_name = "first_stratum",
     order = 1
   )
-  expect_true(fs::file_exists(fs::path(tmp, "strata",".strata.toml")))
+  expect_true(fs::file_exists(fs::path(tmp, "strata", ".strata.toml")))
   expect_equal(
     snapshot_toml(fs::path(tmp, "strata", ".strata.toml"))$name,
     "first_stratum"
@@ -121,5 +121,5 @@ test_that("build_lamina creates the initial toml", {
 
 test_that("clean name replaces non-alphanumerics, caps and spaces", {
   expect_equal(clean_name("Hello, World!"), "hello__world_")
-  expect_equal(clean_name( " H!ellO Wor^ld"), "h_ello_wor_ld")
+  expect_equal(clean_name(" H!ellO Wor^ld"), "h_ello_wor_ld")
 })

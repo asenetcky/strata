@@ -34,7 +34,7 @@ test_that("execution plan is as expected", {
     tibble::tibble(
       stratum = c("first_stratum", "first_stratum"),
       lamina = c("first_lamina", "second_lamina"),
-      order = c(1,2),
+      order = c(1, 2),
       skip_if_fail = c(FALSE, FALSE),
       created = lubridate::today(),
       script = c("my_code1", "my_code2"),

@@ -51,7 +51,6 @@ test_that("adhoc_stratum works", {
   expect_error(adhoc_stratum(stratum2_path))
   expect_error(main(tmp))
   expect_no_error(adhoc_stratum(stratum_path))
-
 })
 
 test_that("adhoc_lamina works", {
@@ -109,7 +108,6 @@ test_that("adhoc_lamina works", {
 
   expect_no_error(adhoc_lamina(fs::path(stratum_path, "first_lamina")))
   expect_no_error(adhoc_lamina(fs::path(stratum_path, "second_lamina")))
-
 })
 
 test_that("skip if fail works", {
@@ -156,7 +154,7 @@ test_that("skip if fail works", {
   )
 
 
-  #verify it captures the message AFTER the error
+  # verify it captures the message AFTER the error
   expect_contains(source(fs::path(tmp, "main.R")), "This code should run")
 })
 

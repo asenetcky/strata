@@ -99,7 +99,6 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
 #' build_lamina("my_lamina_name", "PATH/TO/STRATUM/FOLDER/")
 #' }
 build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
-
   # grab the strata structure
   lamina_name <- clean_name(lamina_name)
   stratum_path <- fs::path(stratum_path)

@@ -11,7 +11,6 @@
 #' main("/PATH/TO/PROJECT/FOLDER")
 #' }
 main <- function(project_path, silent = FALSE) {
-
   project_path <- fs::path(project_path)
 
   execution_plan <-
@@ -21,4 +20,3 @@ main <- function(project_path, silent = FALSE) {
 
   invisible(execution_plan)
 }
-

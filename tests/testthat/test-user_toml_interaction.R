@@ -25,7 +25,6 @@ test_that("survey_tomls finds all the tomls", {
     as.character(survey_tomls(path)),
     c(toml_path, fs::path(stratum_path, ".laminae.toml")) |> as.character()
   )
-
 })
 
 test_that("view_toml returns a dataframe", {
@@ -78,11 +77,12 @@ test_that("edit_toml works on lamina toml", {
   build_lamina(
     stratum_path = path,
     lamina_name = "test",
-    order = 1)
+    order = 1
+  )
 
   lamina_toml <-
     fs::path(
-     path,
+      path,
       ".laminae.toml"
     )
 
