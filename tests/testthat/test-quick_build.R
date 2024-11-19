@@ -149,14 +149,54 @@ test_that("build_outlined_strata_project creates expected tomls", {
 })
 
 test_that("build_outlined_strata_project creates expected R files", {
-  expect_equal(2 * 2, 4)
+  tmp <- fs::dir_create(fs::file_temp())
+  outline <-
+    dplyr::tibble(
+      project_path = tmp,
+      stratum_name = c("stratum1", "stratum2", "stratum3"),
+      stratum_order = c(1:3),
+      lamina_name = c("lam1", "lam2", "lam3"),
+      lamina_order = c(1:3),
+      skip_if_fail = FALSE
+    )
+
+  result <- strata::build_outlined_strata_project(outline)
+  files_exist <-
+    fs::file_exists(result$script_path) |>
+    all()
+  expect_true(files_exist)
 })
 
 test_that("sourcing an outlined build produces no errors", {
-  expect_equal(2 * 2, 4)
+  tmp <- fs::dir_create(fs::file_temp())
+  outline <-
+    dplyr::tibble(
+      project_path = tmp,
+      stratum_name = c("stratum1", "stratum2", "stratum3"),
+      stratum_order = c(1:3),
+      lamina_name = c("lam1", "lam2", "lam3"),
+      lamina_order = c(1:3),
+      skip_if_fail = FALSE
+    )
+
+  result <- strata::build_outlined_strata_project(outline)
+
+  expect_no_error(source(fs::path(tmp, "main.R")))
 })
 
 test_that("outlined build returns a strata survey", {
-  expect_equal(2 * 2, 4)
+  tmp <- fs::dir_create(fs::file_temp())
+  outline <-
+    dplyr::tibble(
+      project_path = tmp,
+      stratum_name = c("stratum1", "stratum2", "stratum3"),
+      stratum_order = c(1:3),
+      lamina_name = c("lam1", "lam2", "lam3"),
+      lamina_order = c(1:3),
+      skip_if_fail = FALSE
+    )
+
+  result <- strata::build_outlined_strata_project(outline)
+  expect_no_error(survey_tomls(tmp))
 })
 
