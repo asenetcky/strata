@@ -1,7 +1,7 @@
 test_that("stratum built", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
-    path = tmp,
+    project_path = tmp,
     stratum_name = "first_stratum",
     order = 1
   )
@@ -11,7 +11,7 @@ test_that("stratum built", {
 test_that("lamina built", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
-    path = tmp,
+    project_path = tmp,
     stratum_name = "first_stratum",
     order = 1
   )
@@ -31,7 +31,7 @@ test_that("lamina built", {
 test_that("main built and runs", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
-    path = tmp,
+    project_path = tmp,
     stratum_name = "first_stratum",
     order = 1
   )
@@ -68,7 +68,7 @@ test_that("main built and runs", {
 test_that("build_stratum creates the initial toml", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
-    path = tmp,
+    project_path = tmp,
     stratum_name = "first_stratum",
     order = 1
   )
@@ -91,7 +91,7 @@ test_that("build_stratum creates the initial toml", {
 test_that("build_lamina creates the initial toml", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
-    path = tmp,
+    project_path = tmp,
     stratum_name = "first_stratum",
     order = 1
   )
