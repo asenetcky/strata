@@ -32,6 +32,14 @@ designed to get out of the users' way and play nice with packages like
 
 ## Installation
 
+To install the latest CRAN release, just run:
+
+```{r eval=FALSE}
+install.packages("strata")
+
+```
+
+
 You can install the development version of strata from [GitHub](https://github.com/) with:
 
 ``` r

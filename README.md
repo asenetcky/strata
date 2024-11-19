@@ -28,7 +28,7 @@ You can install the development version of strata from
 
 ``` r
 # install.packages("pak")
-pak::pak("asenetcky/strata")
+pak::pak("strata")
 ```
 
 ## Getting Started Using `strata`
@@ -73,12 +73,12 @@ library(strata)
 
 tmp <- fs::dir_create(fs::file_temp())
 strata::build_stratum(
-  path = tmp, 
-  stratum_name = "first_stratum", 
+  path = tmp,
+  stratum_name = "first_stratum",
   order = 1
-  )
+)
 
-stratum_path <-  
+stratum_path <-
   fs::path(
     tmp, "strata", "first_stratum"
   )
@@ -86,12 +86,12 @@ strata::build_lamina(
   stratum_path = stratum_path,
   lamina_name = "first_lamina",
   order = 1
-  )
+)
 strata::build_lamina(
   stratum_path = stratum_path,
   lamina_name = "second_lamina",
   order = 2
-  )
+)
 
 lamina_path1 <- fs::path(stratum_path, "first_lamina")
 lamina_path2 <- fs::path(stratum_path, "second_lamina")
@@ -99,25 +99,22 @@ code_path1 <- fs::path(lamina_path1, "my_code1.R")
 code_path2 <- fs::path(lamina_path2, "my_code2.R")
 
 
-my_code1 <- fs::file_create(code_path1)  
-my_code2 <- fs::file_create(code_path2)  
+my_code1 <- fs::file_create(code_path1)
+my_code2 <- fs::file_create(code_path2)
 cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
-source(fs::path(tmp,"main.R"))
-#> [2024-11-18 20:05:28.2429] INFO: Strata started 
-#> [2024-11-18 20:05:28.2432] INFO: Stratum: first_stratum initialized 
-#> [2024-11-18 20:05:28.2434] INFO: Lamina: first_lamina initialized 
-#> [2024-11-18 20:05:28.2437] INFO: Executing: my_code1 
+source(fs::path(tmp, "main.R"))
+#> [2024-11-19 11:51:19.2850] INFO: Strata started 
+#> [2024-11-19 11:51:19.2853] INFO: Stratum: first_stratum initialized 
+#> [2024-11-19 11:51:19.2855] INFO: Lamina: first_lamina initialized 
+#> [2024-11-19 11:51:19.2858] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-11-18 20:05:28.2441] INFO: Lamina: first_lamina finished 
-#> [2024-11-18 20:05:28.2443] INFO: Lamina: second_lamina initialized 
-#> [2024-11-18 20:05:28.2445] INFO: Executing: my_code2 
+#> [2024-11-19 11:51:19.2863] INFO: Lamina: first_lamina finished 
+#> [2024-11-19 11:51:19.2866] INFO: Lamina: second_lamina initialized 
+#> [2024-11-19 11:51:19.2868] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-11-18 20:05:28.2453] INFO: Strata finished - duration: 0.0025 seconds
-```
-
-``` r
+#> [2024-11-19 11:51:19.2876] INFO: Strata finished - duration: 0.0028 seconds
 fs::dir_delete(tmp)
 ```
 
@@ -125,7 +122,6 @@ Users can also opt to use quick build functions if speed is the priority
 and the naming conventions are not important.
 
 ``` r
-
 tmp <- fs::dir_create(fs::file_temp())
 
 strata::build_quick_strata_project(
@@ -135,7 +131,7 @@ strata::build_quick_strata_project(
 )
 
 fs::dir_tree(tmp)
-#> /tmp/RtmpYt2FzO/file120ff226c471e8
+#> /tmp/RtmpAkMTjU/file1edda69b5ada1
 #> ├── main.R
 #> └── strata
 #>     ├── stratum_1
