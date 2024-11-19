@@ -1,7 +1,7 @@
-#TODO change path to projet_path in build_stratum
-#TODO setup project path to be inherited by all the functions
-#TODO describe default values in params
-#TODO setup up order to be inheried, describe default value
+# TODO change path to projet_path in build_stratum
+# TODO setup project path to be inherited by all the functions
+# TODO describe default values in params
+# TODO setup up order to be inheried, describe default value
 
 #' Add a stratum to the project space
 #'

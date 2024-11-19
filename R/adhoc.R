@@ -51,7 +51,7 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #' tmp <- fs::dir_create(fs::file_temp())
 #' result <- strata::build_quick_strata_project(tmp, 1, 1)
 #' adhoc_lamina(
-#'  fs::path(tmp, "strata", "stratum_1", "s1_lamina_1"),
+#'   fs::path(tmp, "strata", "stratum_1", "s1_lamina_1"),
 #' )
 #' fs::dir_delete(tmp)
 #' @importFrom rlang .data
