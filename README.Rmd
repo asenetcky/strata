@@ -94,7 +94,7 @@ library(strata)
 
 tmp <- fs::dir_create(fs::file_temp())
 strata::build_stratum(
-  path = tmp,
+  project_path = tmp,
   stratum_name = "first_stratum",
   order = 1
 )
@@ -142,5 +142,6 @@ strata::build_quick_strata_project(
 )
 
 fs::dir_tree(tmp)
+fs::dir_delete(tmp)
 ```
 
