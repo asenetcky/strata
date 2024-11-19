@@ -38,13 +38,15 @@ folder
 These files are created by the \code{strata} functions and are used to determine
 primarily the order of execution for the strata and laminae.  Anything not
 referenced by a .toml will be ignored by \code{main()} and other functions such as
-\code{\link[=survey_strata]{survey_strata()}}, \link{adhoc_stratum}, and \link{adhoc_lamina}. Users can safely add
+\code{\link[=survey_strata]{survey_strata()}}, \code{\link[=adhoc_stratum]{adhoc_stratum()}}, and \code{\link[=adhoc_lamina]{adhoc_lamina()}}. Users can safely add
 other folders and files in the project root, and even within the subfolders
 and they will be ignored, unless users have code known by a \code{.toml} that
 references them.
 
-Users can use the functions \link{survey_tomls} and \link{view_toml} to find and view
+Users can use the functions \code{\link[=survey_tomls]{survey_tomls()}} and [view_toml())] to find and view
 the \code{.toml} files in their project.
+
+[view_toml())]: R:view_toml())
 }
 
 \examples{

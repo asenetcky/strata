@@ -10,13 +10,15 @@ view_toml(toml_path)
 \item{toml_path}{Path to the toml file}
 }
 \value{
-a dataframe of the toml file contents
+a dataframe of the toml file contents.
 }
 \description{
 View the contents of a toml file as a dataframe
 }
 \examples{
-\dontrun{
-view_toml("PATH/TO/TOML/FILE.toml")
-}
+tmp <- fs::dir_create(fs::file_temp())
+strata::build_quick_strata_project(tmp, 2, 3)
+proj_tomls <- survey_tomls(tmp)
+purrr::map(proj_tomls, view_toml)
+fs::dir_delete(tmp)
 }

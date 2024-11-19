@@ -10,13 +10,14 @@ survey_tomls(project_path)
 \item{project_path}{A path to strata project folder.}
 }
 \value{
-an fs_path of all toml files
+an fs_path object of all toml files.
 }
 \description{
 Find all toml files in a project
 }
 \examples{
-\dontrun{
-find_tomls("PATH/TO/PROJECT/FOLDER/")
-}
+tmp <- fs::dir_create(fs::file_temp())
+strata::build_quick_strata_project(tmp, 2, 3)
+survey_tomls(tmp)
+fs::dir_delete(tmp)
 }
