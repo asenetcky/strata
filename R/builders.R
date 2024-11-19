@@ -1,4 +1,9 @@
-#' Add a stratum skeleton to your project space
+#TODO change path to projet_path in build_stratum
+#TODO setup project path to be inherited by all the functions
+#TODO describe default values in params
+#TODO setup up order to be inheried, describe default value
+
+#' Add a stratum to the project space
 #'
 #' @param stratum_name Name of your stratum
 #' @param path A path to where you want to drop your stratum
@@ -84,7 +89,7 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
 }
 
 
-#' Add a lamina skeleton to your project space
+#' Add a lamina to the project space
 #'
 #' @param lamina_name Name of your Lamina
 #' @param stratum_path Path to the parent stratum
