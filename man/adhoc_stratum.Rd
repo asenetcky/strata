@@ -13,7 +13,7 @@ adhoc_stratum(stratum_path, silent = FALSE)
 will be printed to the console. If \code{TRUE}, log messages will be suppressed.}
 }
 \value{
-invisible data frame of execution plan
+invisible data frame of execution plan.
 }
 \description{
 \code{adhoc_stratum()} will execute \emph{only} the stratum, its child

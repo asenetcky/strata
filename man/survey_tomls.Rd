@@ -7,7 +7,7 @@
 survey_tomls(project_path)
 }
 \arguments{
-\item{project_path}{A path to strata project folder}
+\item{project_path}{A path to strata project folder.}
 }
 \value{
 an fs_path of all toml files

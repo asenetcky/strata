@@ -7,20 +7,27 @@
 build_quick_strata_project(project_path, num_strata = 1, num_laminae_per = 1)
 }
 \arguments{
-\item{project_path}{A path to strata project folder}
+\item{project_path}{A path to strata project folder.}
 
-\item{num_strata}{Number of strata to create}
+\item{num_strata}{Number of strata to create.}
 
-\item{num_laminae_per}{Number of laminae to create per stratum}
+\item{num_laminae_per}{Number of laminae to create per stratum.}
 }
 \value{
-invisible dataframe of the survey of the strata project
+invisible dataframe of the survey of the strata project.
 }
 \description{
-Quickly build strata project with minimal input and standard names
+\code{build_quick_strata_project} will create a project with the specified
+number of strata - \code{num_strata}, with the specified number of laminae
+\itemize{
+\item \code{num_laminae_per} per stratum. The strata and laminae will be named
+\code{stratum_1}, \code{stratum_2}, etc. and \code{s1_lamina_1}, \code{s1_lamina_2}, etc.
+}
 }
 \examples{
 tmp <- fs::dir_create(fs::file_temp())
 result <- build_quick_strata_project(tmp, 2, 2)
 dplyr::glimpse(result)
+main(tmp)
+fs::dir_delete(tmp)
 }

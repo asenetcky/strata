@@ -9,7 +9,7 @@ build_stratum(stratum_name, project_path, order = 1)
 \arguments{
 \item{stratum_name}{Name of stratum}
 
-\item{project_path}{A path to strata project folder}
+\item{project_path}{A path to strata project folder.}
 
 \item{order}{Execution order, default is \code{1}}
 }
