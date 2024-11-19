@@ -12,7 +12,7 @@
 #' }
 #' @importFrom rlang .data
 adhoc_stratum <- function(stratum_path, silent = FALSE) {
-  stratum_name <-  fs::path_file(stratum_path)
+  stratum_name <- fs::path_file(stratum_path)
   project_path <-
     fs::path_dir(
       fs::path_dir(stratum_path)
@@ -42,7 +42,7 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #' }
 #' @importFrom rlang .data
 adhoc_lamina <- function(lamina_path, silent = FALSE) {
-  lamina_name <-  fs::path_file(lamina_path)
+  lamina_name <- fs::path_file(lamina_path)
   project_path <-
     purrr::reduce(
       1:3,

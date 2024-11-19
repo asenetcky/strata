@@ -82,7 +82,6 @@ test_that("find_tomls finds all the tomls", {
     as.character(find_tomls(path)),
     c(toml_path, fs::path(stratum_path, ".laminae.toml")) |> as.character()
   )
-
 })
 
 test_that("write, read and rewrite are identical", {

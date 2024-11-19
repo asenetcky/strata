@@ -1,12 +1,12 @@
 # outline <-
-  # dplyr::tibble(
-  #   project_path = "~/repos/quick_build",
-  #   stratum_name = "stratum1",
-  #   stratum_order = 1,
-  #   lamina_name = "lam1",
-  #   lamina_order = 1,
-  #   skip_if_fail = FALSE
-  # )
+# dplyr::tibble(
+#   project_path = "~/repos/quick_build",
+#   stratum_name = "stratum1",
+#   stratum_order = 1,
+#   lamina_name = "lam1",
+#   lamina_order = 1,
+#   skip_if_fail = FALSE
+# )
 
 
 # outline <-
@@ -48,7 +48,6 @@ test_that("build_quick_strata_project creates expected folder structure", {
   expect_equal(result, expected_paths)
   expect_equal(result, what_was_created)
   expect_equal(expected_paths, what_was_created)
-
 })
 
 test_that("build_quick_strata_project creates expected tomls", {
@@ -97,7 +96,7 @@ test_that("build_outlined_strata_project creates expected folder structure", {
       skip_if_fail = FALSE
     )
 
-  #TODO script name is going to NA atm, need a better test
+  # TODO script name is going to NA atm, need a better test
   # and better code BUT stratum name is also NA, and that SHOULD
   # NOT be the case
   result <-
@@ -115,7 +114,8 @@ test_that("build_outlined_strata_project creates expected folder structure", {
 
   what_was_created <-
     fs::dir_ls(
-      fs::path(outline$project_path, "strata"), recurse = TRUE, glob = "*.R"
+      fs::path(outline$project_path, "strata"),
+      recurse = TRUE, glob = "*.R"
     ) |>
     as.character()
 
@@ -199,4 +199,3 @@ test_that("outlined build returns a strata survey", {
   result <- strata::build_outlined_strata_project(outline)
   expect_no_error(survey_tomls(tmp))
 })
-

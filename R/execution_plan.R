@@ -63,14 +63,13 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
         initial_lamina <- row_lamina
       }
 
-       if (row_scope$skip_if_fail) {
+      if (row_scope$skip_if_fail) {
         tryCatch(
           source(row_scope$path),
           error = function(e) {
             log_error(paste("Error in", row_scope$script, "skipping script"))
           }
         )
-
       } else {
         source(row_scope$path)
       }
@@ -78,14 +77,14 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
   }
 }
 
-#given a strata project return pertinent info on the project
-#and the order of execution
+# given a strata project return pertinent info on the project
+# and the order of execution
 build_execution_plan <- function(project_path) {
   path <- stratum <- lamina <- name <- type <- stratum_order <- NULL
   new_order <- skip_if_fail <- script <- created <- parent <- NULL
   script_name <- script_path <- NULL
 
-  #survey the strata
+  # survey the strata
   strata <-
     find_strata(
       fs::path(project_path)
@@ -130,7 +129,6 @@ build_execution_plan <- function(project_path) {
 # given project folder read the strata.toml and report back
 # based solely on toml content and not what's in the folder
 find_strata <- function(project_path) {
-
   name <- NULL
   good_paths <- FALSE
 
@@ -152,29 +150,27 @@ find_strata <- function(project_path) {
 
   found_strata <-
     snapshot_toml(strata_toml) |>
-      dplyr::mutate(
-        path = fs::path(project_path, "strata", name),
-        parent = parent_project
-      ) |>
-      dplyr::relocate(
-        "parent",
-        .before = "type"
-      )
+    dplyr::mutate(
+      path = fs::path(project_path, "strata", name),
+      parent = parent_project
+    ) |>
+    dplyr::relocate(
+      "parent",
+      .before = "type"
+    )
 
- good_paths <-
-   fs::dir_exists(found_strata$path) |>
-   all()
+  good_paths <-
+    fs::dir_exists(found_strata$path) |>
+    all()
 
- if (!good_paths) stop("Strata paths do not exist")
+  if (!good_paths) stop("Strata paths do not exist")
 
- found_strata
-
+  found_strata
 }
 
 # given stratum folder read the laminae.toml and report back
 find_laminae <- function(strata_path) {
-
-  lamina_path <- toml_paths <-  script_path <- name <- type <- NULL
+  lamina_path <- toml_paths <- script_path <- name <- type <- NULL
 
   good_laminae_paths <- FALSE
   good_script_paths <- FALSE
@@ -190,7 +186,7 @@ find_laminae <- function(strata_path) {
 
   laminae_toml <-
     dplyr::tibble(
-      toml_paths =  find_tomls(
+      toml_paths = find_tomls(
         fs::path(ledger$strata_path)
       ) |>
         fs::path_filter(regexp = "\\.laminae\\.toml$")
@@ -265,6 +261,6 @@ find_laminae <- function(strata_path) {
   if (!good_laminae_paths) stop("Laminae paths do not exist")
   if (!good_script_paths) stop("Script paths do not exist")
 
-  #TODO clean up order
+  # TODO clean up order
   found_laminae
 }
