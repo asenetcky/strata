@@ -23,12 +23,18 @@ designed to get out of the users’ way and play nice with packages like
 
 ## Installation
 
+To install the latest CRAN release, just run:
+
+``` r
+install.packages("strata")
+```
+
 You can install the development version of strata from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
-pak::pak("strata")
+pak::pak("asenetcky/strata")
 ```
 
 ## Getting Started Using `strata`
@@ -73,7 +79,7 @@ library(strata)
 
 tmp <- fs::dir_create(fs::file_temp())
 strata::build_stratum(
-  path = tmp,
+  project_path = tmp,
   stratum_name = "first_stratum",
   order = 1
 )
@@ -105,16 +111,16 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp, "main.R"))
-#> [2024-11-19 11:51:19.2850] INFO: Strata started 
-#> [2024-11-19 11:51:19.2853] INFO: Stratum: first_stratum initialized 
-#> [2024-11-19 11:51:19.2855] INFO: Lamina: first_lamina initialized 
-#> [2024-11-19 11:51:19.2858] INFO: Executing: my_code1 
+#> [2024-11-19 13:26:07.2781] INFO: Strata started 
+#> [2024-11-19 13:26:07.2785] INFO: Stratum: first_stratum initialized 
+#> [2024-11-19 13:26:07.2787] INFO: Lamina: first_lamina initialized 
+#> [2024-11-19 13:26:07.2790] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-11-19 11:51:19.2863] INFO: Lamina: first_lamina finished 
-#> [2024-11-19 11:51:19.2866] INFO: Lamina: second_lamina initialized 
-#> [2024-11-19 11:51:19.2868] INFO: Executing: my_code2 
+#> [2024-11-19 13:26:07.2795] INFO: Lamina: first_lamina finished 
+#> [2024-11-19 13:26:07.2797] INFO: Lamina: second_lamina initialized 
+#> [2024-11-19 13:26:07.2799] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-11-19 11:51:19.2876] INFO: Strata finished - duration: 0.0028 seconds
+#> [2024-11-19 13:26:07.2807] INFO: Strata finished - duration: 0.0028 seconds
 fs::dir_delete(tmp)
 ```
 
@@ -131,7 +137,7 @@ strata::build_quick_strata_project(
 )
 
 fs::dir_tree(tmp)
-#> /tmp/RtmpAkMTjU/file1edda69b5ada1
+#> /tmp/Rtmp5E3GPs/file22e3552586a20
 #> ├── main.R
 #> └── strata
 #>     ├── stratum_1
@@ -149,4 +155,5 @@ fs::dir_tree(tmp)
 #>         │   └── my_code.R
 #>         └── s3_lamina_2
 #>             └── my_code.R
+fs::dir_delete(tmp)
 ```

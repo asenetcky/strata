@@ -15,7 +15,6 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
       row_stratum <- row_scope$stratum
       row_lamina <- row_scope$lamina
 
-
       if (row_stratum != initial_stratum) {
         log_message(paste("Stratum:", initial_stratum, "finished"))
         log_message(paste("Stratum:", row_stratum, "initialized"))
@@ -41,7 +40,6 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
         source(row_scope$path)
       }
     }
-
 
     strata_end <- lubridate::now()
     total_time <- log_total_time(strata_start, strata_end)
@@ -261,6 +259,5 @@ find_laminae <- function(strata_path) {
   if (!good_laminae_paths) stop("Laminae paths do not exist")
   if (!good_script_paths) stop("Script paths do not exist")
 
-  # TODO clean up order
   found_laminae
 }

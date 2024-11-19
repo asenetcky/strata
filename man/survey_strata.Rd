@@ -7,16 +7,29 @@
 survey_strata(project_path)
 }
 \arguments{
-\item{project_path}{path to your project folder}
+\item{project_path}{A path to strata project folder.}
 }
 \value{
-data frame of the layout of your project based on the .tomls
+dataframe housing the layout of your project based on the .tomls.
 }
 \description{
-Survey the layout and execution order of your project
+\code{survey_strata()} will examine the .tomls in \code{project_path} provided and
+return a dataframe with the following information about the project:
+\itemize{
+\item \code{stratum_name}: the name of the stratum
+\item \code{lamina_name}: the name of the lamina
+\item \code{execution_order}: the order in which the stratum-lamina-code combination
+will be executed
+\item \code{script_name}: the name of the script to be executed
+\item \code{script_path}: the path to the script
+}
+
+This is based on the contents of the .toml files, everything else is
+"invisible" inside the strata project.
 }
 \examples{
-\dontrun{
-survey_strata("PATH/TO/PROJECT/FOLDER/")
-}
+tmp <- fs::dir_create(fs::file_temp())
+build_quick_strata_project(tmp, 2, 2)
+survey_strata(tmp)
+fs::dir_delete(tmp)
 }

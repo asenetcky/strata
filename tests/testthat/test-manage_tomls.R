@@ -60,7 +60,7 @@ test_that("find_tomls finds all the tomls", {
   fs::dir_create(path)
 
   stratum_path <-
-    build_stratum(path = path, stratum_name = "test", order = 1)
+    build_stratum(project_path = path, stratum_name = "test", order = 1)
 
   toml_path <- fs::path(
     fs::path_dir(stratum_path),

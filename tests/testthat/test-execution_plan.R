@@ -1,7 +1,7 @@
 test_that("execution plan is as expected", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
-    path = tmp,
+    project_path = tmp,
     stratum_name = "first_stratum",
     order = 1
   )

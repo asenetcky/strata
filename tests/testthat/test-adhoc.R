@@ -1,7 +1,7 @@
 test_that("adhoc_stratum works", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
-    path = tmp,
+    project_path = tmp,
     stratum_name = "first_stratum",
     order = 1
   )
@@ -31,7 +31,7 @@ test_that("adhoc_stratum works", {
 
   stratum2_path <-
     strata::build_stratum(
-      path = tmp,
+      project_path = tmp,
       stratum_name = "bad_stratum",
       order = 2
     )
@@ -56,7 +56,7 @@ test_that("adhoc_stratum works", {
 test_that("adhoc_lamina works", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
-    path = tmp,
+    project_path = tmp,
     stratum_name = "first_stratum",
     order = 1
   )
@@ -86,7 +86,7 @@ test_that("adhoc_lamina works", {
 
   stratum2_path <-
     strata::build_stratum(
-      path = tmp,
+      project_path = tmp,
       stratum_name = "bad_stratum",
       order = 2
     )
@@ -116,7 +116,7 @@ test_that("skip if fail works", {
   # Build the stratum and capture path
   stratum_path <-
     strata::build_stratum(
-      path = tmp,
+      project_path = tmp,
       stratum_name = "first_stratum",
       order = 1
     )
@@ -164,7 +164,7 @@ test_that("skip_if_fail= FALSE halts execution", {
   # Build the stratum and capture path
   stratum_path <-
     strata::build_stratum(
-      path = tmp,
+      project_path = tmp,
       stratum_name = "first_stratum",
       order = 1
     )

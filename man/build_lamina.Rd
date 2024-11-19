@@ -2,27 +2,29 @@
 % Please edit documentation in R/builders.R
 \name{build_lamina}
 \alias{build_lamina}
-\title{Add a lamina skeleton to your project space}
+\title{Add a lamina to the project space}
 \usage{
 build_lamina(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE)
 }
 \arguments{
-\item{lamina_name}{Name of your Lamina}
+\item{lamina_name}{Name of lamina}
 
-\item{stratum_path}{Path to the parent stratum}
+\item{stratum_path}{Path to stratum folder}
 
-\item{order}{Execution order inside of stratum}
+\item{order}{Execution order, default is \code{1}}
 
-\item{skip_if_fail}{Skip this lamina if it fails}
+\item{skip_if_fail}{Skip this lamina if it fails, default is \code{FALSE}}
 }
 \value{
 invisibly returns fs::path to lamina
 }
 \description{
-Add a lamina skeleton to your project space
+Add a lamina to the project space
 }
 \examples{
-\dontrun{
-build_lamina("my_lamina_name", "PATH/TO/STRATUM/FOLDER/")
-}
+tmp <- fs::dir_create(fs::file_temp())
+result_stratum_path <- build_stratum("my_stratum_name", tmp)
+result_lamina_path <- build_lamina("my_lamina_name", result_stratum_path)
+result_lamina_path
+fs::dir_delete(tmp)
 }

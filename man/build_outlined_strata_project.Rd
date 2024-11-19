@@ -2,29 +2,57 @@
 % Please edit documentation in R/quick_build.R
 \name{build_outlined_strata_project}
 \alias{build_outlined_strata_project}
-\title{Build a strata project from an outline}
+\title{Build a strata project from an outline dataframe}
 \usage{
 build_outlined_strata_project(outline)
 }
 \arguments{
 \item{outline}{A data frame with the following columns: project_path,
-stratum_name, stratum_order, lamina_name, lamina_order, skip_if_fail}
+stratum_name, stratum_order, lamina_name, lamina_order, skip_if_fail.}
 }
 \value{
-invisible dataframe of the survey of the strata project
+invisible dataframe of the survey of the strata project.
 }
 \description{
-Build a strata project from an outline
+Users with a specific idea in mind already can map out the intended project
+structure in an outline dataframe and use \code{build_outlined_strata_project()}
+to build the project using the dataframe as a blueprint.
 }
+\section{Outline}{
+
+
+The outline dataframe should have the following columns:
+\itemize{
+\item \code{project_path}: The path to the project.
+\item \code{stratum_name}: The name of the stratum.
+\item \code{stratum_order}: The order of the stratum.
+\item \code{lamina_name}: The name of the lamina.
+\item \code{lamina_order}: The order of the lamina within the stratum.
+\item \code{skip_if_fail}: A logical indicating if the lamina should be skipped if
+it fails.
+}
+
+Each row of the outline dataframe represents a stratum and lamina combination
+to be created in the project.  A Placeholder R script will be created in each
+lamina directory to help remind the user to replace it with their own code.
+
+There can only be those 6 columns, and there can be no missing values in the
+dataframe.  The \code{stratum_name} and \code{stratum_order} columns must contain
+unique values.
+}
+
 \examples{
+tmp <- fs::dir_create(fs::file_temp())
 outline <- tibble::tibble(
-  project_path = fs::dir_create(fs::file_temp()),
-  stratum_name = "test",
-  stratum_order = 1,
-  lamina_name = "test",
-  lamina_order = 1,
+  project_path = tmp,
+  stratum_name = c("test1", "test2"),
+  stratum_order = c(1, 2),
+  lamina_name = c("lamina1", "lamina1"),
+  lamina_order = c(1, 2),
   skip_if_fail = FALSE
 )
 result <- build_outlined_strata_project(outline)
 dplyr::glimpse(result)
+main(tmp)
+fs::dir_delete(tmp)
 }

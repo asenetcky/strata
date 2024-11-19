@@ -2,25 +2,26 @@
 % Please edit documentation in R/builders.R
 \name{build_stratum}
 \alias{build_stratum}
-\title{Add a stratum skeleton to your project space}
+\title{Add a stratum to the project space}
 \usage{
-build_stratum(stratum_name, path = ".", order = 1)
+build_stratum(stratum_name, project_path, order = 1)
 }
 \arguments{
-\item{stratum_name}{Name of your stratum}
+\item{stratum_name}{Name of stratum}
 
-\item{path}{A path to where you want to drop your stratum}
+\item{project_path}{A path to strata project folder.}
 
-\item{order}{The order of the stratum}
+\item{order}{Execution order, default is \code{1}}
 }
 \value{
 invisibly returns fs::path to stratum
 }
 \description{
-Add a stratum skeleton to your project space
+Add a stratum to the project space
 }
 \examples{
-\dontrun{
-build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
-}
+tmp <- fs::dir_create(fs::file_temp())
+result <- build_stratum("my_stratum_name", tmp)
+result
+fs::dir_delete(tmp)
 }

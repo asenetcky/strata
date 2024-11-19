@@ -2,23 +2,29 @@
 % Please edit documentation in R/adhoc.R
 \name{adhoc_lamina}
 \alias{adhoc_lamina}
-\title{Run a lamina adhoc by itself}
+\title{Execute a single lamina ad hoc}
 \usage{
 adhoc_lamina(lamina_path, silent = FALSE)
 }
 \arguments{
-\item{lamina_path}{Path to lamina}
+\item{lamina_path}{Path to lamina.}
 
-\item{silent}{Suppress log output}
+\item{silent}{Suppress log messages? If \code{FALSE} (the default), log messages
+will be printed to the console. If \code{TRUE}, log messages will be suppressed.}
 }
 \value{
-invisible data frame of execution plan
+invisible data frame of execution plan.
 }
 \description{
-Run a lamina adhoc by itself
+\code{adhoc_lamina()} will execute \emph{only} the lamina and the code
+therein contained as specified by \code{lamina_path}
+with or without log messages.
 }
 \examples{
-\dontrun{
-adhoc_lamina("PATH/TO/LAMINA/FOLDER/")
-}
+tmp <- fs::dir_create(fs::file_temp())
+result <- strata::build_quick_strata_project(tmp, 1, 1)
+adhoc_lamina(
+  fs::path(tmp, "strata", "stratum_1", "s1_lamina_1"),
+)
+fs::dir_delete(tmp)
 }

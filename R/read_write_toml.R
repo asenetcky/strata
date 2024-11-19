@@ -1,8 +1,9 @@
+# given a dataframe of toml content and a toml path, write the toml content to
+# the toml path
 write_toml_lines <- function(toml_content, toml_path) {
   toml_path <- fs::path(toml_path)
   toml_type <- base::unique(toml_content$type)
 
-  # TODO make cleaner
   names <-
     toml_content |>
     dplyr::select(dplyr::any_of("name"))
@@ -66,7 +67,8 @@ write_toml_lines <- function(toml_content, toml_path) {
 
 
 
-# TODO clean up this mess - attempt in plan_rework - but not happy with that
+# given a toml path, read the lines of the toml file and return a list of
+# the contents
 read_toml <- function(toml_path) {
   toml_path <- fs::path(toml_path)
 
