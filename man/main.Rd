@@ -25,6 +25,28 @@ This script houses \code{main()}, and this file is the entry point to the projec
 and should be the target for automation. However, \code{main()} can be called
 from anywhere, and users can opt to not use \code{main.R} at all.
 }
+\section{.toml files}{
+
+
+There are two types of \code{.toml} files that \code{main()} will read:
+\itemize{
+\item \code{.strata.toml} - a singular file inside the \verb{<project_path>/strata} folder
+\item \code{.laminae.toml} - a file inside each \verb{<project_path>/strata/<stratum_name>}
+folder
+}
+
+These files are created by the \code{strata} functions and are used to determine
+primarily the order of execution for the strata and laminae.  Anything not
+referenced by a .toml will be ignored by \code{main()} and other functions such as
+\code{\link[=survey_strata]{survey_strata()}}, \link{adhoc_stratum}, and \link{adhoc_lamina}. Users can safely add
+other folders and files in the project root, and even within the subfolders
+and they will be ignored, unless users have code known by a \code{.toml} that
+references them.
+
+Users can use the functions \link{survey_tomls} and \link{view_toml} to find and view
+the \code{.toml} files in their project.
+}
+
 \examples{
 tmp <- fs::dir_create(fs::file_temp())
 result <- strata::build_quick_strata_project(tmp, 1, 1)
