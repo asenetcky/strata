@@ -46,9 +46,9 @@ tmp <- fs::dir_create(fs::file_temp())
 outline <- tibble::tibble(
   project_path = tmp,
   stratum_name = c("test1", "test2"),
-  stratum_order = c(1,2),
+  stratum_order = c(1, 2),
   lamina_name = c("lamina1", "lamina1"),
-  lamina_order = c(1,2),
+  lamina_order = c(1, 2),
   skip_if_fail = FALSE
 )
 result <- build_outlined_strata_project(outline)

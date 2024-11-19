@@ -1,7 +1,7 @@
 #' Survey the layout and execution order of your project
 #'
 #' @description
-#' `survey_strata()` will examine the `project_path` provided and
+#' `survey_strata()` will examine the .tomls in `project_path` provided and
 #' return a dataframe with the following information about the project:
 #'
 #' * `stratum_name`: the name of the stratum
@@ -11,15 +11,19 @@
 #' * `script_name`: the name of the script to be executed
 #' * `script_path`: the path to the script
 #'
+#' This is based on the contents of the .toml files, everything else is
+#' "invisible" inside the strata project.
+#'
 #' @inheritParams main
 #'
-#' @return dataframe housing the layout of your project based on the .tomls
+#' @return dataframe housing the layout of your project based on the .tomls.
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' survey_strata("PATH/TO/PROJECT/FOLDER/")
-#' }
+#' tmp <- fs::dir_create(fs::file_temp())
+#' build_quick_strata_project(tmp, 2, 2)
+#' survey_strata(tmp)
+#' fs::dir_delete(tmp)
 survey_strata <- function(project_path) {
   stratum <- lamina <- path <- order <- script <- created <- NULL
   skip_if_fail <- execution_order <- script_path <- stratum_name <- NULL

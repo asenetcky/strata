@@ -10,10 +10,10 @@ survey_strata(project_path)
 \item{project_path}{A path to strata project folder.}
 }
 \value{
-dataframe housing the layout of your project based on the .tomls
+dataframe housing the layout of your project based on the .tomls.
 }
 \description{
-\code{survey_strata()} will examine the \code{project_path} provided and
+\code{survey_strata()} will examine the .tomls in \code{project_path} provided and
 return a dataframe with the following information about the project:
 \itemize{
 \item \code{stratum_name}: the name of the stratum
@@ -23,9 +23,13 @@ will be executed
 \item \code{script_name}: the name of the script to be executed
 \item \code{script_path}: the path to the script
 }
+
+This is based on the contents of the .toml files, everything else is
+"invisible" inside the strata project.
 }
 \examples{
-\dontrun{
-survey_strata("PATH/TO/PROJECT/FOLDER/")
-}
+tmp <- fs::dir_create(fs::file_temp())
+build_quick_strata_project(tmp, 2, 2)
+survey_strata(tmp)
+fs::dir_delete(tmp)
 }
