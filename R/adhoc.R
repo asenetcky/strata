@@ -5,7 +5,7 @@
 #' with or without log messages.
 #'
 #' @inheritParams main
-#' @param stratum_path Path to stratum
+#' @inheritParams build_lamina
 #'
 #' @return invisible data frame of execution plan
 #' @export
@@ -42,6 +42,7 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #' with or without log messages.
 #'
 #' @inheritParams main
+#' @inheritParams build_lamina
 #' @param lamina_path Path to lamina
 #'
 #' @return invisible data frame of execution plan

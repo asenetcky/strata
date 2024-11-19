@@ -93,7 +93,7 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
 #'
 #' @inheritParams build_stratum
 #' @param lamina_name Name of your Lamina
-#' @param stratum_path Path to the parent stratum
+#' @param stratum_path Path to stratum folder
 #' @param skip_if_fail Skip this lamina if it fails, default is `FALSE`
 #'
 #' @return invisibly returns fs::path to lamina
@@ -166,7 +166,7 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
     rewrite_from_dataframe(sorted_toml, laminae_toml)
   }
 
-  base::invisible(new_lamina_path)
+  invisible(new_lamina_path)
 }
 
 
