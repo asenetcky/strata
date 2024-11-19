@@ -7,7 +7,7 @@
 #' @inheritParams main
 #' @inheritParams build_lamina
 #'
-#' @return invisible data frame of execution plan
+#' @return invisible data frame of execution plan.
 #' @export
 #'
 #' @examples
@@ -43,9 +43,9 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #'
 #' @inheritParams main
 #' @inheritParams build_lamina
-#' @param lamina_path Path to lamina
+#' @param lamina_path Path to lamina.
 #'
-#' @return invisible data frame of execution plan
+#' @return invisible data frame of execution plan.
 #' @export
 #'
 #' @examples
