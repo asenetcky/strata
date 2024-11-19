@@ -1,7 +1,8 @@
 #' Entry point and automation target for your strata project
 #'
-#' @param project_path A path to automation project folder
-#' @param silent A logical flag to suppress logging output
+#' @param project_path A path to strata project folder
+#' @param silent Suppress log messages? If `FALSE` (the default), log messages
+#' will be printed to the console. If `TRUE`, log messages will be suppressed.
 #'
 #' @return invisible execution plan
 #' @export
