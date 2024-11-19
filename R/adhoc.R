@@ -1,4 +1,8 @@
-#' Run a stratum adhoc by itself
+#' Execute a single stratum ad hoc
+#'
+#' `adhoc_stratum()` will execute _only_ the stratum, its child
+#' laminae and the code therein contained as specified by `stratum_path`
+#' with or without log messages.
 #'
 #' @param stratum_path Path to stratum
 #' @param silent Suppress log output
@@ -12,6 +16,7 @@
 #' adhoc_stratum(
 #'   fs::path(tmp, "strata", "stratum_1"),
 #' )
+#' fs::dir_delete(tmp)
 #' @importFrom rlang .data
 adhoc_stratum <- function(stratum_path, silent = FALSE) {
   stratum_name <- fs::path_file(stratum_path)
@@ -30,7 +35,11 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
   invisible(execution_plan)
 }
 
-#' Run a lamina adhoc by itself
+#' Execute a single lamina ad hoc
+#'
+#' `adhoc_lamina()` will execute _only_ the lamina and the code
+#' therein contained as specified by `lamina_path`
+#' with or without log messages.
 #'
 #' @param lamina_path Path to lamina
 #' @param silent Suppress log output
@@ -39,9 +48,12 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' adhoc_lamina("PATH/TO/LAMINA/FOLDER/")
-#' }
+#' tmp <- fs::dir_create(fs::file_temp())
+#' result <- strata::build_quick_strata_project(tmp, 1, 1)
+#' adhoc_lamina(
+#'  fs::path(tmp, "strata", "stratum_1", "s1_lamina_1"),
+#' )
+#' fs::dir_delete(tmp)
 #' @importFrom rlang .data
 adhoc_lamina <- function(lamina_path, silent = FALSE) {
   lamina_name <- fs::path_file(lamina_path)
@@ -51,7 +63,6 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
       \(x, y) fs::path_dir(x),
       .init = lamina_path
     )
-
 
   execution_plan <-
     build_execution_plan(project_path) |>
