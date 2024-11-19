@@ -2,7 +2,7 @@
 % Please edit documentation in R/main.R
 \name{main}
 \alias{main}
-\title{Entry point and automation target for your strata project}
+\title{Execute entire strata project}
 \usage{
 main(project_path, silent = FALSE)
 }
@@ -16,10 +16,18 @@ will be printed to the console. If \code{TRUE}, log messages will be suppressed.
 invisible execution plan
 }
 \description{
-Entry point and automation target for your strata project
+\code{main()} will read the \code{.toml} files inside the \code{project_path} and begin
+sourcing the \code{strata} and \code{laminae} in the order specified by the user,
+with or without logging messages.
+
+When a strata project is created \code{main.R} is added to the project root.
+This script houses \code{main()}, and this file is the entry point to the project
+and should be the target for automation. However, \code{main()} can be called
+from anywhere, and users can opt to not use \code{main.R} at all.
 }
 \examples{
-\dontrun{
-main("/PATH/TO/PROJECT/FOLDER")
-}
+tmp <- fs::dir_create(fs::file_temp())
+result <- strata::build_quick_strata_project(tmp, 1, 1)
+main(tmp)
+fs::dir_delete(tmp)
 }
