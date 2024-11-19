@@ -2,7 +2,7 @@
 % Please edit documentation in R/builders.R
 \name{build_lamina}
 \alias{build_lamina}
-\title{Add a lamina skeleton to your project space}
+\title{Add a lamina to the project space}
 \usage{
 build_lamina(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE)
 }
@@ -19,7 +19,7 @@ build_lamina(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE)
 invisibly returns fs::path to lamina
 }
 \description{
-Add a lamina skeleton to your project space
+Add a lamina to the project space
 }
 \examples{
 \dontrun{

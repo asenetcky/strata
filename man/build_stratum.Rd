@@ -2,7 +2,7 @@
 % Please edit documentation in R/builders.R
 \name{build_stratum}
 \alias{build_stratum}
-\title{Add a stratum skeleton to your project space}
+\title{Add a stratum to the project space}
 \usage{
 build_stratum(stratum_name, path = ".", order = 1)
 }
@@ -17,7 +17,7 @@ build_stratum(stratum_name, path = ".", order = 1)
 invisibly returns fs::path to stratum
 }
 \description{
-Add a stratum skeleton to your project space
+Add a stratum to the project space
 }
 \examples{
 \dontrun{
