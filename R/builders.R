@@ -5,9 +5,9 @@
 
 #' Add a stratum to the project space
 #'
+#' @inheritParams main
 #' @param stratum_name Name of your stratum
-#' @param path A path to where you want to drop your stratum
-#' @param order The order of the stratum
+#' @param order Execution order, default is `1`
 #'
 #' @return invisibly returns fs::path to stratum
 #' @export
@@ -16,12 +16,12 @@
 #' \dontrun{
 #' build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
 #' }
-build_stratum <- function(stratum_name, path = ".", order = 1) {
+build_stratum <- function(stratum_name, project_path, order = 1) {
   # Clean file name
   stratum_name <- clean_name(stratum_name)
 
   # Create paths for project and stratum
-  project_folder <- fs::path(path)
+  project_folder <- fs::path(project_path)
   strata_folder <- fs::path(project_folder, "strata")
   target_stratum <- fs::path(strata_folder, stratum_name)
   strata_toml <- fs::path(strata_folder, ".strata.toml")
@@ -91,10 +91,10 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
 
 #' Add a lamina to the project space
 #'
+#' @inheritParams build_stratum
 #' @param lamina_name Name of your Lamina
 #' @param stratum_path Path to the parent stratum
-#' @param order Execution order inside of stratum
-#' @param skip_if_fail Skip this lamina if it fails
+#' @param skip_if_fail Skip this lamina if it fails, default is `FALSE`
 #'
 #' @return invisibly returns fs::path to lamina
 #' @export
