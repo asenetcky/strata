@@ -1,19 +1,8 @@
-test_that("clean name replaces non-alphanumerics, caps and spaces", {
-  expect_equal(clean_name("Hello, World!"), "hello__world_")
-  expect_equal(clean_name( " H!ellO Wor^ld"), "h_ello_wor_ld")
-})
-
-test_that("check_stratum works", {
-  path <- fs::file_temp()
-  fs::dir_create(path)
-  expect_true(check_stratum(path))
-})
-
 test_that("survey_strata returns a dataframe", {
   project_path <- fs::file_temp()
   fs::dir_create(project_path)
 
-  stratum_path <-build_stratum(
+  stratum_path <- build_stratum(
     path = project_path,
     stratum_name = "first_stratum",
     order = 1

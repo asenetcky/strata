@@ -52,20 +52,7 @@ test_that("fixes order", {
   )
 })
 
-test_that("write, read and rewrite are identical", {
-  path <- fs::file_temp()
-  fs::dir_create(path)
-  toml_path <-
-    initial_stratum_toml(path = path, name = "test", order = 1)
 
-  toml_snapshot <- snapshot_toml(toml_path)
-
-  rewrite_from_dataframe(toml_snapshot, toml_path)
-  expect_equal(
-    snapshot_toml(toml_path),
-    toml_snapshot
-  )
-})
 
 
 test_that("find_tomls finds all the tomls", {
@@ -96,4 +83,19 @@ test_that("find_tomls finds all the tomls", {
     c(toml_path, fs::path(stratum_path, ".laminae.toml")) |> as.character()
   )
 
+})
+
+test_that("write, read and rewrite are identical", {
+  path <- fs::file_temp()
+  fs::dir_create(path)
+  toml_path <-
+    initial_stratum_toml(path = path, name = "test", order = 1)
+
+  toml_snapshot <- snapshot_toml(toml_path)
+
+  rewrite_from_dataframe(toml_snapshot, toml_path)
+  expect_equal(
+    snapshot_toml(toml_path),
+    toml_snapshot
+  )
 })

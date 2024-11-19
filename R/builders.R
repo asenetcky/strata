@@ -104,7 +104,7 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
   lamina_name <- clean_name(lamina_name)
   stratum_path <- fs::path(stratum_path)
 
-  checkmate::assert_true(check_stratum(stratum_path))
+  checkmate::assert_true(fs::dir_exists(stratum_path))
 
   laminae_path <- stratum_path
   laminae_toml <- fs::path(laminae_path, ".laminae.toml")
@@ -178,4 +178,12 @@ build_main <- function(project_path) {
       append = TRUE
     )
   }
+}
+
+clean_name <- function(name) {
+  name |>
+    stringr::str_trim() |>
+    stringr::str_to_lower() |>
+    stringr::str_replace_all("[^[:alnum:]]|\\s", "_") |>
+    fs::path_sanitize()
 }

@@ -1,5 +1,4 @@
-# this needs way more cleanup but will work for now
-
+#given a target path, stratum name and order setup a blank slate strata toml
 initial_stratum_toml <- function(path, name, order) {
   path <- fs::path(path)
   toml_file <- fs::path(path, ".strata.toml")
@@ -17,6 +16,7 @@ initial_stratum_toml <- function(path, name, order) {
   base::invisible(toml_file)
 }
 
+#given a target path setup a blank slate laminae toml
 initial_lamina_toml <- function(path) {
   path <- fs::path(path)
   toml_file <- fs::path(path, ".laminae.toml")
@@ -29,6 +29,8 @@ initial_lamina_toml <- function(path) {
   base::invisible(toml_file)
 }
 
+# given a path to a toml, read and parse the content of the toml and return
+# the results as a tibble
 snapshot_toml <- function(toml_path) {
   toml_path <- fs::path(toml_path)
   toml <- read_toml(toml_path)
@@ -49,6 +51,7 @@ snapshot_toml <- function(toml_path) {
     dplyr::select(dplyr::any_of(vars))
 }
 
+#given a toml snapshot dataframe,
 #' @importFrom rlang .data
 manage_toml_order <- function(toml_snapshot) {
   duplicate_orders <-
@@ -93,6 +96,7 @@ manage_toml_order <- function(toml_snapshot) {
     dplyr::mutate(order = dplyr::row_number())
 }
 
+#given a toml path create a copy of that toml with a .bak extension
 backup_toml <- function(toml_path) {
   file_root <- fs::path_dir(toml_path)
   file_name <-
@@ -112,74 +116,8 @@ backup_toml <- function(toml_path) {
   )
 }
 
-
-write_toml_lines <- function(toml_content, toml_path) {
-  toml_path <- fs::path(toml_path)
-  toml_type <- base::unique(toml_content$type)
-
-  # TODO make cleaner
-  names <-
-    toml_content |>
-    dplyr::select(dplyr::any_of("name"))
-  orders <-
-    toml_content |>
-    dplyr::select(dplyr::any_of("order"))
-  skip_if_fails <-
-    toml_content |>
-    dplyr::select(dplyr::any_of("skip_if_fail"))
-  created <-
-    toml_content |>
-    dplyr::select(dplyr::any_of("created"))
-
-  header <- paste0("[", toml_type, "]\n")
-
-  if (purrr::is_empty(skip_if_fails)) {
-    skip_if_fails_text <-
-      dplyr::tibble(
-        skip_if_fail = rep("", base::nrow(toml_content))
-      )
-  } else {
-    skip_if_fails_text <-
-      dplyr::tibble(
-        skip_if_fail =
-          paste0(", skip_if_fail = ", skip_if_fails$skip_if_fail)
-      )
-  }
-
-  lines <-
-    purrr::pmap(
-      list(names, orders, skip_if_fails_text, created),
-      \(name, order, skip_if_fail, created) {
-        paste0(
-          name, " = { created = ", created,
-          ", order = ", order,
-          skip_if_fail,
-          " }\n"
-        )
-      }
-    )
-
-  fs::file_create(toml_path)
-
-  cat(
-    header,
-    file = toml_path,
-    append = TRUE
-  )
-
-  lines$name |>
-    purrr::map(
-      \(line) {
-        cat(
-          line,
-          file = toml_path,
-          append = TRUE
-        )
-      }
-    )
-}
-
-
+#given a toml snapshot dataframe and a toml path, write a .toml file
+# to that path with the contents of the dataframe
 rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   toml_path <- fs::path(toml_path)
 
@@ -200,81 +138,13 @@ rewrite_from_dataframe <- function(toml_snapshot, toml_path) {
   invisible(toml_path)
 }
 
-# TODO clean up this mess - attempt in plan_rework - but not happy with that
-read_toml <- function(toml_path) {
-  toml_path <- fs::path(toml_path)
-
-  toml_lines <- readr::read_lines(toml_path)
-  toml_type <-
-    toml_lines[1] |>
-    stringr::str_remove_all("\\[|\\]")
-
-
-  toml_length <- length(toml_lines)
-
-  toml_list <-
-    tibble::lst(
-      !!toml_type := tibble::lst()
-    )
-
-
-  if (toml_length > 1) {
-    created <- order <- skip_if_fail <- NULL
-    for (i in 2:toml_length) {
-      line <- toml_lines[i]
-
-      name <-
-        stringr::word(line)
-
-      vars <-
-        line |>
-        stringr::str_remove_all(
-          pattern = paste0(name, " = \\{|\\}")
-        ) |>
-        stringr::str_trim() |>
-        stringr::str_split_1(", ") |>
-        purrr::map(
-          \(x) {
-            x |>
-              stringr::str_split_1(" = ") |>
-              purrr::set_names(c("key", "value"))
-          }
-        )
-
-
-      for (i in 1:length(vars)) {
-        assign(
-          vars[[i]][["key"]], vars[[i]][["value"]],
-        )
-      }
-
-      var_list <-
-        tibble::lst(
-          created = lubridate::as_date(created),
-          order = as.integer(order)
-        )
-
-
-      if (toml_type == "laminae") {
-        var_list <-
-          c(var_list, tibble::lst(skip_if_fail = as.logical(skip_if_fail)))
-      }
-
-      row_vars <- tibble::lst(!!name := var_list)
-      toml_list[[1]] <- c(toml_list[[1]], row_vars)
-    }
-  }
-
-  toml_list
-}
-
-
+# given a project path, find and list all the toml files in that project
 find_tomls <- function(project_path) {
   project_path |>
     fs::path() |>
     fs::dir_ls(
       recurse = TRUE,
       all = TRUE,
-      glob = "*.toml"
+      regexp = "\\.laminae\\.toml$|\\.strata\\.toml$"
     )
 }

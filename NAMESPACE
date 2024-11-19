@@ -3,6 +3,8 @@
 export(adhoc_lamina)
 export(adhoc_stratum)
 export(build_lamina)
+export(build_outlined_strata_project)
+export(build_quick_strata_project)
 export(build_stratum)
 export(edit_toml)
 export(log_error)

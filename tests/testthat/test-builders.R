@@ -118,3 +118,8 @@ test_that("build_lamina creates the initial toml", {
     "laminae"
   )
 })
+
+test_that("clean name replaces non-alphanumerics, caps and spaces", {
+  expect_equal(clean_name("Hello, World!"), "hello__world_")
+  expect_equal(clean_name( " H!ellO Wor^ld"), "h_ello_wor_ld")
+})
