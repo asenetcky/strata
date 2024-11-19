@@ -9,7 +9,8 @@ adhoc_stratum(stratum_path, silent = FALSE)
 \arguments{
 \item{stratum_path}{Path to stratum}
 
-\item{silent}{Suppress log output}
+\item{silent}{Suppress log messages? If \code{FALSE} (the default), log messages
+will be printed to the console. If \code{TRUE}, log messages will be suppressed.}
 }
 \value{
 invisible data frame of execution plan
@@ -23,7 +24,7 @@ with or without log messages.
 tmp <- fs::dir_create(fs::file_temp())
 result <- strata::build_quick_strata_project(tmp, 1, 1)
 adhoc_stratum(
- fs::path(tmp, "strata", "stratum_1"),
+  fs::path(tmp, "strata", "stratum_1"),
 )
 fs::dir_delete(tmp)
 }

@@ -7,9 +7,10 @@
 main(project_path, silent = FALSE)
 }
 \arguments{
-\item{project_path}{A path to automation project folder}
+\item{project_path}{A path to strata project folder}
 
-\item{silent}{A logical flag to suppress logging output}
+\item{silent}{Suppress log messages? If \code{FALSE} (the default), log messages
+will be printed to the console. If \code{TRUE}, log messages will be suppressed.}
 }
 \value{
 invisible execution plan

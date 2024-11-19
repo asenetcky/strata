@@ -7,7 +7,7 @@
 build_quick_strata_project(project_path, num_strata = 1, num_laminae_per = 1)
 }
 \arguments{
-\item{project_path}{Path to the project folder}
+\item{project_path}{A path to strata project folder}
 
 \item{num_strata}{Number of strata to create}
 

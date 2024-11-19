@@ -4,14 +4,14 @@
 \alias{build_stratum}
 \title{Add a stratum to the project space}
 \usage{
-build_stratum(stratum_name, path = ".", order = 1)
+build_stratum(stratum_name, project_path, order = 1)
 }
 \arguments{
 \item{stratum_name}{Name of your stratum}
 
-\item{path}{A path to where you want to drop your stratum}
+\item{project_path}{A path to strata project folder}
 
-\item{order}{The order of the stratum}
+\item{order}{Execution order, default is \code{1}}
 }
 \value{
 invisibly returns fs::path to stratum

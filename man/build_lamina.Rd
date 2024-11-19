@@ -11,9 +11,9 @@ build_lamina(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE)
 
 \item{stratum_path}{Path to the parent stratum}
 
-\item{order}{Execution order inside of stratum}
+\item{order}{Execution order, default is \code{1}}
 
-\item{skip_if_fail}{Skip this lamina if it fails}
+\item{skip_if_fail}{Skip this lamina if it fails, default is \code{FALSE}}
 }
 \value{
 invisibly returns fs::path to lamina
