@@ -167,7 +167,7 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
   invisible(new_lamina_path)
 }
 
-
+# given a project path create the main.R file and add the strata::main call
 build_main <- function(project_path) {
   project_path <- fs::path(project_path)
   main_path <- fs::path(project_path, "main.R")
@@ -182,6 +182,7 @@ build_main <- function(project_path) {
   }
 }
 
+# given a string, clean it up for use
 clean_name <- function(name) {
   name |>
     stringr::str_trim() |>
