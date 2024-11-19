@@ -52,7 +52,7 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
     if (!stratum_name %in% current_strata) {
       cat(
         paste0(
-          stratum_name, " = { created = ", lubridate::today(),
+          stratum_name, " = { created = ", Sys.Date(),
           ", order = ", order,
           " }\n"
         ),
@@ -136,7 +136,7 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
   if (!lamina_name %in% current_laminae) {
     cat(
       paste0(
-        lamina_name, " = { created = ", lubridate::today(),
+        lamina_name, " = { created = ", Sys.Date(),
         ", order = ", order,
         ", skip_if_fail = ", stringr::str_to_lower(skip_if_fail),
         " }\n"

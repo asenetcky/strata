@@ -10,7 +10,7 @@ test_that("log_message and log_error to stderr", {
 
 
 test_that("log_total_time works", {
-  begin <- lubridate::now()
+  begin <- Sys.time()
   end <- begin + 100
   expect_equal(log_total_time(begin, end), 100)
 })
