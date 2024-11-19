@@ -20,12 +20,12 @@
 #' These files are created by the `strata` functions and are used to determine
 #' primarily the order of execution for the strata and laminae.  Anything not
 #' referenced by a .toml will be ignored by `main()` and other functions such as
-#' [survey_strata()], [adhoc_stratum], and [adhoc_lamina]. Users can safely add
+#' [survey_strata()], [adhoc_stratum()], and [adhoc_lamina()]. Users can safely add
 #' other folders and files in the project root, and even within the subfolders
 #' and they will be ignored, unless users have code known by a `.toml` that
 #' references them.
 #'
-#' Users can use the functions [survey_tomls] and [view_toml] to find and view
+#' Users can use the functions [survey_tomls()] and [view_toml())] to find and view
 #' the `.toml` files in their project.
 #'
 #' @param project_path A path to strata project folder.
