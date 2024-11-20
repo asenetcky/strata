@@ -1,3 +1,9 @@
+# strata 1.0.0
+
+- Enhanced documentation
+- Removed lubridate dependency
+- Changed `path` argument to `project_path` in `build_stratum`
+
 # strata 0.7.1
 
 - styled with `styler` package
