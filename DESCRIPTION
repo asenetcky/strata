@@ -2,7 +2,7 @@ Package: strata
 Title: Simple Framework for Simple Automation
 Version: 1.0.0
 Authors@R: 
-    person("Alexander", "Senetcky", , "asenetcky@gmail.com.com", 
+    person("Alexander", "Senetcky", , "asenetcky@gmail.com", 
            role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0009-0009-3730-5397"))
 Description: Tools for building a framework for developers with access to only 
