@@ -1,3 +1,7 @@
+# strata 1.0.1
+
+- trim description
+
 # strata 1.0.0
 
 - Enhanced documentation
