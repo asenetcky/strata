@@ -6,7 +6,7 @@
 \alias{strata-package}
 \title{strata: Simple Framework for Simple Automation}
 \description{
-Tools for building a framework for developers with access to only the most basic automation tool-suite. The package is designed to help developers organize their projects into a series of strata, and laminae with options for logging, execution order, and error handling. Developers can use the code they already have, and get up and running quickly. There is only one automation target - main.R created in the project root directory. This allows a strata-based project to play nicely, and more easily with packages like 'cronR' or 'taskscheduleR'. Configuration is handled by .toml files, that can be tracked with source control and easily edited with the strata package, or by hand with a user's text editor of choice.
+A tool suite for building project frameworks for users with access to only the most basic of automation tools.
 }
 \seealso{
 Useful links:
@@ -18,7 +18,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Alexander Senetcky \email{asenetcky@gmail.com.com} (\href{https://orcid.org/0009-0009-3730-5397}{ORCID}) [copyright holder]
+\strong{Maintainer}: Alexander Senetcky \email{asenetcky@gmail.com} (\href{https://orcid.org/0009-0009-3730-5397}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}
