@@ -23,6 +23,12 @@ designed to get out of the users’ way and play nice with packages like
 
 ## Installation
 
+To install the latest CRAN release, just run:
+
+``` r
+install.packages("strata")
+```
+
 You can install the development version of strata from
 [GitHub](https://github.com/) with:
 
@@ -73,12 +79,12 @@ library(strata)
 
 tmp <- fs::dir_create(fs::file_temp())
 strata::build_stratum(
-  path = tmp, 
-  stratum_name = "first_stratum", 
+  project_path = tmp,
+  stratum_name = "first_stratum",
   order = 1
-  )
+)
 
-stratum_path <-  
+stratum_path <-
   fs::path(
     tmp, "strata", "first_stratum"
   )
@@ -86,12 +92,12 @@ strata::build_lamina(
   stratum_path = stratum_path,
   lamina_name = "first_lamina",
   order = 1
-  )
+)
 strata::build_lamina(
   stratum_path = stratum_path,
   lamina_name = "second_lamina",
   order = 2
-  )
+)
 
 lamina_path1 <- fs::path(stratum_path, "first_lamina")
 lamina_path2 <- fs::path(stratum_path, "second_lamina")
@@ -99,25 +105,22 @@ code_path1 <- fs::path(lamina_path1, "my_code1.R")
 code_path2 <- fs::path(lamina_path2, "my_code2.R")
 
 
-my_code1 <- fs::file_create(code_path1)  
-my_code2 <- fs::file_create(code_path2)  
+my_code1 <- fs::file_create(code_path1)
+my_code2 <- fs::file_create(code_path2)
 cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
-source(fs::path(tmp,"main.R"))
-#> [2024-11-18 20:05:28.2429] INFO: Strata started 
-#> [2024-11-18 20:05:28.2432] INFO: Stratum: first_stratum initialized 
-#> [2024-11-18 20:05:28.2434] INFO: Lamina: first_lamina initialized 
-#> [2024-11-18 20:05:28.2437] INFO: Executing: my_code1 
+source(fs::path(tmp, "main.R"))
+#> [2024-11-19 13:26:07.2781] INFO: Strata started 
+#> [2024-11-19 13:26:07.2785] INFO: Stratum: first_stratum initialized 
+#> [2024-11-19 13:26:07.2787] INFO: Lamina: first_lamina initialized 
+#> [2024-11-19 13:26:07.2790] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-11-18 20:05:28.2441] INFO: Lamina: first_lamina finished 
-#> [2024-11-18 20:05:28.2443] INFO: Lamina: second_lamina initialized 
-#> [2024-11-18 20:05:28.2445] INFO: Executing: my_code2 
+#> [2024-11-19 13:26:07.2795] INFO: Lamina: first_lamina finished 
+#> [2024-11-19 13:26:07.2797] INFO: Lamina: second_lamina initialized 
+#> [2024-11-19 13:26:07.2799] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-11-18 20:05:28.2453] INFO: Strata finished - duration: 0.0025 seconds
-```
-
-``` r
+#> [2024-11-19 13:26:07.2807] INFO: Strata finished - duration: 0.0028 seconds
 fs::dir_delete(tmp)
 ```
 
@@ -125,7 +128,6 @@ Users can also opt to use quick build functions if speed is the priority
 and the naming conventions are not important.
 
 ``` r
-
 tmp <- fs::dir_create(fs::file_temp())
 
 strata::build_quick_strata_project(
@@ -135,7 +137,7 @@ strata::build_quick_strata_project(
 )
 
 fs::dir_tree(tmp)
-#> /tmp/RtmpYt2FzO/file120ff226c471e8
+#> /tmp/Rtmp5E3GPs/file22e3552586a20
 #> ├── main.R
 #> └── strata
 #>     ├── stratum_1
@@ -153,4 +155,5 @@ fs::dir_tree(tmp)
 #>         │   └── my_code.R
 #>         └── s3_lamina_2
 #>             └── my_code.R
+fs::dir_delete(tmp)
 ```

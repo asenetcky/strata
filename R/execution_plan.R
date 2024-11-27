@@ -1,7 +1,7 @@
 # given a dataframe of an execution_plan, source each script in the order
 # specified in the plan, with or without logging as specified by the user
 run_execution_plan <- function(execution_plan, silent = FALSE) {
-  strata_start <- lubridate::now()
+  strata_start <- Sys.time()
 
   initial_stratum <- execution_plan[1, ]$stratum
   initial_lamina <- execution_plan[1, ]$lamina
@@ -14,7 +14,6 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
       row_scope <- execution_plan[row, ]
       row_stratum <- row_scope$stratum
       row_lamina <- row_scope$lamina
-
 
       if (row_stratum != initial_stratum) {
         log_message(paste("Stratum:", initial_stratum, "finished"))
@@ -42,8 +41,7 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
       }
     }
 
-
-    strata_end <- lubridate::now()
+    strata_end <- Sys.time()
     total_time <- log_total_time(strata_start, strata_end)
     log_message(
       paste("Strata finished - duration:", total_time, "seconds")
@@ -261,6 +259,5 @@ find_laminae <- function(strata_path) {
   if (!good_laminae_paths) stop("Laminae paths do not exist")
   if (!good_script_paths) stop("Script paths do not exist")
 
-  # TODO clean up order
   found_laminae
 }

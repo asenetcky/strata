@@ -4,9 +4,9 @@
 \name{strata-package}
 \alias{strata}
 \alias{strata-package}
-\title{strata: Simple Data Pipelines For Simple Automation}
+\title{strata: Simple Framework for Simple Automation}
 \description{
-Tools for a simple, human-focused pipeline framework for developers with only the most basic automation tool suite. The package is designed to get developers up and running quickly with the code they already have, and provide simple automation targets for use with tools like 'cron' or 'Task Scheduler'.
+A tool suite for building project frameworks for users with access to only the most basic of automation tools.
 }
 \seealso{
 Useful links:
@@ -18,7 +18,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Alexander Senetcky \email{asenetcky@gmail.com.com} (\href{https://orcid.org/0009-0009-3730-5397}{ORCID}) [copyright holder]
+\strong{Maintainer}: Alexander Senetcky \email{asenetcky@gmail.com} (\href{https://orcid.org/0009-0009-3730-5397}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}

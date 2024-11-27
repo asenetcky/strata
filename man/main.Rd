@@ -2,23 +2,56 @@
 % Please edit documentation in R/main.R
 \name{main}
 \alias{main}
-\title{Entry point and automation target for your strata project}
+\title{Execute entire strata project}
 \usage{
 main(project_path, silent = FALSE)
 }
 \arguments{
-\item{project_path}{A path to automation project folder}
+\item{project_path}{A path to strata project folder.}
 
-\item{silent}{A logical flag to suppress logging output}
+\item{silent}{Suppress log messages? If \code{FALSE} (the default), log messages
+will be printed to the console. If \code{TRUE}, log messages will be suppressed.}
 }
 \value{
-invisible execution plan
+invisible execution plan.
 }
 \description{
-Entry point and automation target for your strata project
+\code{main()} will read the \code{.toml} files inside the \code{project_path} and begin
+sourcing the \code{strata} and \code{laminae} in the order specified by the user,
+with or without logging messages.
+
+When a strata project is created \code{main.R} is added to the project root.
+This script houses \code{main()}, and this file is the entry point to the project
+and should be the target for automation. However, \code{main()} can be called
+from anywhere, and users can opt to not use \code{main.R} at all.
 }
+\section{.toml files}{
+
+
+There are two types of \code{.toml} files that \code{main()} will read:
+\itemize{
+\item \code{.strata.toml} - a singular file inside the \verb{<project_path>/strata} folder
+\item \code{.laminae.toml} - a file inside each \verb{<project_path>/strata/<stratum_name>}
+folder
+}
+
+These files are created by the \code{strata} functions and are used to determine
+primarily the order of execution for the strata and laminae.  Anything not
+referenced by a .toml will be ignored by \code{main()} and other functions such as
+\code{\link[=survey_strata]{survey_strata()}}, \code{\link[=adhoc_stratum]{adhoc_stratum()}}, and \code{\link[=adhoc_lamina]{adhoc_lamina()}}. Users can safely add
+other folders and files in the project root, and even within the subfolders
+and they will be ignored, unless users have code known by a \code{.toml} that
+references them.
+
+Users can use the functions \code{\link[=survey_tomls]{survey_tomls()}} and [view_toml())] to find and view
+the \code{.toml} files in their project.
+
+[view_toml())]: R:view_toml())
+}
+
 \examples{
-\dontrun{
-main("/PATH/TO/PROJECT/FOLDER")
-}
+tmp <- fs::dir_create(fs::file_temp())
+result <- strata::build_quick_strata_project(tmp, 1, 1)
+main(tmp)
+fs::dir_delete(tmp)
 }

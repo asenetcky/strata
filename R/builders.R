@@ -1,22 +1,23 @@
-#' Add a stratum skeleton to your project space
+#' Add a stratum to the project space
 #'
-#' @param stratum_name Name of your stratum
-#' @param path A path to where you want to drop your stratum
-#' @param order The order of the stratum
+#' @inheritParams main
+#' @param stratum_name Name of stratum
+#' @param order Execution order, default is `1`
 #'
 #' @return invisibly returns fs::path to stratum
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' build_stratum("my_stratum_name", "PATH/TO/PROJECT/FOLDER/")
-#' }
-build_stratum <- function(stratum_name, path = ".", order = 1) {
+#' tmp <- fs::dir_create(fs::file_temp())
+#' result <- build_stratum("my_stratum_name", tmp)
+#' result
+#' fs::dir_delete(tmp)
+build_stratum <- function(stratum_name, project_path, order = 1) {
   # Clean file name
   stratum_name <- clean_name(stratum_name)
 
   # Create paths for project and stratum
-  project_folder <- fs::path(path)
+  project_folder <- fs::path(project_path)
   strata_folder <- fs::path(project_folder, "strata")
   target_stratum <- fs::path(strata_folder, stratum_name)
   strata_toml <- fs::path(strata_folder, ".strata.toml")
@@ -51,7 +52,7 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
     if (!stratum_name %in% current_strata) {
       cat(
         paste0(
-          stratum_name, " = { created = ", lubridate::today(),
+          stratum_name, " = { created = ", Sys.Date(),
           ", order = ", order,
           " }\n"
         ),
@@ -84,20 +85,22 @@ build_stratum <- function(stratum_name, path = ".", order = 1) {
 }
 
 
-#' Add a lamina skeleton to your project space
+#' Add a lamina to the project space
 #'
-#' @param lamina_name Name of your Lamina
-#' @param stratum_path Path to the parent stratum
-#' @param order Execution order inside of stratum
-#' @param skip_if_fail Skip this lamina if it fails
+#' @inheritParams build_stratum
+#' @param lamina_name Name of lamina
+#' @param stratum_path Path to stratum folder
+#' @param skip_if_fail Skip this lamina if it fails, default is `FALSE`
 #'
 #' @return invisibly returns fs::path to lamina
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' build_lamina("my_lamina_name", "PATH/TO/STRATUM/FOLDER/")
-#' }
+#' tmp <- fs::dir_create(fs::file_temp())
+#' result_stratum_path <- build_stratum("my_stratum_name", tmp)
+#' result_lamina_path <- build_lamina("my_lamina_name", result_stratum_path)
+#' result_lamina_path
+#' fs::dir_delete(tmp)
 build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
   # grab the strata structure
   lamina_name <- clean_name(lamina_name)
@@ -133,7 +136,7 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
   if (!lamina_name %in% current_laminae) {
     cat(
       paste0(
-        lamina_name, " = { created = ", lubridate::today(),
+        lamina_name, " = { created = ", Sys.Date(),
         ", order = ", order,
         ", skip_if_fail = ", stringr::str_to_lower(skip_if_fail),
         " }\n"
@@ -161,10 +164,10 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
     rewrite_from_dataframe(sorted_toml, laminae_toml)
   }
 
-  base::invisible(new_lamina_path)
+  invisible(new_lamina_path)
 }
 
-
+# given a project path create the main.R file and add the strata::main call
 build_main <- function(project_path) {
   project_path <- fs::path(project_path)
   main_path <- fs::path(project_path, "main.R")
@@ -179,6 +182,7 @@ build_main <- function(project_path) {
   }
 }
 
+# given a string, clean it up for use
 clean_name <- function(name) {
   name |>
     stringr::str_trim() |>

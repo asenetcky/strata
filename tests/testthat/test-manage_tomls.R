@@ -31,7 +31,7 @@ test_that("fixes order", {
       name = "test",
       order = c(1, 2, 3, 4, 5),
       skip_if_fail = c("FALSE", "FALSE", "FALSE", "FALSE", "FALSE"),
-      created = lubridate::today()
+      created = Sys.Date()
     )
 
   expect_equal(
@@ -43,7 +43,7 @@ test_that("fixes order", {
     type = "strata",
     name = "test",
     order = c(1, 2, 3, 4, 4),
-    created = lubridate::today()
+    created = Sys.Date()
   )
 
   expect_equal(
@@ -60,7 +60,7 @@ test_that("find_tomls finds all the tomls", {
   fs::dir_create(path)
 
   stratum_path <-
-    build_stratum(path = path, stratum_name = "test", order = 1)
+    build_stratum(project_path = path, stratum_name = "test", order = 1)
 
   toml_path <- fs::path(
     fs::path_dir(stratum_path),

@@ -1,26 +1,23 @@
 Package: strata
-Title: Simple Data Pipelines For Simple Automation
-Version: 0.7.1
+Title: Simple Framework for Simple Automation
+Version: 1.0.1
 Authors@R: 
-    person("Alexander", "Senetcky", , "asenetcky@gmail.com.com", role = c("aut", "cre", "cph"),
+    person("Alexander", "Senetcky", , "asenetcky@gmail.com", 
+           role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0009-0009-3730-5397"))
-Description: Tools for a simple, human-focused pipeline framework for
-    developers with only the most basic automation tool suite. The package
-    is designed to get developers up and running quickly with the code
-    they already have, and provide simple automation targets for use with
-    tools like 'cron' or 'Task Scheduler'.
+Description: A tool suite for building project frameworks for users with 
+    access to only the most basic of automation tools. 
 License: MIT + file LICENSE
 URL: https://github.com/asenetcky/strata, https://asenetcky.github.io/strata/
 BugReports: https://github.com/asenetcky/strata/issues
 Imports: 
     checkmate (>= 2.3.2),
-    dplyr (>= 1.1.4),
+    dplyr (>= 1.1.0),
     fs (>= 1.6.4),
-    glue,
-    lifecycle,
-    lubridate (>= 1.9.3),
+    glue (>= 1.8.0),
+    lifecycle (>= 1.0.0),
     purrr (>= 1.0.2),
-    readr,
+    readr (>= 2.0.0),
     rlang (>= 1.1.4),
     stringr (>= 1.5.1),
     tibble (>= 3.2.1)

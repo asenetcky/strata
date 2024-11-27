@@ -1,7 +1,7 @@
 test_that("execution plan is as expected", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
-    path = tmp,
+    project_path = tmp,
     stratum_name = "first_stratum",
     order = 1
   )
@@ -36,7 +36,7 @@ test_that("execution plan is as expected", {
       lamina = c("first_lamina", "second_lamina"),
       order = c(1, 2),
       skip_if_fail = c(FALSE, FALSE),
-      created = lubridate::today(),
+      created = Sys.Date(),
       script = c("my_code1", "my_code2"),
       path = c(first_lamina_code, second_lamina_code)
     )

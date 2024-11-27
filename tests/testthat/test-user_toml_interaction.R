@@ -3,7 +3,7 @@ test_that("survey_tomls finds all the tomls", {
   fs::dir_create(path)
 
   stratum_path <-
-    build_stratum(path = path, stratum_name = "test", order = 1)
+    build_stratum(project_path = path, stratum_name = "test", order = 1)
 
   toml_path <- fs::path(
     fs::path_dir(stratum_path),
@@ -115,7 +115,7 @@ test_that("check_toml_dataframe manages order", {
       type = "strata",
       name = "test",
       order = c(1, 2, 3, 4, 4),
-      created = lubridate::today()
+      created = Sys.Date()
     )
 
   expect_equal(
@@ -131,7 +131,7 @@ test_that("check_toml_dataframe drops bad columns", {
       name = "test",
       bad_column0 = "test",
       order = c(1, 2, 3, 4, 5),
-      created = lubridate::today(),
+      created = Sys.Date(),
       bad_column1 = "test",
       bad_column2 = "test",
       bad_column3 = "test"
@@ -142,7 +142,7 @@ test_that("check_toml_dataframe drops bad columns", {
       type = "strata",
       name = "test",
       order = c(1, 2, 3, 4, 5),
-      created = lubridate::today()
+      created = Sys.Date()
     )
 
   expect_equal(
@@ -168,7 +168,7 @@ test_that("check_toml_dataframe works with strata", {
       type = "strata",
       name = "test",
       order = c(1, 2, 3, 4, 5),
-      created = lubridate::today()
+      created = Sys.Date()
     )
 
   expected_toml_snapshot <- toml_snapshot
@@ -186,7 +186,7 @@ test_that("check_toml_dataframe works with laminae", {
       name = "test",
       order = c(1, 2, 3, 4, 5),
       skip_if_fail = FALSE,
-      created = lubridate::today()
+      created = Sys.Date()
     )
 
   expected_toml_snapshot <- toml_snapshot
@@ -203,7 +203,7 @@ test_that("check_toml_dataframe returns a dataframe", {
       type = "strata",
       name = "test",
       order = c(1, 2, 3, 4, 5),
-      created = lubridate::today()
+      created = Sys.Date()
     )
 
   expect_equal(

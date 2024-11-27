@@ -3,7 +3,7 @@ test_that("survey_strata returns a dataframe", {
   fs::dir_create(project_path)
 
   stratum_path <- build_stratum(
-    path = project_path,
+    project_path = project_path,
     stratum_name = "first_stratum",
     order = 1
   )

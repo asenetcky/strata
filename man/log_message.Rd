@@ -2,23 +2,28 @@
 % Please edit documentation in R/logging.R
 \name{log_message}
 \alias{log_message}
-\title{Send a standardized message to stdout or stderr}
+\title{Send a standardized log message to stdout or stderr}
 \usage{
 log_message(message, level = "INFO", out_or_err = "OUT")
 }
 \arguments{
-\item{message}{A string message to log}
+\item{message}{A string containing a message to log.}
 
-\item{level}{The level of the message (e.g. INFO, WARNING, ERROR)}
+\item{level}{The level of the message (e.g. INFO, WARNING, ERROR), defaults
+to "INFO" but will accept any string.}
 
-\item{out_or_err}{Whether to log to stdout or stderr}
+\item{out_or_err}{Send log output to stdout or stderr, choices are \code{"OUT"}
+or \code{"ERR"} and the defaults is \code{"OUT"}.}
 }
 \value{
-A message is printed to stdout or stderr
+A message printed to stdout or stderr.
 }
 \description{
-Send a standardized message to stdout or stderr
+\code{log_message()} does \emph{not} stop the execution of the script, regardless of
+the level of the message, and whether or not it prints to STDOUT or STDERR.
 }
 \examples{
 log_message("This is an info message", "INFO", "OUT")
+log_message("This is an error message", "ERROR", "ERR")
+log_message("This is a warning message", "WARNING", "OUT")
 }

@@ -2,23 +2,29 @@
 % Please edit documentation in R/adhoc.R
 \name{adhoc_stratum}
 \alias{adhoc_stratum}
-\title{Run a stratum adhoc by itself}
+\title{Execute a single stratum ad hoc}
 \usage{
 adhoc_stratum(stratum_path, silent = FALSE)
 }
 \arguments{
-\item{stratum_path}{Path to stratum}
+\item{stratum_path}{Path to stratum folder}
 
-\item{silent}{Suppress log output}
+\item{silent}{Suppress log messages? If \code{FALSE} (the default), log messages
+will be printed to the console. If \code{TRUE}, log messages will be suppressed.}
 }
 \value{
-invisible data frame of execution plan
+invisible data frame of execution plan.
 }
 \description{
-Run a stratum adhoc by itself
+\code{adhoc_stratum()} will execute \emph{only} the stratum, its child
+laminae and the code therein contained as specified by \code{stratum_path}
+with or without log messages.
 }
 \examples{
-\dontrun{
-adhoc_stratum("PATH/TO/STRATUM/FOLDER/")
-}
+tmp <- fs::dir_create(fs::file_temp())
+result <- strata::build_quick_strata_project(tmp, 1, 1)
+adhoc_stratum(
+  fs::path(tmp, "strata", "stratum_1"),
+)
+fs::dir_delete(tmp)
 }
