@@ -8,6 +8,8 @@
 [![R-CMD-check](https://github.com/asenetcky/strata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/asenetcky/strata/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/asenetcky/strata/graph/badge.svg)](https://app.codecov.io/gh/asenetcky/strata)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/strata)](https://CRAN.R-project.org/package=strata)
 <!-- badges: end -->
 
 The goal of strata is to provide a framework for workflow automation and
@@ -111,16 +113,16 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp, "main.R"))
-#> [2024-11-19 13:26:07.2781] INFO: Strata started 
-#> [2024-11-19 13:26:07.2785] INFO: Stratum: first_stratum initialized 
-#> [2024-11-19 13:26:07.2787] INFO: Lamina: first_lamina initialized 
-#> [2024-11-19 13:26:07.2790] INFO: Executing: my_code1 
+#> [2024-11-27 10:54:13.3895] INFO: Strata started 
+#> [2024-11-27 10:54:13.3901] INFO: Stratum: first_stratum initialized 
+#> [2024-11-27 10:54:13.3906] INFO: Lamina: first_lamina initialized 
+#> [2024-11-27 10:54:13.3912] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-11-19 13:26:07.2795] INFO: Lamina: first_lamina finished 
-#> [2024-11-19 13:26:07.2797] INFO: Lamina: second_lamina initialized 
-#> [2024-11-19 13:26:07.2799] INFO: Executing: my_code2 
+#> [2024-11-27 10:54:13.3923] INFO: Lamina: first_lamina finished 
+#> [2024-11-27 10:54:13.3926] INFO: Lamina: second_lamina initialized 
+#> [2024-11-27 10:54:13.3929] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-11-19 13:26:07.2807] INFO: Strata finished - duration: 0.0028 seconds
+#> [2024-11-27 10:54:13.3940] INFO: Strata finished - duration: 0.005 seconds
 fs::dir_delete(tmp)
 ```
 
@@ -137,7 +139,7 @@ strata::build_quick_strata_project(
 )
 
 fs::dir_tree(tmp)
-#> /tmp/Rtmp5E3GPs/file22e3552586a20
+#> /tmp/RtmpZa42UG/file1cb1670b361db
 #> ├── main.R
 #> └── strata
 #>     ├── stratum_1
