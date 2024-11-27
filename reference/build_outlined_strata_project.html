@@ -11,7 +11,7 @@ to build the project using the dataframe as a blueprint."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">strata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@ to build the project using the dataframe as a blueprint."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Build a strata project from an outline dataframe</h1>
-      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/v1.0.1/R/quick_build.R" class="external-link"><code>R/quick_build.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/main/R/quick_build.R" class="external-link"><code>R/quick_build.R</code></a></small>
       <div class="d-none name"><code>build_outlined_strata_project.Rd</code></div>
     </div>
 
@@ -93,7 +93,7 @@ unique values.</p>
 <span class="r-in"><span>  skip_if_fail <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">build_outlined_strata_project</span><span class="op">(</span><span class="va">outline</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.7672] INFO: Backed up /tmp/RtmpqRLdl3/file16711b7ffbce/strata/test2/.laminae.toml to /tmp/RtmpqRLdl3/file16711b7ffbce/strata/test2/.laminae.bak </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.6509] INFO: Backed up /tmp/RtmpFZHjwz/file168de512e56/strata/test2/.laminae.toml to /tmp/RtmpFZHjwz/file168de512e56/strata/test2/.laminae.bak </span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 7</span>
@@ -101,24 +101,24 @@ unique values.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ stratum_name    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "test1", "test1", "test2", "test2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ lamina_name     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "lamina1", "lamina1", "lamina1", "lamina1"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ script_name     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "my_code", "my_code", "my_code", "my_code"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ script_path     <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> "/tmp/RtmpqRLdl3/file16711b7ffbce/strata/test1/lamina1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ script_path     <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> "/tmp/RtmpFZHjwz/file168de512e56/strata/test1/lamina1/…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ skip_if_fail    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> FALSE, FALSE, FALSE, FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ created         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2024-11-27, 2024-11-27, 2024-11-27, 2024-11-27</span>
 <span class="r-in"><span><span class="fu"><a href="main.html">main</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9007] INFO: Strata started </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9012] INFO: Stratum: test1 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9015] INFO: Lamina: lamina1 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9019] INFO: Executing: my_code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7630] INFO: Strata started </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7633] INFO: Stratum: test1 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7636] INFO: Lamina: lamina1 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7640] INFO: Executing: my_code </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I am a placeholder, do not forget to replace me!"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9026] INFO: Executing: my_code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7646] INFO: Executing: my_code </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I am a placeholder, do not forget to replace me!"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9033] INFO: Stratum: test1 finished </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9036] INFO: Stratum: test2 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9038] INFO: Executing: my_code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7652] INFO: Stratum: test1 finished </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7655] INFO: Stratum: test2 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7658] INFO: Executing: my_code </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I am a placeholder, do not forget to replace me!"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9044] INFO: Executing: my_code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7663] INFO: Executing: my_code </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I am a placeholder, do not forget to replace me!"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:18:09.9051] INFO: Strata finished - duration: 0.0045 seconds </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:20:19.7668] INFO: Strata finished - duration: 0.004 seconds </span>
 <span class="r-in"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/delete.html" class="external-link">dir_delete</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>

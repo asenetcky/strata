@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">strata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>View the contents of a toml file as a dataframe</h1>
-      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/v1.0.1/R/user_toml_interaction.R" class="external-link"><code>R/user_toml_interaction.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/main/R/user_toml_interaction.R" class="external-link"><code>R/user_toml_interaction.R</code></a></small>
       <div class="d-none name"><code>view_toml.Rd</code></div>
     </div>
 
@@ -61,14 +61,14 @@
 <span class="r-in"><span><span class="fu">strata</span><span class="fu">::</span><span class="fu"><a href="build_quick_strata_project.html">build_quick_strata_project</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">proj_tomls</span> <span class="op">&lt;-</span> <span class="fu"><a href="survey_tomls.html">survey_tomls</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">proj_tomls</span>, <span class="va">view_toml</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $`/tmp/RtmpqRLdl3/file16714a5d9a90/strata/.strata.toml`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`/tmp/RtmpFZHjwz/file168d31b48f69/strata/.strata.toml`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   type   name      order created   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> strata stratum_1     1 2024-11-27</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> strata stratum_2     2 2024-11-27</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $`/tmp/RtmpqRLdl3/file16714a5d9a90/strata/stratum_1/.laminae.toml`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`/tmp/RtmpFZHjwz/file168d31b48f69/strata/stratum_1/.laminae.toml`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   type    name        order skip_if_fail created   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
@@ -76,7 +76,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> laminae s1_lamina_2     2 FALSE        2024-11-27</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> laminae s1_lamina_3     3 FALSE        2024-11-27</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $`/tmp/RtmpqRLdl3/file16714a5d9a90/strata/stratum_2/.laminae.toml`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`/tmp/RtmpFZHjwz/file168d31b48f69/strata/stratum_2/.laminae.toml`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   type    name        order skip_if_fail created   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
