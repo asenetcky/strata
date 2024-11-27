@@ -6,7 +6,7 @@
 \alias{strata-package}
 \title{strata: Simple Framework for Simple Automation}
 \description{
-A tool suite for building project frameworks for users with access to only the most basic of automation tools.
+Build a project framework for users with access to only the most basic of automation tools.
 }
 \seealso{
 Useful links:
