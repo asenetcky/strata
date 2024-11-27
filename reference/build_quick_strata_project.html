@@ -39,7 +39,7 @@ stratum_1, stratum_2, etc. and s1_lamina_1, s1_lamina_2, etc.
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Quickly build strata project with minimal input and standard names</h1>
-      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/main/R/quick_build.R" class="external-link"><code>R/quick_build.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/v1.0.1/R/quick_build.R" class="external-link"><code>R/quick_build.R</code></a></small>
       <div class="d-none name"><code>build_quick_strata_project.Rd</code></div>
     </div>
 
@@ -86,30 +86,30 @@ number of strata - <code>num_strata</code>, with the specified number of laminae
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ stratum_name    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "stratum_1", "stratum_1", "stratum_2", "stratum_2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ lamina_name     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "s1_lamina_1", "s1_lamina_2", "s2_lamina_1", "s2_lamin…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ script_name     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "my_code", "my_code", "my_code", "my_code"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ script_path     <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> "/tmp/RtmplEubrQ/file1734132a1915/strata/stratum_1/s1_…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ script_path     <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> "/tmp/RtmpQVL5Lg/file164d78cdd700/strata/stratum_1/s1_…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ skip_if_fail    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> FALSE, FALSE, FALSE, FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ created         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2024-11-27, 2024-11-27, 2024-11-27, 2024-11-27</span>
 <span class="r-in"><span><span class="fu"><a href="main.html">main</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4613] INFO: Strata started </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4618] INFO: Stratum: stratum_1 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4620] INFO: Lamina: s1_lamina_1 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4624] INFO: Executing: my_code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7667] INFO: Strata started </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7671] INFO: Stratum: stratum_1 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7673] INFO: Lamina: s1_lamina_1 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7677] INFO: Executing: my_code </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I am a placeholder, do not forget to replace me!"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4631] INFO: Lamina: s1_lamina_1 finished </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4634] INFO: Lamina: s1_lamina_2 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4637] INFO: Executing: my_code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7684] INFO: Lamina: s1_lamina_1 finished </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7687] INFO: Lamina: s1_lamina_2 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7689] INFO: Executing: my_code </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I am a placeholder, do not forget to replace me!"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4643] INFO: Stratum: stratum_1 finished </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4646] INFO: Stratum: stratum_2 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4648] INFO: Lamina: s1_lamina_2 finished </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4651] INFO: Lamina: s2_lamina_1 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4654] INFO: Executing: my_code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7695] INFO: Stratum: stratum_1 finished </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7698] INFO: Stratum: stratum_2 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7700] INFO: Lamina: s1_lamina_2 finished </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7703] INFO: Lamina: s2_lamina_1 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7706] INFO: Executing: my_code </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I am a placeholder, do not forget to replace me!"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4659] INFO: Lamina: s2_lamina_1 finished </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4662] INFO: Lamina: s2_lamina_2 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4664] INFO: Executing: my_code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7711] INFO: Lamina: s2_lamina_1 finished </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7714] INFO: Lamina: s2_lamina_2 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7716] INFO: Executing: my_code </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I am a placeholder, do not forget to replace me!"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:05:15.4670] INFO: Strata finished - duration: 0.0059 seconds </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 14:15:17.7722] INFO: Strata finished - duration: 0.0056 seconds </span>
 <span class="r-in"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/delete.html" class="external-link">dir_delete</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
