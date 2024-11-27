@@ -114,16 +114,16 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">my_code2</span>, <span class="st">"print('Goodbye, World!')"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"main.R"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [2024-11-19 13:26:07.2781] INFO: Strata started </span></span>
-<span><span class="co">#&gt; [2024-11-19 13:26:07.2785] INFO: Stratum: first_stratum initialized </span></span>
-<span><span class="co">#&gt; [2024-11-19 13:26:07.2787] INFO: Lamina: first_lamina initialized </span></span>
-<span><span class="co">#&gt; [2024-11-19 13:26:07.2790] INFO: Executing: my_code1 </span></span>
+<span><span class="co">#&gt; [2024-11-27 10:54:13.3895] INFO: Strata started </span></span>
+<span><span class="co">#&gt; [2024-11-27 10:54:13.3901] INFO: Stratum: first_stratum initialized </span></span>
+<span><span class="co">#&gt; [2024-11-27 10:54:13.3906] INFO: Lamina: first_lamina initialized </span></span>
+<span><span class="co">#&gt; [2024-11-27 10:54:13.3912] INFO: Executing: my_code1 </span></span>
 <span><span class="co">#&gt; [1] "Hello, World!"</span></span>
-<span><span class="co">#&gt; [2024-11-19 13:26:07.2795] INFO: Lamina: first_lamina finished </span></span>
-<span><span class="co">#&gt; [2024-11-19 13:26:07.2797] INFO: Lamina: second_lamina initialized </span></span>
-<span><span class="co">#&gt; [2024-11-19 13:26:07.2799] INFO: Executing: my_code2 </span></span>
+<span><span class="co">#&gt; [2024-11-27 10:54:13.3923] INFO: Lamina: first_lamina finished </span></span>
+<span><span class="co">#&gt; [2024-11-27 10:54:13.3926] INFO: Lamina: second_lamina initialized </span></span>
+<span><span class="co">#&gt; [2024-11-27 10:54:13.3929] INFO: Executing: my_code2 </span></span>
 <span><span class="co">#&gt; [1] "Goodbye, World!"</span></span>
-<span><span class="co">#&gt; [2024-11-19 13:26:07.2807] INFO: Strata finished - duration: 0.0028 seconds</span></span>
+<span><span class="co">#&gt; [2024-11-27 10:54:13.3940] INFO: Strata finished - duration: 0.005 seconds</span></span>
 <span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/delete.html" class="external-link">dir_delete</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></code></pre></div>
 <p>Users can also opt to use quick build functions if speed is the priority and the naming conventions are not important.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -136,7 +136,7 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html" class="external-link">dir_tree</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
-<span><span class="co">#&gt; /tmp/Rtmp5E3GPs/file22e3552586a20</span></span>
+<span><span class="co">#&gt; /tmp/RtmpZa42UG/file1cb1670b361db</span></span>
 <span><span class="co">#&gt; ├── main.R</span></span>
 <span><span class="co">#&gt; └── strata</span></span>
 <span><span class="co">#&gt;     ├── stratum_1</span></span>
@@ -194,6 +194,7 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/asenetcky/strata/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/asenetcky/strata/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/asenetcky/strata" class="external-link"><img src="https://codecov.io/gh/asenetcky/strata/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://CRAN.R-project.org/package=strata" class="external-link"><img src="https://www.r-pkg.org/badges/version/strata" alt="CRAN status"></a></li>
 </ul>
 </div>
 
