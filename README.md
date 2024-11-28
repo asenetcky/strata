@@ -81,7 +81,7 @@ stratum_path <-
 # let's take a look at what was made
 
 fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
-#> /tmp/RtmpITokvU/file3b9a66ed49840
+#> /tmp/RtmpHrbp0P/file3cf19314ab03d
 #> ├── main.R
 #> └── strata
 #>     ├── .strata.toml
@@ -103,12 +103,61 @@ view_toml(fs::path(my_project_folder, "strata", ".strata.toml"))
 # our stratum is empty, let's change that in the next section
 ```
 
-Next users will want to call `strata::build_lamina` with a name and path
-to your stratum you created in the previous step. This creates a
-subfolder of your stratum where you R code will live, as well as a
+Next users will want to call `build_lamina()` with a name and path to
+your stratum you created in the previous step. This creates a sub-folder
+of your stratum where you R code will live, as well as a
 `.laminae.toml`. It’s good to group like-code together inside of a
 ‘lamina’. Users can have as many stratum as needed with as many laminae
 and their associated R scripts that users deem necessary.
+
+``` r
+
+# remember we still have that stratum path from the previous section
+# let's build some laminae you might see inside a stratum called 'project_setup'
+# remember you can 1 or more R script inside of a lamina
+
+build_lamina(
+  stratum_path = stratum_path,
+  lamina_name = "libraries",
+  order = 1
+)
+
+build_lamina(
+  stratum_path = stratum_path,
+  lamina_name = "authentication",
+  order = 2
+)
+
+build_lamina(
+  stratum_path = stratum_path,
+  lamina_name = "connections",
+  order = 3
+)
+
+# Don't worry if you forget to specify an order, strata will assign one for you!
+# Always check that the order assigned is the order you want
+
+fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
+#> /tmp/RtmpHrbp0P/file3cf19314ab03d
+#> ├── main.R
+#> └── strata
+#>     ├── .strata.toml
+#>     └── project_setup
+#>         ├── .laminae.toml
+#>         ├── authentication
+#>         ├── connections
+#>         └── libraries
+```
+
+``` r
+view_toml(fs::path(stratum_path, ".laminae.toml"))
+#> # A tibble: 3 × 5
+#>   type    name           order skip_if_fail created   
+#>   <chr>   <chr>          <int> <lgl>        <date>    
+#> 1 laminae libraries          1 FALSE        2024-11-28
+#> 2 laminae authentication     2 FALSE        2024-11-28
+#> 3 laminae connections        3 FALSE        2024-11-28
+```
 
 `main.R` and its associated function `main` is the entry point to your
 project and the target that users will automate the execution of. When
@@ -164,16 +213,16 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp, "main.R"))
-#> [2024-11-28 18:26:03.9268] INFO: Strata started 
-#> [2024-11-28 18:26:03.9271] INFO: Stratum: first_stratum initialized 
-#> [2024-11-28 18:26:03.9272] INFO: Lamina: first_lamina initialized 
-#> [2024-11-28 18:26:03.9274] INFO: Executing: my_code1 
+#> [2024-11-28 18:54:22.2387] INFO: Strata started 
+#> [2024-11-28 18:54:22.2392] INFO: Stratum: first_stratum initialized 
+#> [2024-11-28 18:54:22.2395] INFO: Lamina: first_lamina initialized 
+#> [2024-11-28 18:54:22.2398] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-11-28 18:26:03.9278] INFO: Lamina: first_lamina finished 
-#> [2024-11-28 18:26:03.9280] INFO: Lamina: second_lamina initialized 
-#> [2024-11-28 18:26:03.9281] INFO: Executing: my_code2 
+#> [2024-11-28 18:54:22.2402] INFO: Lamina: first_lamina finished 
+#> [2024-11-28 18:54:22.2404] INFO: Lamina: second_lamina initialized 
+#> [2024-11-28 18:54:22.2405] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-11-28 18:26:03.9286] INFO: Strata finished - duration: 0.002 seconds
+#> [2024-11-28 18:54:22.2410] INFO: Strata finished - duration: 0.0027 seconds
 ```
 
 ``` r
@@ -193,7 +242,7 @@ strata::build_quick_strata_project(
 )
 
 fs::dir_tree(tmp)
-#> /tmp/RtmpITokvU/file3b9a675d39c28
+#> /tmp/RtmpHrbp0P/file3cf192f839068
 #> ├── main.R
 #> └── strata
 #>     ├── stratum_1

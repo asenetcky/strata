@@ -98,9 +98,9 @@ view_toml(fs::path(my_project_folder, "strata", ".strata.toml"))
 # our stratum is empty, let's change that in the next section
 ```
 
-Next users will want to call `strata::build_lamina` with a name
+Next users will want to call `build_lamina()` with a name
 and path to your stratum you created in the previous step. 
-This creates a subfolder of your stratum where you R code will
+This creates a sub-folder of your stratum where you R code will
 live, as well as a `.laminae.toml`.  It's good to group 
 like-code together inside of a 'lamina'. Users can have as many
 stratum as needed with as many laminae and their associated R 
@@ -108,6 +108,35 @@ scripts that users deem necessary.
 
 
 ```{r, laminae}
+
+# remember we still have that stratum path from the previous section
+# let's build some laminae you might see inside a stratum called 'project_setup'
+# remember you can 1 or more R script inside of a lamina
+
+build_lamina(
+  stratum_path = stratum_path,
+  lamina_name = "libraries",
+  order = 1
+)
+
+build_lamina(
+  stratum_path = stratum_path,
+  lamina_name = "authentication",
+  order = 2
+)
+
+build_lamina(
+  stratum_path = stratum_path,
+  lamina_name = "connections",
+  order = 3
+)
+
+# Don't worry if you forget to specify an order, strata will assign one for you!
+# Always check that the order assigned is the order you want
+
+fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
+view_toml(fs::path(stratum_path, ".laminae.toml"))
+
 ```
 
 
