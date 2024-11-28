@@ -47,6 +47,15 @@ You can install the development version of strata from [GitHub](https://github.c
 pak::pak("asenetcky/strata")
 ```
 
+## ✨ Features
+
+- Turn your project into an automated one OR a one-click affair
+- Only a single automation target - `main.R` or `main()` function
+- Simple and consistent built-in logging
+- Manage code execution in `.toml` files
+- Quick build options for rapid prototyping
+
+
 ## Getting Started Using `strata`
 
 `strata` provides users with framework for easier 
