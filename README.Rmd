@@ -77,11 +77,11 @@ library(strata)
 # Make a folder for your strata project
 my_project_folder <- fs::dir_create(fs::file_temp())
 
-# build_stratum creates a folder, a stratum,  where you can group together 
+# build_stratum creates a folder, a stratum,  where you can group together
 # similar code into sub-folder/s called a lamina/ae
 
 # pro tip: build_stratum invisibly returns the stratum path
-stratum_path <- 
+stratum_path <-
   build_stratum(
     stratum_name = "project_setup",
     project_path = my_project_folder,
@@ -96,7 +96,6 @@ fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
 view_toml(fs::path(my_project_folder, "strata", ".strata.toml"))
 
 # our stratum is empty, let's change that in the next section
-
 ```
 
 Next users will want to call `strata::build_lamina` with a name
@@ -109,7 +108,6 @@ scripts that users deem necessary.
 
 
 ```{r, laminae}
-
 ```
 
 
