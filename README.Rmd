@@ -108,7 +108,6 @@ scripts that users deem necessary.
 
 
 ```{r, laminae}
-
 # remember we still have that stratum path from the previous section
 # let's build some laminae you might see inside a stratum called 'project_setup'
 # remember you can 1 or more R script inside of a lamina
@@ -136,7 +135,6 @@ build_lamina(
 
 fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
 view_toml(fs::path(stratum_path, ".laminae.toml"))
-
 ```
 
 
