@@ -39,18 +39,69 @@ You can install the development version of strata from
 pak::pak("asenetcky/strata")
 ```
 
-## Getting Started Using `strata`
+## ✨ Features
+
+- Turn your R project into an automated one OR a one-click affair
+- Only a single automation target - `main.R` or `main()` function
+- Simple and consistent built-in logging
+- Manage code execution in `.toml` files
+- Quick build options for rapid prototyping
+
+## 🚀 Getting Started Using `strata`
 
 `strata` provides users with framework for easier automation with the
 tools they already have at hand. Users will want to make a folder for
-their `strata` project. `strata` works best when bundled inside of an
-RStudio project folder and the `renv` package, but can be made to work
-without those is desired.
+their `strata` project. `strata` works all by itself but shines best
+when bundled inside of an RStudio project folder and coupled with the
+[`renv`](https://cran.r-project.org/package=renv) package.
 
-After calling the `strata` package users will want to start hollowing
-out spaces for their code to live. Calling `strata::build_stratum` and
-providing a name and path to your project folder will add a ‘stratum’ to
-project, as well as a `main.R` script and a `.strata.toml` file.
+After loading and attaching the `strata` package users will want to
+start hollowing out spaces for their code to live. Calling
+`build_stratum()` and providing a name and path to your project folder
+will add a ‘stratum’ to project, as well as a `main.R` script and a
+`.strata.toml` file.
+
+``` r
+library(strata)
+
+# Make a folder for your strata project
+my_project_folder <- fs::dir_create(fs::file_temp())
+
+# build_stratum creates a folder, a stratum,  where you can group together 
+# similar code into sub-folder/s called a lamina/ae
+
+# pro tip: build_stratum invisibly returns the stratum path
+stratum_path <- 
+  build_stratum(
+    stratum_name = "project_setup",
+    project_path = my_project_folder,
+    order = 1
+  )
+
+# let's take a look at what was made
+
+fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
+#> /tmp/RtmpITokvU/file3b9a66ed49840
+#> ├── main.R
+#> └── strata
+#>     ├── .strata.toml
+#>     └── project_setup
+```
+
+``` r
+
+# let's take a look at that .toml file
+view_toml(fs::path(my_project_folder, "strata", ".strata.toml"))
+#> # A tibble: 1 × 4
+#>   type   name          order created   
+#>   <chr>  <chr>         <int> <date>    
+#> 1 strata project_setup     1 2024-11-28
+```
+
+``` r
+
+# our stratum is empty, let's change that in the next section
+```
 
 Next users will want to call `strata::build_lamina` with a name and path
 to your stratum you created in the previous step. This creates a
@@ -113,16 +164,19 @@ cat(file = my_code1, "print('Hello, World!')")
 cat(file = my_code2, "print('Goodbye, World!')")
 
 source(fs::path(tmp, "main.R"))
-#> [2024-11-27 10:54:13.3895] INFO: Strata started 
-#> [2024-11-27 10:54:13.3901] INFO: Stratum: first_stratum initialized 
-#> [2024-11-27 10:54:13.3906] INFO: Lamina: first_lamina initialized 
-#> [2024-11-27 10:54:13.3912] INFO: Executing: my_code1 
+#> [2024-11-28 18:26:03.9268] INFO: Strata started 
+#> [2024-11-28 18:26:03.9271] INFO: Stratum: first_stratum initialized 
+#> [2024-11-28 18:26:03.9272] INFO: Lamina: first_lamina initialized 
+#> [2024-11-28 18:26:03.9274] INFO: Executing: my_code1 
 #> [1] "Hello, World!"
-#> [2024-11-27 10:54:13.3923] INFO: Lamina: first_lamina finished 
-#> [2024-11-27 10:54:13.3926] INFO: Lamina: second_lamina initialized 
-#> [2024-11-27 10:54:13.3929] INFO: Executing: my_code2 
+#> [2024-11-28 18:26:03.9278] INFO: Lamina: first_lamina finished 
+#> [2024-11-28 18:26:03.9280] INFO: Lamina: second_lamina initialized 
+#> [2024-11-28 18:26:03.9281] INFO: Executing: my_code2 
 #> [1] "Goodbye, World!"
-#> [2024-11-27 10:54:13.3940] INFO: Strata finished - duration: 0.005 seconds
+#> [2024-11-28 18:26:03.9286] INFO: Strata finished - duration: 0.002 seconds
+```
+
+``` r
 fs::dir_delete(tmp)
 ```
 
@@ -139,7 +193,7 @@ strata::build_quick_strata_project(
 )
 
 fs::dir_tree(tmp)
-#> /tmp/RtmpZa42UG/file1cb1670b361db
+#> /tmp/RtmpITokvU/file3b9a675d39c28
 #> ├── main.R
 #> └── strata
 #>     ├── stratum_1
@@ -157,5 +211,8 @@ fs::dir_tree(tmp)
 #>         │   └── my_code.R
 #>         └── s3_lamina_2
 #>             └── my_code.R
+```
+
+``` r
 fs::dir_delete(tmp)
 ```

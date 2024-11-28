@@ -49,27 +49,55 @@ pak::pak("asenetcky/strata")
 
 ## ✨ Features
 
-- Turn your project into an automated one OR a one-click affair
+- Turn your R project into an automated one OR a one-click affair
 - Only a single automation target - `main.R` or `main()` function
 - Simple and consistent built-in logging
 - Manage code execution in `.toml` files
 - Quick build options for rapid prototyping
 
 
-## Getting Started Using `strata`
+## 🚀 Getting Started Using `strata`
 
 `strata` provides users with framework for easier 
 automation with the tools they already have at hand.
 Users will want to make a folder for their `strata`
-project. `strata` works best when bundled inside of an
-RStudio project folder and the `renv` package, but can 
-be made to work without those is desired.
+project. `strata` works all by itself but shines best when 
+bundled inside of an RStudio project folder and 
+coupled with the [`renv`](https://cran.r-project.org/package=renv) package.
 
-After calling the `strata` package users will want to 
+After loading and attaching the `strata` package users will want to 
 start hollowing out spaces for their code to live.  Calling
-`strata::build_stratum` and providing a name and path
+`build_stratum()` and providing a name and path
 to your project folder will add a 'stratum' to project, as well
 as a `main.R` script and a `.strata.toml` file. 
+
+```{r, project_and_stratum}
+library(strata)
+
+# Make a folder for your strata project
+my_project_folder <- fs::dir_create(fs::file_temp())
+
+# build_stratum creates a folder, a stratum,  where you can group together 
+# similar code into sub-folder/s called a lamina/ae
+
+# pro tip: build_stratum invisibly returns the stratum path
+stratum_path <- 
+  build_stratum(
+    stratum_name = "project_setup",
+    project_path = my_project_folder,
+    order = 1
+  )
+
+# let's take a look at what was made
+
+fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
+
+# let's take a look at that .toml file
+view_toml(fs::path(my_project_folder, "strata", ".strata.toml"))
+
+# our stratum is empty, let's change that in the next section
+
+```
 
 Next users will want to call `strata::build_lamina` with a name
 and path to your stratum you created in the previous step. 
@@ -78,6 +106,12 @@ live, as well as a `.laminae.toml`.  It's good to group
 like-code together inside of a 'lamina'. Users can have as many
 stratum as needed with as many laminae and their associated R 
 scripts that users deem necessary.  
+
+
+```{r, laminae}
+
+```
+
 
 `main.R` and its associated function `main` is the entry point 
 to your project and the target that users will automate the 
