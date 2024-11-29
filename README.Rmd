@@ -161,7 +161,6 @@ drop their existing code into the laminae folders or write their
 code directly in the laminae.
 
 ```{r placeholder-code}
-
 # let's fill in the laminae with some placeholder code
 auth_path <- fs::path(stratum_path, "authentication", "auth_code.R")
 lib_path <- fs::path(stratum_path, "libraries", "lib_code.R")
@@ -205,7 +204,6 @@ The observability work-horse for most users will likely be `survey_strata()`.
 
 ```{r survey-strata}
 survey_strata(my_project_folder)
-
 ```
 
 Users can run `survey_strata()` to get all the need-to-know about their project.
@@ -230,7 +228,6 @@ however the user's operating system has ordered the scripts,
 often alphabetically.
 
 ```{r run-the-project}
-
 ```
 
 
