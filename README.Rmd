@@ -302,8 +302,8 @@ code if they desire.
 - Logging can be routed to stdout or stderr which can then be piped to wherever
 users want to store their logs.
 - Logging format is consistent -
- - [TIMESTAMP] is always 26 characters long, including square brackets
- - the timestamp is always YEAR-MONTH-DAY HOUR:MINUTE:SECOND.XXXX
+ - The timestamp is always 26 characters long, including square brackets
+ - The timestamp is always YEAR-MONTH-DAY HOUR:MINUTE:SECOND.XXXX
  - The log level follows the timestamp with a space and ends with a colon
  - The message follows the log level and is separated by a space
 - Logging is kept intentionally simple, but can still be parsed and analyzed
