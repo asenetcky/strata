@@ -121,7 +121,7 @@ scripts that users deem necessary.
 # let's build some laminae you might see inside a stratum called 'project_setup'
 # remember you can 1 or more R script inside of a lamina
 
-# This could be a lamina that contains code that 
+# This could be a lamina that contains code that
 # sets up your libraries for the project
 build_lamina(
   stratum_path = stratum_path,
@@ -181,7 +181,7 @@ purrr::walk2(
   \(r_file, code) cat(code, file = r_file, append = TRUE)
 )
 
-  
+
 # let's take a look at the project structure now
 fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
 
