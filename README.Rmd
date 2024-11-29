@@ -31,7 +31,7 @@ settings they specified as they build their strata of code.  Strata is
 designed to get out of the users' way and play nice with packages like
 `renv`, `cronR`, and `taskscheduleR`.
 
-## Installation
+## ⚙️ Installation
 
 To install the latest CRAN release, just run:
 
@@ -69,7 +69,7 @@ bundled inside of an RStudio project folder and
 coupled with the [`renv`](https://cran.r-project.org/package=renv) package.
 
 
-### 🛠️ Build Strata
+### Build Strata
 
 After loading and attaching the `strata` package users will want to 
 start hollowing out spaces for their code to live.  Calling
@@ -105,7 +105,7 @@ view_toml(fs::path(my_project_folder, "strata", ".strata.toml"))
 ```
 
 
-### 🛠️ Build Laminae
+### Build Laminae
 
 Next users will want to call `build_lamina()` with a name
 and path to your stratum you created in the previous step. 
@@ -182,7 +182,7 @@ purrr::walk2(
 )
 ```
 
-### 🔎 Taking a Look
+### Taking a Look
 
 Adding all these folders and files is well and good, but how do users keep
 track of it all? `strata` has you covered. This readme has showcased a few 
@@ -216,7 +216,7 @@ flexibility to weave their strata project in and out of other projects or test
 out new ideas without affecting the execution plan of the project.
 
 
-### ⚡ Running the Project
+### Running the Project
 
 `main.R` and its associated function `main()` is the entry point 
 to your project and the target that users will automate the 
@@ -250,7 +250,7 @@ main(my_project_folder, silent = TRUE)
 That's the core functionality of `strata`! Users build their project with 
 `strata` and then it stays out of their way.
 
-## Going a Step Further
+## ⚡ Going a Step Further
 
 We have our strata project, now what?  Users can source `main.R` or any script
 that calls `main()` to run the entire project.  Which can already be helpful,
@@ -272,15 +272,15 @@ the entire project and its execution plan.
 
 
 
-## ✨ Additional Features
+## Additional Features
 
-### 🧾 Logging
+### Logging
 
 `strata` provides basic, but consistent logging functions that
 are used at run time, and are available for use inside of users'
 code if they desire.
 
-### 📦 Quick Build
+###  Quick Build
 
 ###  Ad-hoc
 
