@@ -250,12 +250,6 @@ main(my_project_folder, silent = TRUE)
 That's the core functionality of `strata`! Users build their project with 
 `strata` and then it stays out of their way.
 
-
-`strata` provides basic, but consistent logging functions that
-are used at run time, and are available for use inside of users'
-code if they desire.
-
-
 ## Going a Step Further
 
 We have our strata project, now what?  Users can source `main.R` or any script
@@ -272,13 +266,25 @@ which script sources which, users can automate the entire project with a single
 task, have consistent logging messages and use `strata` to have eyes on
 the entire project and its execution plan.
 
-## 🧾 Logging
+```{r example-task}
+# Let's automate the project with taskscheduleR
+```
+
 
 
 ## ✨ Additional Features
 
+### 🧾 Logging
+
+`strata` provides basic, but consistent logging functions that
+are used at run time, and are available for use inside of users'
+code if they desire.
+
 ### 📦 Quick Build
+
 ###  Ad-hoc
+
+### Managing .tomls
 
 
 
