@@ -273,16 +273,15 @@ library(taskscheduleR)
 
 ## Run our project every thursday at 0700
 taskscheduler_create(
-  taskname = "strata", 
+  taskname = "strata",
   rscript = fs::path(my_project_folder, "main.R"),
-  schedule = "WEEKLY", 
-  starttime = "07:00", 
-  days = c('THR')
+  schedule = "WEEKLY",
+  starttime = "07:00",
+  days = c("THR")
 )
 # TODO test this on windows ^^
 
 # TODO throw up a cronR example as well
-
 ```
 
 
@@ -310,7 +309,6 @@ users want to store their logs.
 - Logging is kept intentionally simple, but can still be parsed and analyzed
 
 ```{r logging}
-
 # The core logging function is log_message, and users can mold it to their needs
 log_message(
   message = "This is a message",
@@ -331,7 +329,7 @@ log_error("This is an error message")
 # log_total_time() is a simple function that  always prints the time
 # difference in seconds
 
-duration <- 
+duration <-
   log_total_time(
     begin = Sys.time(),
     end = Sys.time() + 999
@@ -342,7 +340,6 @@ log_message(
   level = "INFO",
   out_or_err = "OUT"
 )
-
 ```
 
 
