@@ -49,8 +49,11 @@ pak::pak("asenetcky/strata")
 
 ## ✨ Features
 
-- Turn your R project into an automated one OR a one-click affair
-- Only a single automation target - `main.R` or `main()` function
+- Easily turn your R project into an automated one OR a one-click affair
+- Easily view your project's execution plan - no more hunting and pecking around
+to find out which script sources the next
+- No more juggling multiple automated tasks - there is only a single automation
+target - `main.R` or `main()` function
 - Simple and consistent built-in logging
 - Manage code execution in `.toml` files
 - Quick build options for rapid prototyping
@@ -65,13 +68,16 @@ project. `strata` works all by itself but shines best when
 bundled inside of an RStudio project folder and 
 coupled with the [`renv`](https://cran.r-project.org/package=renv) package.
 
+
+### Build Strata
+
 After loading and attaching the `strata` package users will want to 
 start hollowing out spaces for their code to live.  Calling
 `build_stratum()` and providing a name and path
 to your project folder will add a 'stratum' to project, as well
 as a `main.R` script and a `.strata.toml` file. 
 
-```{r, project_and_stratum}
+```{r, project-stratum}
 library(strata)
 
 # Make a folder for your strata project
@@ -98,6 +104,9 @@ view_toml(fs::path(my_project_folder, "strata", ".strata.toml"))
 # our stratum is empty, let's change that in the next section
 ```
 
+
+### Build Laminae
+
 Next users will want to call `build_lamina()` with a name
 and path to your stratum you created in the previous step. 
 This creates a sub-folder of your stratum where you R code will
@@ -112,18 +121,24 @@ scripts that users deem necessary.
 # let's build some laminae you might see inside a stratum called 'project_setup'
 # remember you can 1 or more R script inside of a lamina
 
+# This could be a lamina that contains code that 
+# sets up your libraries for the project
 build_lamina(
   stratum_path = stratum_path,
   lamina_name = "libraries",
   order = 1
 )
 
+# This could be a lamina that contains code that API keys and other credentials
+# and/or makes use of the excellent `keyring` package
 build_lamina(
   stratum_path = stratum_path,
   lamina_name = "authentication",
   order = 2
 )
 
+# This could be a lamina that contains code for setting up your
+# database connections etc...
 build_lamina(
   stratum_path = stratum_path,
   lamina_name = "connections",
@@ -138,9 +153,49 @@ view_toml(fs::path(stratum_path, ".laminae.toml"))
 ```
 
 
-`main.R` and its associated function `main` is the entry point 
+### Adding R Scripts
+
+
+
+```{r placeholder-code}
+# Users would just drag and drop the code you already have or
+# write it within the strata/laminae
+
+# let's fill in the laminae with some placeholder code
+auth_path <- fs::path(stratum_path, "authentication", "auth_code.R")
+lib_path <- fs::path(stratum_path, "libraries", "lib_code.R")
+conn_path <- fs::path(stratum_path, "connections", "conn_code.R")
+
+authentication_code <- "print('I am your authentication setup code')"
+libraries_code <- "print('I am your library setup code')"
+connections_code <- "print('I am your connection setup code')"
+
+purrr::walk(
+  c(auth_path, lib_path, conn_path),
+  \(r_file) fs::file_create(r_file)
+)
+
+purrr::walk2(
+  c(auth_path, lib_path, conn_path),
+  c(authentication_code, libraries_code, connections_code),
+  \(r_file, code) cat(code, file = r_file, append = TRUE)
+)
+
+  
+# let's take a look at the project structure now
+fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
+
+# let's take a look at the .toml files
+survey_tomls(my_project_folder)
+```
+
+
+
+
+### Running the Project
+`main.R` and its associated function `main()` is the entry point 
 to your project and the target that users will automate the 
-execution of. When executed `main` will read those `.toml` files
+execution of. When executed `main()` will read those `.toml` files
 and begin sourcing the pipelines in the order specified by the 
 user/.toml files, and within a stratum it will execute the 
 laminae in the order specified by the user and their specific
@@ -151,6 +206,22 @@ often alphabetically.
 `strata` provides basic, but consistent logging functions that
 are used at run time, and are available for use inside of users'
 code if they desire.
+
+## Going a Step Further
+
+We have our strata project, now what?  Users can source `main.R` or any script
+that calls `main()` to run the entire project.  Which can already be helpful,
+but we can do better. Users may not have access to the lastest and greatest
+automation tools and orchestrators, but most users should have access to 
+something like windows task scheduler, cron jobs or similiar.  In fact there
+are already two great packages that can help users automate their R scripts, 
+[`cronR`](https://cran.r-project.org/package=cronR) and 
+[`taskscheduleR`](https://cran.r-project.org/package=taskscheduleR).
+
+Now instead of juggling what to automate and when, or having to remember to
+which script sources which, users can automate the entire project with a single
+task, have consistent logging messages and use `strata` to have eyes on
+the entire project and its execution plan.
 
 
 ## Examples
