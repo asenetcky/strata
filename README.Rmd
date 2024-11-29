@@ -268,8 +268,21 @@ are already two great packages that can help users automate their R scripts,
 [`cronR`](https://cran.r-project.org/package=cronR) and 
 [`taskscheduleR`](https://cran.r-project.org/package=taskscheduleR).
 
-```{r example-task}
-# Let's automate the project with taskscheduleR
+```{r example-task, eval=FALSE}
+library(taskscheduleR)
+
+## Run our project every thursday at 0700
+taskscheduler_create(
+  taskname = "strata", 
+  rscript = fs::path(my_project_folder, "main.R"),
+  schedule = "WEEKLY", 
+  starttime = "07:00", 
+  days = c('THR')
+)
+# TODO test this on windows ^^
+
+# TODO throw up a cronR example as well
+
 ```
 
 
@@ -279,16 +292,59 @@ which script sources which, users can automate the entire project with a single
 task, have consistent logging messages and use `strata` to have eyes on
 the entire project and its execution plan.
 
-
-
-
 ## 🎁 Additional Features
 
 ### Logging
 
 `strata` provides basic, but consistent logging functions that
 are used at run time, and are available for use inside of users'
-code if they desire.
+code if they desire. 
+
+- Logging can be routed to stdout or stderr which can then be piped to wherever
+users want to store their logs.
+- Logging format is consistent -
+ - [TIMESTAMP] is always 26 characters long, including square brackets
+ - the timestamp is always YEAR-MONTH-DAY HOUR:MINUTE:SECOND.XXXX
+ - The log level follows the timestamp with a space and ends with a colon
+ - The message follows the log level and is separated by a space
+- Logging is kept intentionally simple, but can still be parsed and analyzed
+
+```{r logging}
+
+# The core logging function is log_message, and users can mold it to their needs
+log_message(
+  message = "This is a message",
+  level = "INFO", # Use whatever "level" you want
+  out_or_err = "OUT" # Send to stdout
+)
+
+# Users can sending warnings
+log_message(
+  message = "This is a warning",
+  level = "WARN",
+  out_or_err = "ERR" # Send to stderr if user wants
+)
+
+# log_error() is a wrapper around log_message that sends messages to stderr
+log_error("This is an error message")
+
+# log_total_time() is a simple function that  always prints the time
+# difference in seconds
+
+duration <- 
+  log_total_time(
+    begin = Sys.time(),
+    end = Sys.time() + 999
+  )
+
+log_message(
+  paste("This took", duration, "seconds"),
+  level = "INFO",
+  out_or_err = "OUT"
+)
+
+```
+
 
 ###  Quick Build
 
