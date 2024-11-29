@@ -58,6 +58,11 @@ target - `main.R` or `main()` function
 - Manage code execution in `.toml` files
 - Quick build options for rapid prototyping
 
+## 🎯 Target Audience
+
+Who's this for
+Who this isn't for
+
 
 ## 🚀 Getting Started
 
@@ -252,27 +257,32 @@ That's the core functionality of `strata`! Users build their project with
 
 ## ⚡ Going a Step Further
 
-We have our strata project, now what?  Users can source `main.R` or any script
-that calls `main()` to run the entire project.  Which can already be helpful,
-but we can do better. Users may not have access to the lastest and greatest
+We have our strata project, now what?  
+While it might be useful to organize all the disparate parts of your project,
+and to turn it into a one-click affair, we can do better.
+
+Users may not have access to the lastest and greatest
 automation tools and orchestrators, but most users should have access to 
-something like windows task scheduler, cron jobs or similiar.  In fact there
+something like windows task scheduler, cron jobs or similar.  In fact there
 are already two great packages that can help users automate their R scripts, 
 [`cronR`](https://cran.r-project.org/package=cronR) and 
 [`taskscheduleR`](https://cran.r-project.org/package=taskscheduleR).
-
-Now instead of juggling what to automate and when, or having to remember to
-which script sources which, users can automate the entire project with a single
-task, have consistent logging messages and use `strata` to have eyes on
-the entire project and its execution plan.
 
 ```{r example-task}
 # Let's automate the project with taskscheduleR
 ```
 
 
+- rework this, grab pieces and move where appropriate - 
+Now instead of juggling what to automate and when, or having to remember to
+which script sources which, users can automate the entire project with a single
+task, have consistent logging messages and use `strata` to have eyes on
+the entire project and its execution plan.
 
-## Additional Features
+
+
+
+## 🎁 Additional Features
 
 ### Logging
 
