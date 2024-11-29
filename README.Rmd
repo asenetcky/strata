@@ -155,11 +155,12 @@ view_toml(fs::path(stratum_path, ".laminae.toml"))
 
 ### Adding R Scripts
 
-
+Now that users have their stratum and laminae set up, they can
+begin adding their R scripts to the laminae.  Users can drag and
+drop their existing code into the laminae folders or write their
+code directly in the laminae.
 
 ```{r placeholder-code}
-# Users would just drag and drop the code you already have or
-# write it within the strata/laminae
 
 # let's fill in the laminae with some placeholder code
 auth_path <- fs::path(stratum_path, "authentication", "auth_code.R")
@@ -180,16 +181,41 @@ purrr::walk2(
   c(authentication_code, libraries_code, connections_code),
   \(r_file, code) cat(code, file = r_file, append = TRUE)
 )
+```
+
+### Taking a Look
+
+Adding all these folders and files is well and good, but how do users keep
+track of it all? `strata` has you covered. This readme has showcased a few 
+already, but let's recap and then look at the entire execution plan.
 
 
+```{r proj-structure}
 # let's take a look at the project structure now
 fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
 
-# let's take a look at the .toml files
+# Look at all those files now - let's grab the paths of only the .tomls
 survey_tomls(my_project_folder)
 ```
 
+Users can now `view_toml()` to see the contents of the `.toml` files
+or edit/replace their contents as well.
 
+The observability work-horse for most users will likely be `survey_strata()`.
+
+```{r survey-strata}
+survey_strata(my_project_folder)
+
+```
+
+Users can run `survey_strata()` to get all the need-to-know about their project.
+It is important to note that `survey_strata()` "sees" the project through the
+eyes of the `.toml` files, and _not_ the actual file structure, which might
+not reflect the true nature of the strata project. If a stratum or lamina wasn't
+built with `build_stratum()` or `build_lamina()` or added by hand to the
+`.tomls` it will not show up in the survey. This provides users with the
+flexibility to weave their strata project in and out of other projects or test
+out new ideas without affecting the execution plan of the project.
 
 
 ### Running the Project
@@ -202,6 +228,12 @@ laminae in the order specified by the user and their specific
 .toml file.  Within a lamina the scripts will be sourced 
 however the user's operating system has ordered the scripts,
 often alphabetically.
+
+```{r run-the-project}
+
+```
+
+
 
 `strata` provides basic, but consistent logging functions that
 are used at run time, and are available for use inside of users'
