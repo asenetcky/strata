@@ -345,7 +345,92 @@ log_message(
 
 ###  Quick Build
 
+`strata` has two "quick" build options for users.
+
+`build_quick_strata_project()` will create a project with a stratum and laminae
+with some placeholder code.  This is great for testing out ideas or deploying
+current code into a strata project as quickly as possible and then sorting out
+the names and .tomls later.
+  
+```{r}
+tmp <- fs::dir_create(fs::file_temp())
+build_quick_strata_project(
+  project_path = tmp,
+  num_strata = 2,
+  num_laminae_per = 3
+)
+
+fs::dir_tree(tmp)
+```
+
+`build_outline_strata_project()` will create a project with strata and laminae
+based on an outline dataframe provided by the user.  This is great for users who 
+have a specific vision in mind already.
+
+```{r}
+tmp <- fs::dir_create(fs::file_temp())
+
+outline <-
+  dplyr::tibble(
+    project_path = tmp,
+    stratum_name = c(
+      "data_pull",
+      "data_wrangle",
+      "build_model",
+      "build_report"
+    ),
+    stratum_order = c(
+      1,
+      2,
+      3,
+      4
+    ),
+    lamina_name = c(
+      "sql",
+      "clean_data",
+      "tidy_models",
+      "quarto_report"
+    ),
+    lamina_order = c(1, 1, 1, 1),
+    skip_if_fail = FALSE
+  )
+
+dplyr::glimpse(outline)
+
+build_outlined_strata_project(outline)
+
+fs::dir_tree(tmp)
+survey_strata(tmp)
+```
+
+
+
 ###  Ad-hoc
+
+The ability to run the entire project with `main()` is great, but if users want
+to run pieces of the project ad-hoc, it would be inconvenient to have to source
+the disparate pieces of code individually, and possibly error-prone as well.
+Users can execute their project piecemeal with `adhoc_stratum()` and
+`adhoc_lamina()`.
+
+`adhoc_stratum()` will source the code inside of _every_ lamina in the stratum,
+while ignoring all other strata.
+
+```{r}
+tmp <- fs::dir_create(fs::file_temp())
+
+build_quick_strata_project(tmp, 2, 2)
+
+adhoc_stratum(fs::path(tmp, "strata", "stratum_1"))
+```
+
+`adhoc_lamina()` will execute _only_ the specified lamina and the code therein
+contained, ignoring all other laminae inside the same stratum and all other
+strata.
+
+```{r}
+adhoc_lamina(fs::path(tmp, "strata", "stratum_2", "s2_lamina_2"))
+```
 
 ### Managing .tomls
 
