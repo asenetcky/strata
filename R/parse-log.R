@@ -7,7 +7,7 @@ parse_log <- function(log_path) {
 
   log_length <- length(log_lines)
 
-  if (!log_length >= 1 ) stop("Log file is empty")
+  if (!log_length >= 1) stop("Log file is empty")
 
   parsed_log <-
     dplyr::tibble(
@@ -18,7 +18,6 @@ parse_log <- function(log_path) {
     )
 
   for (i in 1:log_length) {
-
     line <- log_lines[i]
 
     if (check_if_log_line(line)) {
@@ -71,5 +70,4 @@ check_if_log_line <- function(log_line) {
     log_line,
     "^\\[\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"
   )
-
 }
