@@ -236,19 +236,19 @@ test_that("outlined build allows multiple lamina per stratum", {
     build_outlined_strata_project(outline)
   )
 
- created_paths <-
-   survey_strata(tmp) |>
-   dplyr::pull("script_path") |>
-   fs::path_dir() |>
-   fs::as_fs_path()
+  created_paths <-
+    survey_strata(tmp) |>
+    dplyr::pull("script_path") |>
+    fs::path_dir() |>
+    fs::as_fs_path()
 
- expected_paths <-
-   fs::path(
-     outline$project_path,
-     "strata",
-     outline$stratum_name,
-     outline$lamina_name
-   )
+  expected_paths <-
+    fs::path(
+      outline$project_path,
+      "strata",
+      outline$stratum_name,
+      outline$lamina_name
+    )
 
   expect_true(
     checkmate::check_subset(
