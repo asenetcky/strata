@@ -16,14 +16,16 @@ test_that("parse_log() returns a tibble", {
   log_end <- stringr::str_which(log_lines, "Strata finished")
 
   log_lines <- log_lines[log_start:log_end]
+  writeLines(log_lines, log)
 
-  parsed_log <- parse_log(log_lines)
+  parsed_log <- parse_log(log)
 
-  expect_true(checkmate::assert_data_frame(parsed_log))
+  expect_true(checkmate::check_data_frame(parsed_log))
   expect_true(
-    checkmate::assert_permutation(
+    checkmate::check_permutation(
       names(parsed_log),
       c(
+        "line_number",
         "timestamp",
         "level",
         "message"
