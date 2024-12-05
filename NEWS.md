@@ -1,4 +1,10 @@
-# strata (development version)
+# strata 1.0.3
+
+fix: #40 log timestamp not always 24 characters long
+
+# strata 1.0.2
+
+fix: #36 outline build doesn't allow for multiple laminae per stratum
 
 # strata 1.0.1
 
