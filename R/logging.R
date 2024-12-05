@@ -22,7 +22,8 @@ log_message <- function(message, level = "INFO", out_or_err = "OUT") {
   timestamp <-
     Sys.time() |>
     as.character() |>
-    stringr::str_trunc(width = 24, ellipsis = "")
+    stringr::str_trunc(width = 24, ellipsis = "") |>
+    stringr::str_pad(width = 24, side = "right", pad = "0")
 
   log_message <- paste0("[", timestamp, "] ", level, ": ", message)
 
