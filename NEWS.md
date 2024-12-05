@@ -1,4 +1,6 @@
-# strata (development version)
+# strata 1.0.2
+
+fixes: #36 outline build doesn't allow for multiple laminae per stratum
 
 # strata 1.0.1
 
