@@ -24,7 +24,6 @@ test_that("log_message returns invisible string", {
   expect_true(
     checkmate::check_string(captured_log, n.chars = 49)
   )
-
 })
 
 test_that("log_error returns invisible string", {

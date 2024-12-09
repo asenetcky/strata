@@ -65,7 +65,6 @@ parse_log <- function(log_path) {
 }
 
 check_if_log_line <- function(log_line) {
-
   # check for timestamp in first 26 characters
   timestamp <-
     log_line |>
