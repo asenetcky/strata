@@ -1,8 +1,10 @@
 # strata 1.1.0
 
+- completes #41: add basic log parsing functionality for users
+
 # strata 1.0.3
 
-fix: #40 log timestamp not always 24 characters long
+- fix: #40 log timestamp not always 24 characters long
 
 # strata 1.0.2
 
