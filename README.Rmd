@@ -306,7 +306,8 @@ users want to store their logs.
  - The timestamp is always YEAR-MONTH-DAY HOUR:MINUTE:SECOND.XXXX
  - The log level follows the timestamp with a space and ends with a colon
  - The message follows the log level and is separated by a space
-- Logging is kept intentionally simple, but can still be parsed and analyzed
+- Logging is kept intentionally simple, but can still be parsed with 
+`parse_log()` and the resulting tibble analyzed however the user wishes
 
 ```{r logging}
 # The core logging function is log_message, and users can mold it to their needs
@@ -341,6 +342,49 @@ log_message(
   out_or_err = "OUT"
 )
 ```
+
+`log_message()` and `log_error()` invisibly return a character string copy
+of their output.
+
+```{r}
+log_output <- log_message("I am a log message")
+log_output
+```
+
+`parse_log()` will return a tibble of your log file contents for you to view.
+_Only_ output from the `log_message()` or `log_error()` functions will be 
+returned from the log, any other output will be ignored.
+
+```{r}
+# Build an example log
+example_log <- fs::file_create(fs::file_temp(ext = "log"))
+
+# show file is empty
+readr::read_lines(example_log)
+
+# add log message
+line1 <- log_message("strata started")
+line1 <- paste0(line1, "\n")
+cat(line1, file = example_log, append = TRUE)
+
+# nonsense output to be ignored
+line2 <- "I am a line of nonsense"
+line2 <- paste0(line2, "\n")
+cat(line2, file = example_log, append = TRUE)
+
+# another log message
+line3 <- log_message("strata finished")
+line3 <- paste0(line3, "\n")
+cat(line3, file = example_log, append = TRUE)
+
+# parse log and return tibble
+# notice that the line numbers are preserved, even if content is ignored
+parse_log(example_log)
+
+# clean up
+fs::file_delete(example_log)
+```
+
 
 
 ###  Quick Build
