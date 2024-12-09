@@ -10,7 +10,8 @@ log_error(message)
 \item{message}{A string containing a message to log.}
 }
 \value{
-A message printed to stderr
+A message printed to stderr and an invisible character string copy of
+the entire log error message.
 }
 \description{
 \code{log_error()} does \emph{not} stop the execution of the script, but it does print

@@ -9,7 +9,8 @@
 #' @param out_or_err Send log output to stdout or stderr, choices are `"OUT"`
 #'   or `"ERR"` and the defaults is `"OUT"`.
 #'
-#' @return A message printed to stdout or stderr.
+#' @return A message printed to stdout or stderr and an invisible character
+#'   string copy of the entire log message.
 #' @export
 #'
 #' @examples
@@ -43,7 +44,8 @@ log_message <- function(message, level = "INFO", out_or_err = "OUT") {
 #'
 #' @inheritParams log_message
 #'
-#' @return A message printed to stderr
+#' @return A message printed to stderr and an invisible character string copy of
+#'   the entire log error message.
 #' @export
 #'
 #' @examples
