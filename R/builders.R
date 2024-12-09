@@ -70,7 +70,7 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
         rewrite_from_dataframe(sorted_toml, strata_toml)
       }
 
-      base::invisible(target_stratum)
+      invisible(target_stratum)
     } else {
       log_error(
         paste(
@@ -169,10 +169,13 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
 
 # given a project path create the main.R file and add the strata::main call
 build_main <- function(project_path) {
-  project_path <- fs::path(project_path)
+  project_path <-
+    fs::path(project_path) |>
+    fs::path_expand()
+
   main_path <- fs::path(project_path, "main.R")
-  is_main <- fs::file_exists(main_path)
-  if (!is_main) {
+
+  if (!fs::file_exists(main_path)) {
     fs::file_create(main_path)
     cat(
       paste0("library(strata)\nstrata::main('", project_path, "')\n"),

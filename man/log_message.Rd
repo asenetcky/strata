@@ -16,7 +16,8 @@ to "INFO" but will accept any string.}
 or \code{"ERR"} and the defaults is \code{"OUT"}.}
 }
 \value{
-A message printed to stdout or stderr.
+A message printed to stdout or stderr and an invisible character
+string copy of the entire log message.
 }
 \description{
 \code{log_message()} does \emph{not} stop the execution of the script, regardless of
@@ -27,3 +28,10 @@ log_message("This is an info message", "INFO", "OUT")
 log_message("This is an error message", "ERROR", "ERR")
 log_message("This is a warning message", "WARNING", "OUT")
 }
+\seealso{
+Other log: 
+\code{\link{log_error}()},
+\code{\link{log_total_time}()},
+\code{\link{parse_log}()}
+}
+\concept{log}
