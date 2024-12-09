@@ -9,7 +9,10 @@
 #' @param out_or_err Send log output to stdout or stderr, choices are `"OUT"`
 #'   or `"ERR"` and the defaults is `"OUT"`.
 #'
-#' @return A message printed to stdout or stderr.
+#' @family log
+#'
+#' @return A message printed to stdout or stderr and an invisible character
+#'   string copy of the entire log message.
 #' @export
 #'
 #' @examples
@@ -32,6 +35,8 @@ log_message <- function(message, level = "INFO", out_or_err = "OUT") {
   } else {
     message(log_message, "\n")
   }
+
+  invisible(log_message)
 }
 
 #' Wrapper around log_message for ERROR messages in the log
@@ -40,20 +45,25 @@ log_message <- function(message, level = "INFO", out_or_err = "OUT") {
 #' the message to stderr.
 #'
 #' @inheritParams log_message
+#' @family log
 #'
-#' @return A message printed to stderr
+#' @return A message printed to stderr and an invisible character string copy of
+#'   the entire log error message.
 #' @export
 #'
 #' @examples
 #' log_error("This is an error message")
 log_error <- function(message) {
-  log_message(message, level = "ERROR", out_or_err = "ERR")
+  error <- log_message(message, level = "ERROR", out_or_err = "ERR")
+  invisible(error)
 }
 
 #' Print time difference in a standard message for logging purposes
 #'
 #' @param begin A data-time object, signifying the beginning or a process
 #' @param end A data-time object, signifying the end of a process
+#'
+#' @family log
 #'
 #' @return A numeric value of the time difference in seconds
 #' @export
