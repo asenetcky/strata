@@ -32,6 +32,8 @@ log_message <- function(message, level = "INFO", out_or_err = "OUT") {
   } else {
     message(log_message, "\n")
   }
+
+  invisible(log_message)
 }
 
 #' Wrapper around log_message for ERROR messages in the log
@@ -47,7 +49,8 @@ log_message <- function(message, level = "INFO", out_or_err = "OUT") {
 #' @examples
 #' log_error("This is an error message")
 log_error <- function(message) {
-  log_message(message, level = "ERROR", out_or_err = "ERR")
+  error <- log_message(message, level = "ERROR", out_or_err = "ERR")
+  invisible(error)
 }
 
 #' Print time difference in a standard message for logging purposes
