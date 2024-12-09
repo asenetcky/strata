@@ -64,10 +64,24 @@ parse_log <- function(log_path) {
     )
 }
 
-# TODO flesh this out some more
 check_if_log_line <- function(log_line) {
-  stringr::str_detect(
-    log_line,
-    "^\\[\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}"
-  )
+
+  # check for timestamp in first 26 characters
+  timestamp <-
+    log_line |>
+    stringr::str_sub(1, 26) |>
+    stringr::str_detect(
+      "^\\[\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\.\\d{4}\\]"
+    )
+
+  # check for some kind of "level" after the timestamp
+  level <-
+    log_line |>
+    stringr::str_sub(28) |>
+    stringr::str_detect(
+      "^.*?: "
+    )
+
+  # if both true, reasonable assumption this is log message
+  all(timestamp, level)
 }
