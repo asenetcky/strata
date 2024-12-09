@@ -1,3 +1,5 @@
+# strata 1.1.0
+
 # strata 1.0.3
 
 fix: #40 log timestamp not always 24 characters long
