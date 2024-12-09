@@ -60,6 +60,7 @@ target - `main.R` or `main()` function
 
 ## 🎯 Target Audience
 
+### TODO
 Who's this for
 Who this isn't for
 
@@ -261,6 +262,9 @@ We have our strata project, now what?
 While it might be useful to organize all the disparate parts of your project,
 and to turn it into a one-click affair, we can do better.
 
+
+### Implementing Automation
+#### TODO
 Users may not have access to the lastest and greatest
 automation tools and orchestrators, but most users should have access to 
 something like windows task scheduler, cron jobs or similar.  In fact there
@@ -284,7 +288,7 @@ taskscheduler_create(
 # TODO throw up a cronR example as well
 ```
 
-
+### TODO
 - rework this, grab pieces and move where appropriate - 
 Now instead of juggling what to automate and when, or having to remember to
 which script sources which, users can automate the entire project with a single
@@ -478,5 +482,106 @@ adhoc_lamina(fs::path(tmp, "strata", "stratum_2", "s2_lamina_2"))
 
 ### Managing .tomls
 
+Users are able to find and read .toml files in their project with the 
+`survey_tomls()` and `view_toml()` functions.  
+Users also have options for editing their .toml files as well.
+Users will always have the option to use their favorite text editor to edit
+any one of the .toml files.  The files may be hidden, but `survey_tomls()`
+will provide the proper paths.  Users can then confirm their edits with
+`view_toml()` and confirm that their expected changes appear in the tibble.
+
+Users can opt to work with the `edit_toml()` function and stay completely inside
+of R code.  It is _strongly_ advised users save a copy of their target .toml
+file in memory using `view_toml()` to fall back on.  Users can then take a 
+copy of that and edit it.  All that is required of `edit_toml()` is a file path
+to the original .toml file and the tibble of the content they wish to replace
+the original .toml file with.
+
+```{r edit-toml}
+# create temporary folder
+tmp <- fs::dir_create(fs::file_temp())
+
+# quick build for demonstration purposes
+build_quick_strata_project(tmp, 2, 2)
+
+# survey the .tomls
+toml_list <- 
+  survey_tomls(tmp)
+
+toml_list
+
+
+# create copies
+original_strata_toml <- view_toml(toml_list[1])
+original_strata_toml 
+
+original_lamina1_toml <- view_toml(toml_list[2])
+original_lamina1_toml
+
+# original execution plan
+original_plan <- survey_strata(tmp)
+```
+
+The originals are all backed up, now users can edit the .toml files as they see
+fit.
+
+```{r edit-toml-strata}
+
+# edit the strata .toml
+# swap the order of the strata execution
+new_strata_toml <-
+  original_strata_toml |>
+  dplyr::mutate(
+    order = c(2, 1)
+  ) 
+
+# make the edits
+edit_toml(
+  original_toml_path = toml_list[1],
+  new_toml_dataframe = new_strata_toml
+)
+
+# check the order
+view_toml(toml_list[1])
+```
+
+Users will notice that in addition to the changes made, a backup of the file was
+created in the same directory with the extension `.bak`.  Version control
+should be the first line of defense to protect against loss, but this is a nice 
+safety net.  The newest backups will always clobber the oldest, so care needs to
+be taken.
+
+```{r edit-toml-lamina}
+# edit the lamina toml
+# swap the order of the lamina execution
+# make laminae skip if fail
+new_lamina_toml <- 
+  original_lamina1_toml |>
+  dplyr::mutate(
+    order = c(2, 1),
+    skip_if_fail = TRUE
+  )
+  
+# make the edits
+edit_toml(
+  original_toml_path = toml_list[2],
+  new_toml_dataframe = new_lamina_toml
+)
+
+# check the order and skip_if_fail
+view_toml(toml_list[2])
+```
+
+Users can now check the execution plan to see if their changes have taken 
+effect and how they have changed the entire project's execution order.
+
+```{r execution-plan}
+# check execution order for the entire project
+survey_strata(tmp)
+```
+
+### Skip if Fail
+
+#### TODO
 
 
