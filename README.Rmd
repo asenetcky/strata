@@ -505,7 +505,7 @@ tmp <- fs::dir_create(fs::file_temp())
 build_quick_strata_project(tmp, 2, 2)
 
 # survey the .tomls
-toml_list <- 
+toml_list <-
   survey_tomls(tmp)
 
 toml_list
@@ -513,7 +513,7 @@ toml_list
 
 # create copies
 original_strata_toml <- view_toml(toml_list[1])
-original_strata_toml 
+original_strata_toml
 
 original_lamina1_toml <- view_toml(toml_list[2])
 original_lamina1_toml
@@ -526,14 +526,13 @@ The originals are all backed up, now users can edit the .toml files as they see
 fit.
 
 ```{r edit-toml-strata}
-
 # edit the strata .toml
 # swap the order of the strata execution
 new_strata_toml <-
   original_strata_toml |>
   dplyr::mutate(
     order = c(2, 1)
-  ) 
+  )
 
 # make the edits
 edit_toml(
@@ -555,13 +554,13 @@ be taken.
 # edit the lamina toml
 # swap the order of the lamina execution
 # make laminae skip if fail
-new_lamina_toml <- 
+new_lamina_toml <-
   original_lamina1_toml |>
   dplyr::mutate(
     order = c(2, 1),
     skip_if_fail = TRUE
   )
-  
+
 # make the edits
 edit_toml(
   original_toml_path = toml_list[2],
