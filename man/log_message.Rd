@@ -28,3 +28,10 @@ log_message("This is an info message", "INFO", "OUT")
 log_message("This is an error message", "ERROR", "ERR")
 log_message("This is a warning message", "WARNING", "OUT")
 }
+\seealso{
+Other log: 
+\code{\link{log_error}()},
+\code{\link{log_total_time}()},
+\code{\link{parse_log}()}
+}
+\concept{log}

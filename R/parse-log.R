@@ -1,3 +1,25 @@
+#' Return the log contents of a strata log file as a tibble
+#'
+#' If users decide to pipe the results of [`main()`] or any of the
+#' logging-related functions into a log file, the contents of log file
+#' can be parsed and stored in a tibble using `parse_log()`.  _Only_
+#' the messages from the `log_*()` functions will be parsed, all other output
+#' from the code will be ignored.
+#'
+#' @param log_path Path to the log file
+#'
+#' @family log
+#'
+#' @return A tibble of the contents of the log file
+#' @export
+#'
+#' @examples
+#' tmp <- fs::dir_create(fs::file_temp())
+#' log <- fs::file_create(fs::path(tmp, "main.log"))
+#' fake_log_message <- log_message("example message")
+#' cat(fake_log_message, file = log)
+#' parse_log(log)
+#' fs::dir_delete(tmp)
 parse_log <- function(log_path) {
   log_path <- fs::path(log_path)
 
@@ -64,6 +86,7 @@ parse_log <- function(log_path) {
     )
 }
 
+# helper checks if the line from the log file is from the log function family
 check_if_log_line <- function(log_line) {
   # check for timestamp in first 26 characters
   timestamp <-

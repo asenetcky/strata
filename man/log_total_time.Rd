@@ -23,3 +23,10 @@ begin <- Sys.time()
 end <- Sys.time() + 999
 log_total_time(begin, end)
 }
+\seealso{
+Other log: 
+\code{\link{log_error}()},
+\code{\link{log_message}()},
+\code{\link{parse_log}()}
+}
+\concept{log}
