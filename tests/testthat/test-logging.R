@@ -18,3 +18,18 @@ test_that("log_total_time works", {
 test_that("log_total_time throws error", {
   expect_error(log_total_time("hello", "world"))
 })
+
+test_that("log_message returns invisible string", {
+  captured_log <- log_message("testing, 1, 2, 3")
+  expect_true(
+    checkmate::check_string(captured_log, n.chars = 49)
+  )
+
+})
+
+test_that("log_error returns invisible string", {
+  captured_log <- log_error("ahhh, panic!")
+  expect_true(
+    checkmate::check_string(captured_log, n.chars = 46)
+  )
+})
