@@ -1,6 +1,8 @@
 # Test cases for log_message function
 test_that("log message has no error", {
-  expect_no_error(log_message("hello"))
+  log_message_runs_message <- log_message("hello")
+  message <- stringr::str_sub(log_message_runs_message, 28)
+  expect_equal(message, "INFO: hello")
 })
 
 test_that("log_message and log_error to stderr", {
