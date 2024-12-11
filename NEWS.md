@@ -1,3 +1,5 @@
+# strata 1.1.1
+
 # strata 1.1.0
 
 - completes #41: add basic log parsing functionality for users
