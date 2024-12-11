@@ -1,5 +1,8 @@
 # strata 1.1.1
 
+- fix #44: `adhoc_stratum()` saying stratum path does not exists when it does
+- add #45 "fast failure" with `stop()` for users of `adhoc_*()` functions
+
 # strata 1.1.0
 
 - completes #41: add basic log parsing functionality for users
