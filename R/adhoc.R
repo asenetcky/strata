@@ -81,17 +81,16 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
 
 adhoc <- function(name, prompt = TRUE, project_path = NULL) {
   # check user input
-    checkmate::assert_character(name)
-    checkmate::assert_logical(prompt)
+  checkmate::assert_character(name)
+  checkmate::assert_logical(prompt)
 
   # if no path use working directory
-    if (is.null(project_path)) {
-      project_path <- fs::path_wd()
-    }
+  if (is.null(project_path)) {
+    project_path <- fs::path_wd()
+  }
 
   # check for project path existence
-    if (!fs::dir_exists(project_path)) stop("Cannot find strata project")
+  if (!fs::dir_exists(project_path)) stop("Cannot find strata project")
 
-    survey <- survey_strata(project_path)
-
-  }
+  survey <- survey_strata(project_path)
+}
