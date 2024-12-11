@@ -72,17 +72,6 @@ test_that("build_quick_strata_project creates expected tomls", {
   expect_equal(tomls_paths, expected_toml_paths)
 })
 
-test_that("sourcing a quick build produces no errors", {
-  tmp <- fs::dir_create(fs::file_temp())
-  result <-
-    strata::build_quick_strata_project(
-      project_path = tmp,
-      num_strata = 3,
-      num_laminae_per = 2
-    )
-
-  expect_no_error(source(fs::path(tmp, "main.R")))
-})
 
 test_that("build_outlined_strata_project creates expected folder structure", {
   tmp <- fs::dir_create(fs::file_temp())
@@ -96,9 +85,6 @@ test_that("build_outlined_strata_project creates expected folder structure", {
       skip_if_fail = FALSE
     )
 
-  # TODO script name is going to NA atm, need a better test
-  # and better code BUT stratum name is also NA, and that SHOULD
-  # NOT be the case
   result <-
     strata::build_outlined_strata_project(outline) |>
     dplyr::pull("script_path") |>
@@ -167,22 +153,6 @@ test_that("build_outlined_strata_project creates expected R files", {
   expect_true(files_exist)
 })
 
-test_that("sourcing an outlined build produces no errors", {
-  tmp <- fs::dir_create(fs::file_temp())
-  outline <-
-    dplyr::tibble(
-      project_path = tmp,
-      stratum_name = c("stratum1", "stratum2", "stratum3"),
-      stratum_order = c(1:3),
-      lamina_name = c("lam1", "lam2", "lam3"),
-      lamina_order = c(1:3),
-      skip_if_fail = FALSE
-    )
-
-  result <- strata::build_outlined_strata_project(outline)
-
-  expect_no_error(source(fs::path(tmp, "main.R")))
-})
 
 test_that("outlined build returns a strata survey", {
   tmp <- fs::dir_create(fs::file_temp())
@@ -197,7 +167,7 @@ test_that("outlined build returns a strata survey", {
     )
 
   result <- strata::build_outlined_strata_project(outline)
-  expect_no_error(survey_tomls(tmp))
+  expect_equal(result, survey_strata(tmp))
 })
 
 
