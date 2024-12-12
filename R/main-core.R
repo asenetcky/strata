@@ -40,13 +40,7 @@
 #' main(tmp)
 #' fs::dir_delete(tmp)
 main <- function(project_path, silent = FALSE) {
-  # check user input
-  checkmate::assert_character(project_path)
-
-  project_path <- fs::path(project_path)
-
-  # check if project_path exists
-  checkmate::assert_true(fs::dir_exists(project_path))
+  project_path <- scout_path(project_path)
 
   execution_plan <-
     build_execution_plan(project_path)
