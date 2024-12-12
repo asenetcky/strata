@@ -194,7 +194,7 @@ clean_name <- function(name) {
 
   if (!identical(name, clean_name)) {
     msg <- paste("cleaning: replacing", name, "with", clean_name)
-    rlang::warn(msg)
+    rlang::inform(msg)
   }
 
   clean_name
