@@ -21,7 +21,7 @@ scout_path <- function(path) {
       paste(
         "Path must be an existing, accessible directory or a file",
         paste(bad_paths, collapse = ", ")
-            )
+      )
     rlang::abort(msg)
   }
 
