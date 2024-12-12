@@ -15,12 +15,12 @@ scout_path <- function(path) {
   bad_paths <- path[!is_dir & !is_file]
 
   # if not dir or file abort
-  if (length(bad_paths) > 0 ) {
+  if (length(bad_paths) > 0) {
     msg <-
       glue::glue(
         "Path must be an accessible directory or a file:
         ",
-        paste(paste0("'",bad_paths, "'"), collapse = ", ")
+        paste(paste0("'", bad_paths, "'"), collapse = ", ")
       )
     rlang::abort(msg)
   }
