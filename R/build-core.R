@@ -185,9 +185,17 @@ build_main <- function(project_path) {
 
 # given a string, clean it up for use
 clean_name <- function(name) {
-  name |>
+  clean_name <-
+    name |>
     stringr::str_trim() |>
     stringr::str_to_lower() |>
     stringr::str_replace_all("[^[:alnum:]]|\\s", "_") |>
     fs::path_sanitize()
+
+  if (!identical(name, clean_name)) {
+    msg <- paste("cleaning: replacing", name, "with", clean_name)
+    rlang::warn(msg)
+  }
+
+  clean_name
 }
