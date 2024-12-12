@@ -9,10 +9,10 @@ scout_path <- function(path) {
     checkmate::assert_true(fs::dir_exists(path))
   }
 
- if (fs::is_file(path)) {
+  if (fs::is_file(path)) {
     # check if path exists
     checkmate::assert_true(fs::file_exists(path))
- }
+  }
 
   invisible(path)
 }
