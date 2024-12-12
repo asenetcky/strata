@@ -1,5 +1,9 @@
 # strata 1.1.2
 
+- close #43: rename parse_log to survey_log
+- group all survey functions together in documentation
+- reorganize R/
+
 # strata 1.1.1
 
 - fix #44: `adhoc_stratum()` saying stratum path does not exists when it does
