@@ -17,7 +17,7 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
   stratum_name <- clean_name(stratum_name)
 
   # Create paths for project and stratum
-  project_folder <- fs::path(project_path)
+  project_folder <- scout_path(project_path)
   strata_folder <- fs::path(project_folder, "strata")
   target_stratum <- fs::path(strata_folder, stratum_name)
   strata_toml <- fs::path(strata_folder, ".strata.toml")
@@ -104,9 +104,7 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
 build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
   # grab the strata structure
   lamina_name <- clean_name(lamina_name)
-  stratum_path <- fs::path(stratum_path)
-
-  checkmate::assert_true(fs::dir_exists(stratum_path))
+  stratum_path <- scout_path(stratum_path)
 
   laminae_path <- stratum_path
   laminae_toml <- fs::path(laminae_path, ".laminae.toml")
@@ -170,7 +168,7 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
 # given a project path create the main.R file and add the strata::main call
 build_main <- function(project_path) {
   project_path <-
-    fs::path(project_path) |>
+    scout_path(project_path) |>
     fs::path_expand()
 
   main_path <- fs::path(project_path, "main.R")
