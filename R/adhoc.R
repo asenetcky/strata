@@ -19,22 +19,27 @@
 #' fs::dir_delete(tmp)
 #' @importFrom rlang .data
 adhoc_stratum <- function(stratum_path, silent = FALSE) {
-  stratum_name <- fs::path_file(stratum_path)
+  # check user input
+  checkmate::assert_logical(silent)
 
-  if (!fs::dir_exists(stratum_path)) stop("Stratum does not exist")
+  if (interactive()) {
+    if (!fs::dir_exists(stratum_path)) stop("Stratum does not exist")
 
-  project_path <-
-    fs::path_dir(
-      fs::path_dir(stratum_path)
-    )
+    stratum_name <- fs::path_file(stratum_path)
 
+    project_path <-
+      fs::path_dir(
+        fs::path_dir(stratum_path)
+      )
 
-  execution_plan <-
-    build_execution_plan(project_path) |>
-    dplyr::filter(.data$stratum == stratum_name)
+    execution_plan <-
+      build_execution_plan(project_path) |>
+      dplyr::filter(.data$stratum == stratum_name)
 
-  run_execution_plan(execution_plan, silent)
-  invisible(execution_plan)
+    run_execution_plan(execution_plan, silent)
+
+    invisible(execution_plan)
+  }
 }
 
 #' Execute a single lamina ad hoc
@@ -59,23 +64,32 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #' fs::dir_delete(tmp)
 #' @importFrom rlang .data
 adhoc_lamina <- function(lamina_path, silent = FALSE) {
-  if (!fs::dir_exists(lamina_path)) stop("Lamina does not exist")
+  # check user input
+  checkmate::assert_logical(silent)
 
-  lamina_name <- fs::path_file(lamina_path)
+  # run interactively only
+  if (interactive()) {
 
-  project_path <-
-    purrr::reduce(
-      1:3,
-      \(x, y) fs::path_dir(x),
-      .init = lamina_path
-    )
+    # fail if lamina does no exist
+    if (!fs::dir_exists(lamina_path)) stop("Lamina does not exist")
 
-  execution_plan <-
-    build_execution_plan(project_path) |>
-    dplyr::filter(.data$lamina == lamina_name)
+    lamina_name <- fs::path_file(lamina_path)
 
-  run_execution_plan(execution_plan, silent)
-  invisible(execution_plan)
+    project_path <-
+      purrr::reduce(
+        1:3,
+        \(x, y) fs::path_dir(x),
+        .init = lamina_path
+      )
+
+    execution_plan <-
+      build_execution_plan(project_path) |>
+      dplyr::filter(.data$lamina == lamina_name)
+
+    run_execution_plan(execution_plan, silent)
+
+    invisible(execution_plan)
+  }
 }
 
 
@@ -84,13 +98,19 @@ adhoc <- function(name, prompt = TRUE, project_path = NULL) {
   checkmate::assert_character(name)
   checkmate::assert_logical(prompt)
 
-  # if no path use working directory
-  if (is.null(project_path)) {
-    project_path <- fs::path_wd()
+  if (interactive()) {
+    # if no path use working directory
+    if (is.null(project_path)) {
+      project_path <- fs::path_wd()
+    }
+
+    # check for project path existence
+    if (!fs::dir_exists(project_path)) stop("Cannot find strata project")
+
+    survey <- survey_strata(project_path)
+
+    # placeholder execution plan
+    execution_plan <- NULL
+    invisible(execution_plan)
   }
-
-  # check for project path existence
-  if (!fs::dir_exists(project_path)) stop("Cannot find strata project")
-
-  survey <- survey_strata(project_path)
 }
