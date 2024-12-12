@@ -30,7 +30,9 @@ survey_strata <- function(project_path) {
   stratum <- lamina <- path <- order <- script <- created <- NULL
   skip_if_fail <- execution_order <- script_path <- stratum_name <- NULL
 
-  project_path <- fs::path(project_path)
+  project_path <-
+    scout_path(project_path) |>
+    fs::path()
 
   build_execution_plan(project_path) |>
     dplyr::rename(
@@ -74,9 +76,9 @@ survey_strata <- function(project_path) {
 #' survey_log(log)
 #' fs::dir_delete(tmp)
 survey_log <- function(log_path) {
-  log_path <- fs::path(log_path)
-
-  if (!fs::file_exists(log_path)) stop("Log file does not exist")
+  log_path <-
+    scout_path(log_path)
+    fs::path()
 
   log_lines <- readLines(log_path)
 
@@ -178,5 +180,6 @@ check_if_log_line <- function(log_line) {
 #' survey_tomls(tmp)
 #' fs::dir_delete(tmp)
 survey_tomls <- function(project_path) {
-  find_tomls(project_path)
+  scout_path(project_path) |>
+    find_tomls()
 }
