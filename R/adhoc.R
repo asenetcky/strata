@@ -69,7 +69,6 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
 
   # run interactively only
   if (interactive()) {
-
     # fail if lamina does no exist
     if (!fs::dir_exists(lamina_path)) stop("Lamina does not exist")
 
