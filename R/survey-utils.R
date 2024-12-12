@@ -9,17 +9,17 @@ scout_path <- function(path) {
   is_file <- rep(FALSE, length(path))
 
   # check if file
-  if (!any(is_dir)) {
+  if (any(!is_dir)) {
     is_file <- fs::is_file(path)
   }
-  bad_paths <- NULL
   bad_paths <- path[!is_dir & !is_file]
 
   # if not dir or file abort
-  if (!purrr::is_empty(bad_paths)) {
+  if (length(bad_paths) > 0 ) {
     msg <-
-      paste(
-        "Path must be an existing, accessible directory or a file:",
+      glue::glue(
+        "Path must be an accessible directory or a file:
+        ",
         paste(bad_paths, collapse = ", ")
       )
     rlang::abort(msg)
