@@ -33,3 +33,4 @@ build_quick_strata_project(tmp, 2, 2)
 survey_strata(tmp)
 fs::dir_delete(tmp)
 }
+\concept{survey}

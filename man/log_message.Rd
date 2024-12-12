@@ -31,7 +31,6 @@ log_message("This is a warning message", "WARNING", "OUT")
 \seealso{
 Other log: 
 \code{\link{log_error}()},
-\code{\link{log_total_time}()},
-\code{\link{parse_log}()}
+\code{\link{log_total_time}()}
 }
 \concept{log}

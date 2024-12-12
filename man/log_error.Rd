@@ -23,7 +23,6 @@ log_error("This is an error message")
 \seealso{
 Other log: 
 \code{\link{log_message}()},
-\code{\link{log_total_time}()},
-\code{\link{parse_log}()}
+\code{\link{log_total_time}()}
 }
 \concept{log}
