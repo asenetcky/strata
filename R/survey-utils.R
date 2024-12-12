@@ -27,3 +27,7 @@ scout_path <- function(path) {
 
   invisible(path)
 }
+
+
+
+# check if strataproject
