@@ -19,4 +19,3 @@ scout_path <- function(path) {
 
   invisible(path)
 }
-
