@@ -1,3 +1,5 @@
+# strata 1.1.2
+
 # strata 1.1.1
 
 - fix #44: `adhoc_stratum()` saying stratum path does not exists when it does
