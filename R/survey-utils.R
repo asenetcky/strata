@@ -19,7 +19,7 @@ scout_path <- function(path) {
   if (!purrr::is_empty(bad_paths)) {
     msg <-
       paste(
-        "Path must be an existing, accessible directory or a file",
+        "Path must be an existing, accessible directory or a file:",
         paste(bad_paths, collapse = ", ")
       )
     rlang::abort(msg)
