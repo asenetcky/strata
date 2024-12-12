@@ -18,12 +18,12 @@ test_that("scout_path works with a vector of same type paths", {
   tmp <- fs::dir_create(fs::file_temp())
   tmp_file <- fs::file_create(fs::path(tmp, "test_file.txt"))
 
-  expect_equal(scout_path(c(tmp, tmp)), c(tmp, tmp))
+  expect_equal(as.character(scout_path(c(tmp, tmp))), c(tmp, tmp))
 })
 
 test_that("scout_path works with a vector of mixed type paths", {
   tmp <- fs::dir_create(fs::file_temp())
   tmp_file <- fs::file_create(fs::path(tmp, "test_file.txt"))
 
-  expect_equal(scout_path(c(tmp, tmp_file)), c(tmp, tmp_file))
+  expect_equal(as.character(scout_path(c(tmp, tmp_file))), c(tmp, tmp_file))
 })
