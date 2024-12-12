@@ -60,7 +60,7 @@ survey_strata <- function(project_path) {
 #'
 #' @param log_path Path to the log file
 #'
-#' @family family
+#' @family survey
 #' @family log
 #'
 #' @return A tibble of the contents of the log file

@@ -28,10 +28,14 @@ survey_log(log)
 fs::dir_delete(tmp)
 }
 \seealso{
+Other survey: 
+\code{\link{survey_strata}()},
+\code{\link{survey_tomls}()}
+
 Other log: 
 \code{\link{log_error}()},
 \code{\link{log_message}()},
 \code{\link{log_total_time}()}
 }
-\concept{family}
 \concept{log}
+\concept{survey}

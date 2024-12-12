@@ -23,6 +23,7 @@ fs::dir_delete(tmp)
 }
 \seealso{
 Other survey: 
+\code{\link{survey_log}()},
 \code{\link{survey_strata}()}
 }
 \concept{survey}
