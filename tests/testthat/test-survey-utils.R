@@ -4,7 +4,6 @@ test_that("scout_path returns invisible path for exisiting paths", {
 
   tmp_file <- fs::file_create(fs::path(tmp, "test_file.txt"))
   expect_equal(scout_path(tmp_file), tmp_file)
-
 })
 
 test_that("scout_path throws an error for non-existing paths", {
