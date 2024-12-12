@@ -17,7 +17,7 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
   stratum_name <- clean_name(stratum_name)
 
   # Create paths for project and stratum
-  project_folder <- scout_path(project_path)
+  project_folder <- fs::path(project_path)
   strata_folder <- fs::path(project_folder, "strata")
   target_stratum <- fs::path(strata_folder, stratum_name)
   strata_toml <- fs::path(strata_folder, ".strata.toml")
