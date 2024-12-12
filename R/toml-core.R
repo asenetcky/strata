@@ -1,19 +1,3 @@
-#' Find all toml files in a project
-#'
-#' @inheritParams main
-#'
-#' @return an fs_path object of all toml files.
-#' @export
-#'
-#' @examples
-#' tmp <- fs::dir_create(fs::file_temp())
-#' strata::build_quick_strata_project(tmp, 2, 3)
-#' survey_tomls(tmp)
-#' fs::dir_delete(tmp)
-survey_tomls <- function(project_path) {
-  find_tomls(project_path)
-}
-
 #' View the contents of a toml file as a dataframe
 #'
 #' @param toml_path Path to the toml file

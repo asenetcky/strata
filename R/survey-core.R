@@ -159,3 +159,23 @@ check_if_log_line <- function(log_line) {
   # if both true, reasonable assumption this is log message
   all(timestamp, level)
 }
+
+
+
+#' Find all toml files in a project
+#'
+#' @inheritParams main
+#'
+#' @family survey
+#'
+#' @return an fs_path object of all toml files.
+#' @export
+#'
+#' @examples
+#' tmp <- fs::dir_create(fs::file_temp())
+#' strata::build_quick_strata_project(tmp, 2, 3)
+#' survey_tomls(tmp)
+#' fs::dir_delete(tmp)
+survey_tomls <- function(project_path) {
+  find_tomls(project_path)
+}
