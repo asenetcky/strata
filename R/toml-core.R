@@ -12,7 +12,8 @@
 #' purrr::map(proj_tomls, view_toml)
 #' fs::dir_delete(tmp)
 view_toml <- function(toml_path) {
-  snapshot_toml(fs::path(toml_path))
+  scout_path(toml_path) |>
+    snapshot_toml()
 }
 
 #' Edit a toml file by providing a dataframe replacement
@@ -74,6 +75,8 @@ view_toml <- function(toml_path) {
 edit_toml <- function(original_toml_path, new_toml_dataframe) {
   new_toml_dataframe <-
     check_toml_dataframe(new_toml_dataframe)
+
+  original_toml_path <- scout_path(original_toml_path)
 
   rewrite_from_dataframe(new_toml_dataframe, original_toml_path)
   invisible(original_toml_path)
