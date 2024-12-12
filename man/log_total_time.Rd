@@ -26,6 +26,7 @@ log_total_time(begin, end)
 \seealso{
 Other log: 
 \code{\link{log_error}()},
-\code{\link{log_message}()}
+\code{\link{log_message}()},
+\code{\link{survey_log}()}
 }
 \concept{log}

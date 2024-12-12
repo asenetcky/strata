@@ -27,4 +27,11 @@ cat(fake_log_message, file = log)
 survey_log(log)
 fs::dir_delete(tmp)
 }
-\concept{log, family}
+\seealso{
+Other log: 
+\code{\link{log_error}()},
+\code{\link{log_message}()},
+\code{\link{log_total_time}()}
+}
+\concept{family}
+\concept{log}
