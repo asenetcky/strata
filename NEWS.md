@@ -1,5 +1,6 @@
 # strata 1.2.0
 
+- close #48 better project checks 
 - add stricter path checking for functions that require paths to existing
 files and folders
 - add more helpful error messages for users regarding paths
