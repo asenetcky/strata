@@ -104,9 +104,7 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
 build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
   # grab the strata structure
   lamina_name <- clean_name(lamina_name)
-  stratum_path <- fs::path(stratum_path)
-
-  checkmate::assert_true(fs::dir_exists(stratum_path))
+  stratum_path <- scout_path(stratum_path)
 
   laminae_path <- stratum_path
   laminae_toml <- fs::path(laminae_path, ".laminae.toml")
@@ -170,7 +168,7 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
 # given a project path create the main.R file and add the strata::main call
 build_main <- function(project_path) {
   project_path <-
-    fs::path(project_path) |>
+    scout_path(project_path) |>
     fs::path_expand()
 
   main_path <- fs::path(project_path, "main.R")
@@ -187,9 +185,17 @@ build_main <- function(project_path) {
 
 # given a string, clean it up for use
 clean_name <- function(name) {
-  name |>
+  clean_name <-
+    name |>
     stringr::str_trim() |>
     stringr::str_to_lower() |>
     stringr::str_replace_all("[^[:alnum:]]|\\s", "_") |>
     fs::path_sanitize()
+
+  if (!identical(name, clean_name)) {
+    msg <- paste("cleaning: replacing", name, "with", clean_name)
+    rlang::inform(msg)
+  }
+
+  clean_name
 }

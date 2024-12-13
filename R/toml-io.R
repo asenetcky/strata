@@ -70,7 +70,7 @@ write_toml_lines <- function(toml_content, toml_path) {
 # given a toml path, read the lines of the toml file and return a list of
 # the contents
 read_toml <- function(toml_path) {
-  toml_path <- fs::path(toml_path)
+  toml_path <- scout_path(toml_path)
 
   toml_lines <- readr::read_lines(toml_path)
   toml_type <-
