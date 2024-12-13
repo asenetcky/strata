@@ -40,10 +40,11 @@
 #' main(tmp)
 #' fs::dir_delete(tmp)
 main <- function(project_path, silent = FALSE) {
-  project_path <- scout_path(project_path)
-
   execution_plan <-
-    build_execution_plan(project_path)
+    project_path |>
+    scout_path() |>
+    scout_project() |>
+    build_execution_plan()
 
   run_execution_plan(execution_plan, silent)
 
