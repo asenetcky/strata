@@ -27,3 +27,26 @@ test_that("scout_path works with a vector of mixed type paths", {
 
   expect_equal(as.character(scout_path(c(tmp, tmp_file))), c(tmp, tmp_file))
 })
+
+test_that("scout_project returns invisble project path for quick builds", {
+  tmp <- fs::dir_create(fs::file_temp())
+  build_quick_strata_project(tmp)
+  expect_equal(scout_project(tmp), tmp)
+})
+
+test_that("scout_project returns invisble project path for full builds", {
+  tmp <- fs::dir_create(fs::file_temp())
+  stratum_path <- build_stratum("test", tmp)
+
+  build_lamina("test", stratum_path)
+
+  expect_equal(scout_project(tmp), tmp)
+})
+
+test_that("scout_project throws an error for non-strata projects", {
+  bad_path <- fs::path("/this/path/is/not/real/")
+  real_path_not_project <- fs::dir_create(fs::file_temp())
+
+  expect_error(scout_project(bad_path))
+  expect_error(scout_project(real_path_not_project))
+})
