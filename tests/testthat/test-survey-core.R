@@ -128,3 +128,10 @@ test_that("survey_tomls finds all the tomls", {
     c(toml_path, fs::path(stratum_path, ".laminae.toml")) |> as.character()
   )
 })
+
+
+test_that("survey_log throw error on empty log", {
+  tmp <- fs::dir_create(fs::file_temp())
+  empty_log <- fs::file_create(fs::path(tmp, "empty.log"))
+  expect_error(survey_log(empty_log))
+})
