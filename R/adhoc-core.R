@@ -19,11 +19,6 @@
 #' fs::dir_delete(tmp)
 #' @importFrom rlang .data
 adhoc_stratum <- function(stratum_path, silent = FALSE) {
-  # interactive only
-  if (!interactive()) {
-    rlang::abort("This function is for interactive only")
-  }
-
   # check user input
   checkmate::assert_logical(silent)
 
@@ -66,20 +61,14 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #' fs::dir_delete(tmp)
 #' @importFrom rlang .data
 adhoc_lamina <- function(lamina_path, silent = FALSE) {
-  # interactive only
-  if (!interactive()) {
-    rlang::abort("This function is for interactive only")
-  }
-
   # check user input
   checkmate::assert_logical(silent)
   lamina_path <- scout_path(lamina_path)
 
-  # fail if lamina does no exist
-  if (!fs::dir_exists(lamina_path)) stop("Lamina does not exist")
-
+  # get the lamina name
   lamina_name <- fs::path_file(lamina_path)
 
+  # grab all the project paths
   project_path <-
     purrr::reduce(
       1:3,
@@ -102,21 +91,64 @@ adhoc <- function(name, prompt = TRUE, project_path = NULL) {
   if (!interactive()) {
     rlang::abort("This function is for interactive only")
   }
+
+  adhoc_check(name, prompt, project_path)
+
+
+  # if any matches do util::menu
+}
+
+adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
+  # if no path use working directory
+  if (is.null(project_path)) {
+    project_path <- fs::path_wd()
+    rlang::inform(
+      glue::glue(
+        "Setting project path to working directory: '{project_path}'"
+      )
+    )
+  }
+
   # check user input
   checkmate::assert_character(name)
   checkmate::assert_logical(prompt)
 
-  # if no path use working directory
-  if (is.null(project_path)) {
-    project_path <- fs::path_wd()
-  }
+  project_path <-
+    project_path |>
+    scout_path() |>
+    scout_project()
 
-  # check for project path existence
-  if (!fs::dir_exists(project_path)) stop("Cannot find strata project")
+  invisible()
+}
 
+#' @importFrom rlang .data
+adhoc_matches <- function(name, project_path) {
+  #grab survey
   survey <- survey_strata(project_path)
+
+  # grab matches
+  stratum_matches <-
+    survey |>
+    dplyr::filter(
+      .data$stratum_name == name
+    )
+
+  lamina_matches <-
+    survey |>
+    dplyr::filter(
+      .data$lamina_name == name
+    )
+
+  # lst matches together
+  dplyr::lst(stratum_matches, lamina_matches)
+}
+
+
+adhoc_wip <- function(x) {
+  x <- NULL
 
   # placeholder execution plan
   execution_plan <- NULL
   invisible(execution_plan)
+
 }
