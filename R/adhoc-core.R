@@ -123,7 +123,7 @@ adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
 
 #' @importFrom rlang .data
 adhoc_matches <- function(name, project_path) {
-  #grab survey
+  # grab survey
   survey <- survey_strata(project_path)
 
   # grab matches
@@ -150,5 +150,4 @@ adhoc_wip <- function(x) {
   # placeholder execution plan
   execution_plan <- NULL
   invisible(execution_plan)
-
 }
