@@ -45,27 +45,31 @@ scout_project <- function(path) {
   strata_folder <- fs::path(path, "strata")
   strata_exist <- fs::dir_exists(strata_folder)
 
-  # check if tomls exists
-  tomls <- find_tomls(path)
+  if (strata_exist) {
+    has_strata <-
+      dplyr::if_else(
+        fs::file_exists(
+          fs::path(strata_folder, ".strata.toml")
+        ),
+        TRUE,
+        FALSE)
+  }
 
-  if (!purrr::is_empty(tomls)) {
-    has_strata_toml <-
-      tomls |>
-      fs::path_file() |>
-      stringr::str_detect(stringr::fixed(".strata.toml")) |>
-      any()
-
-    has_laminae <-
-      tomls |>
-      fs::path_file() |>
-      stringr::str_detect(stringr::fixed(".laminae.toml")) |>
-      any()
-
-    has_strata <- all(has_strata_toml, has_laminae_toml)
+  if (has_strata) {
+    laminae_tomls <-
+      fs::dir_ls(
+        strata_folder,
+        all = TRUE,
+        recurse = TRUE,
+        glob = ".*laminae.toml"
+    )
+    has_laminae <- length(laminae_tomls) > 0
   }
 
   if (!any(has_strata, has_laminae)) {
-    msg <- glue::glue("'{path}' is not a strata project")
+    msg <- glue::glue("'{path}' is not a strata project
+                      has strata: {has_strata}
+                      has laminae: {has_laminae}")
     rlang::abort(msg)
   }
 
