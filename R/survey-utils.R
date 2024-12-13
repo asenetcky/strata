@@ -52,7 +52,8 @@ scout_project <- function(path) {
           fs::path(strata_folder, ".strata.toml")
         ),
         TRUE,
-        FALSE)
+        FALSE
+      )
   }
 
   if (has_strata) {
@@ -62,7 +63,7 @@ scout_project <- function(path) {
         all = TRUE,
         recurse = TRUE,
         glob = ".*laminae.toml"
-    )
+      )
     has_laminae <- length(laminae_tomls) > 0
   }
 
