@@ -83,7 +83,7 @@ survey_log <- function(log_path) {
 
   log_length <- length(log_lines)
 
-  if (!log_length >= 1) stop("Log file is empty")
+  if (!log_length > 0) rlang::abort("Log file is empty")
 
   surveyed_log <-
     dplyr::tibble(
