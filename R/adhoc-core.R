@@ -19,13 +19,14 @@
 #' fs::dir_delete(tmp)
 #' @importFrom rlang .data
 adhoc_stratum <- function(stratum_path, silent = FALSE) {
+  stratum_path <- scout_path(stratum_path)
+
   stratum_name <- fs::path_file(stratum_path)
+
   project_path <-
     fs::path_dir(
       fs::path_dir(stratum_path)
     )
-
-  if (fs::dir_exists(stratum_path)) log_error("Stratum does not exist")
 
   execution_plan <-
     build_execution_plan(project_path) |>
@@ -57,7 +58,10 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #' fs::dir_delete(tmp)
 #' @importFrom rlang .data
 adhoc_lamina <- function(lamina_path, silent = FALSE) {
+  lamina_path <- scout_path(lamina_path)
+
   lamina_name <- fs::path_file(lamina_path)
+
   project_path <-
     purrr::reduce(
       1:3,

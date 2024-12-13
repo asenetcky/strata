@@ -195,3 +195,12 @@ test_that("skip_if_fail= FALSE halts execution", {
 
   expect_error(source(fs::path(tmp, "main.R")))
 })
+
+
+test_that("adhoc stratum throws error when path does no exists", {
+  expect_error(adhoc_stratum("bad_path"))
+})
+
+test_that("adhoc lamina throws error when path does no exists", {
+  expect_error(adhoc_lamina("bad_path"))
+})

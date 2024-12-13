@@ -1,19 +1,3 @@
-#' Find all toml files in a project
-#'
-#' @inheritParams main
-#'
-#' @return an fs_path object of all toml files.
-#' @export
-#'
-#' @examples
-#' tmp <- fs::dir_create(fs::file_temp())
-#' strata::build_quick_strata_project(tmp, 2, 3)
-#' survey_tomls(tmp)
-#' fs::dir_delete(tmp)
-survey_tomls <- function(project_path) {
-  find_tomls(project_path)
-}
-
 #' View the contents of a toml file as a dataframe
 #'
 #' @param toml_path Path to the toml file
@@ -28,7 +12,8 @@ survey_tomls <- function(project_path) {
 #' purrr::map(proj_tomls, view_toml)
 #' fs::dir_delete(tmp)
 view_toml <- function(toml_path) {
-  snapshot_toml(fs::path(toml_path))
+  scout_path(toml_path) |>
+    snapshot_toml()
 }
 
 #' Edit a toml file by providing a dataframe replacement
@@ -90,6 +75,8 @@ view_toml <- function(toml_path) {
 edit_toml <- function(original_toml_path, new_toml_dataframe) {
   new_toml_dataframe <-
     check_toml_dataframe(new_toml_dataframe)
+
+  original_toml_path <- scout_path(original_toml_path)
 
   rewrite_from_dataframe(new_toml_dataframe, original_toml_path)
   invisible(original_toml_path)

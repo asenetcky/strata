@@ -1,4 +1,35 @@
-# strata (development version)
+# strata 1.2.0
+
+- close #48 better project checks 
+- add stricter path checking for functions that require paths to existing
+files and folders
+- add more helpful error messages for users regarding paths
+- add checks around whether a folder is a strata project or not
+- `survey_tomls()` and `survey_strata()` will only work on strata projects
+and will provide helpful error messages if they are not strata projects
+
+# strata 1.1.2
+
+- close #43: rename parse_log to survey_log
+- group all survey functions together in documentation
+- reorganize R/
+
+# strata 1.1.1
+
+- fix #44: `adhoc_stratum()` saying stratum path does not exists when it does
+- add #45 "fast failure" with `stop()` for users of `adhoc_*()` functions
+
+# strata 1.1.0
+
+- completes #41: add basic log parsing functionality for users
+
+# strata 1.0.3
+
+- fix: #40 log timestamp not always 24 characters long
+
+# strata 1.0.2
+
+fix: #36 outline build doesn't allow for multiple laminae per stratum
 
 # strata 1.0.1
 
