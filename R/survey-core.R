@@ -30,7 +30,10 @@ survey_strata <- function(project_path) {
   stratum <- lamina <- path <- order <- script <- created <- NULL
   skip_if_fail <- execution_order <- script_path <- stratum_name <- NULL
 
-  project_path <- scout_path(project_path)
+  project_path <-
+    project_path |>
+    scout_path() |>
+    scout_project()
 
   build_execution_plan(project_path) |>
     dplyr::rename(
@@ -161,7 +164,7 @@ check_if_log_line <- function(log_line) {
 
 
 
-#' Find all toml files in a project
+#' Find all the strata-based toml files in a strata project
 #'
 #' @inheritParams main
 #'
@@ -176,6 +179,8 @@ check_if_log_line <- function(log_line) {
 #' survey_tomls(tmp)
 #' fs::dir_delete(tmp)
 survey_tomls <- function(project_path) {
-  scout_path(project_path) |>
+  project_path |>
+    scout_path() |>
+    scout_project() |>
     find_tomls()
 }
