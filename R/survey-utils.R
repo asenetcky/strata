@@ -20,7 +20,11 @@ scout_path <- function(path) {
       glue::glue(
         "Path must be an accessible directory or a file:
         ",
-        paste(paste0("'", bad_paths, "'"), collapse = ", ")
+        glue::glue_collapse(
+          glue::single_quote(bad_paths),
+          sep = ", ",
+          last = ""
+        )
       )
     rlang::abort(msg)
   }
