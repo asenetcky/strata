@@ -1,3 +1,5 @@
+# strata 1.2.0
+
 # strata 1.1.2
 
 - close #43: rename parse_log to survey_log
