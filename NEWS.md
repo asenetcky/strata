@@ -1,5 +1,12 @@
 # strata 1.2.0
 
+- add stricter path checking for functions that require paths to existing
+files and folders
+- add more helpful error messages for users regarding paths
+- add checks around whether a folder is a strata project or not
+- `survey_tomls()` and `survey_strata()` will only work on strata projects
+and will provide helpful error messages if they are not strata projects
+
 # strata 1.1.2
 
 - close #43: rename parse_log to survey_log
