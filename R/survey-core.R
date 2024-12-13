@@ -1,4 +1,4 @@
-#' Survey the layout and execution order of your project
+#' Survey the layout and execution order of a strata project
 #'
 #' @description
 #' `survey_strata()` will examine the .tomls in `project_path` provided and
