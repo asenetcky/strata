@@ -2,7 +2,7 @@
 % Please edit documentation in R/survey-core.R
 \name{survey_tomls}
 \alias{survey_tomls}
-\title{Find all toml files in a project}
+\title{Find all the strata-based toml files in a strata project}
 \usage{
 survey_tomls(project_path)
 }
@@ -13,7 +13,7 @@ survey_tomls(project_path)
 an fs_path object of all toml files.
 }
 \description{
-Find all toml files in a project
+Find all the strata-based toml files in a strata project
 }
 \examples{
 tmp <- fs::dir_create(fs::file_temp())

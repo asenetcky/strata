@@ -2,7 +2,7 @@
 % Please edit documentation in R/survey-core.R
 \name{survey_strata}
 \alias{survey_strata}
-\title{Survey the layout and execution order of your project}
+\title{Survey the layout and execution order of a strata project}
 \usage{
 survey_strata(project_path)
 }
