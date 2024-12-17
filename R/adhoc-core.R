@@ -99,11 +99,9 @@ adhoc <- function(name, prompt = TRUE, project_path = NULL) {
     adhoc_matches(name, project_path) |>
     purrr::discard(\(x) nrow(x) == 0)
 
-  if (length(matches) >1 ) {
+  if (length(matches) > 1) {
     # do menu thing
   }
-
-
 }
 
 adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
