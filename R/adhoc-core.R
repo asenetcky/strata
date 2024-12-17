@@ -92,10 +92,18 @@ adhoc <- function(name, prompt = TRUE, project_path = NULL) {
     rlang::abort("This function is for interactive only")
   }
 
-  adhoc_check(name, prompt, project_path)
+  project_path <- adhoc_check(name, prompt, project_path)
+
+  # if both kinds of matches do util::menu
+  matches <-
+    adhoc_matches(name, project_path) |>
+    purrr::discard(\(x) nrow(x) == 0)
+
+  if (length(matches) >1 ) {
+    # do menu thing
+  }
 
 
-  # if any matches do util::menu
 }
 
 adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
@@ -118,7 +126,7 @@ adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
     scout_path() |>
     scout_project()
 
-  invisible()
+  invisible(project_path)
 }
 
 #' @importFrom rlang .data
