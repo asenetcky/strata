@@ -86,7 +86,7 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
 }
 
 
-adhoc <- function(name, prompt = TRUE, project_path = NULL) {
+adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
   # interactive only
   if (!interactive()) {
     rlang::abort("This function is for interactive only")
@@ -94,14 +94,34 @@ adhoc <- function(name, prompt = TRUE, project_path = NULL) {
 
   project_path <- adhoc_check(name, prompt, project_path)
 
-  # if both kinds of matches do util::menu
   matches <-
     adhoc_matches(name, project_path) |>
     purrr::discard(\(x) nrow(x) == 0)
 
-  if (length(matches) > 1) {
-    # do menu thing
+  # if no match
+  if (length(matches) == 0) {
+    rlang::abort(
+      glue::glue(
+        "No matches found for '{name}' in '{project_path}'"
+      )
+    )
   }
+
+  # if name matches both stratum and lamina
+  if (length(matches) > 1) {
+    # do util::menu thing
+  }
+
+  # if only one match
+  if (length(matches) == 1) {
+    matches <-
+      matches |>
+      purrr::pluck(1)
+
+    run_execution_plan(execution_plan = matches, silent = silent)
+  }
+
+  invisible(matches)
 }
 
 adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
@@ -129,31 +149,22 @@ adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
 
 #' @importFrom rlang .data
 adhoc_matches <- function(name, project_path) {
-  # grab survey
-  survey <- survey_strata(project_path)
+  # grab execution plan
+  plan <- build_execution_plan(project_path)
 
   # grab matches
   stratum_matches <-
-    survey |>
+    plan |>
     dplyr::filter(
-      .data$stratum_name == name
+      .data$stratum == name
     )
 
   lamina_matches <-
-    survey |>
+    plan |>
     dplyr::filter(
-      .data$lamina_name == name
+      .data$lamina == name
     )
 
   # lst matches together
   dplyr::lst(stratum_matches, lamina_matches)
-}
-
-
-adhoc_wip <- function(x) {
-  x <- NULL
-
-  # placeholder execution plan
-  execution_plan <- NULL
-  invisible(execution_plan)
 }
