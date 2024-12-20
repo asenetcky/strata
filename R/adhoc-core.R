@@ -109,7 +109,6 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
 
   # if name matches both stratum and lamina
   if (length(matches) > 1) {
-
     rlang::inform(
       glue::glue(
         "Multiple matches found for '{name}' in '{project_path}'
@@ -118,23 +117,20 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
     )
 
     choice <-
-      switch(
-        utils::menu(
-          choices = c(
-            glue::glue("Stratum: {name}"),
-            glue::glue("Lamina: {name}")
-          )
-        ) + 1,
-        cat("Nothing done\n"),
-        "stratum_matches",
-        "lamina_matches"
+      switch(utils::menu(
+        choices = c(
+          glue::glue("Stratum: {name}"),
+          glue::glue("Lamina: {name}")
+        )
+      ) + 1,
+      cat("Nothing done\n"),
+      "stratum_matches",
+      "lamina_matches"
       )
 
     matches <-
       matches |>
       purrr::pluck(choice)
-
-
   }
 
   # if only one match
