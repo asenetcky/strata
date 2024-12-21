@@ -118,23 +118,22 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
         please select proper match:"
       )
     )
+  choices <-
+    distinct_matches |>
+    dplyr::mutate(
+      choice = paste(stratum, lamina),
+      id = dplyr::row_number(),
+      .keep = "none"
+    )
 
-
-    choice <-
-      switch(utils::menu(
-        choices = c(
-          glue::glue("Stratum: {name}"),
-          glue::glue("Lamina: {name}")
-        )
-      ) + 1,
-      cat("Nothing done\n"),
-      "stratum_matches",
-      "lamina_matches"
-      )
+    choice <- utils::menu(choices = choices$choice)
 
     matches <-
-      distinct_matches |>
-      purrr::pluck(choice)
+      distinct_matches[choice,] |>
+      dplyr::inner_join(
+        execution_plan,
+        by = c("stratum", "lamina")
+      )
 
     run_execution_plan(execution_plan = matches, silent = silent)
   }
@@ -190,8 +189,6 @@ adhoc_matches <- function(name, execution_plan) {
     ) |>
     dplyr::distinct(stratum, lamina)
 
-
-  # Lamina can have the same name
 
   lamina_matches <-
     execution_plan |>
