@@ -93,14 +93,13 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
   }
 
   project_path <- adhoc_check(name, prompt, project_path)
+  execution_plan <- build_execution_plan(project_path)
 
-  # TODO split out lamina matches BY stratum
-  match_list <-
-    adhoc_matches(name, project_path) |>
-    purrr::discard(\(x) nrow(x) == 0)
+  distinct_matches <-
+    adhoc_matches(name, execution_plan)
 
   # if no match
-  if (length(match_list) == 0) {
+  if (length(distinct_matches) == 0) {
     rlang::abort(
       glue::glue(
         "No matches found for '{name}' in '{project_path}'"
@@ -108,14 +107,16 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
     )
   }
 
-  # if name matches both stratum and lamina
-  if (length(match_list) > 1) {
+  # TODO update with new match format
+  # if name matches both stratum and lamina or multiple lamina
+  if (length(distinct_matches) > 1) {
     rlang::inform(
       glue::glue(
         "Multiple matches found for '{name}' in '{project_path}'
         please select proper match:"
       )
     )
+
 
     choice <-
       switch(utils::menu(
@@ -130,17 +131,20 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
       )
 
     matches <-
-      match_list |>
+      distinct_matches |>
       purrr::pluck(choice)
 
     run_execution_plan(execution_plan = matches, silent = silent)
   }
 
   # if only one match
-  if (length(match_list) == 1) {
+  if (nrow(distinct_matches) == 1) {
     matches <-
-      match_list |>
-      purrr::pluck(1)
+      distinct_matches |>
+      dplyr::inner_join(
+        execution_plan,
+        by = c("stratum", "lamina")
+      )
 
     run_execution_plan(execution_plan = matches, silent = silent)
   }
@@ -172,23 +176,27 @@ adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
 }
 
 #' @importFrom rlang .data
-adhoc_matches <- function(name, project_path) {
-  # grab execution plan
-  plan <- build_execution_plan(project_path)
+adhoc_matches <- function(name, execution_plan) {
 
   # grab matches
   stratum_matches <-
-    plan |>
+    execution_plan |>
     dplyr::filter(
       .data$stratum == name
-    )
+    ) |>
+    dplyr::distinct(stratum, lamina)
+
+
+  # Lamina can have the same name
 
   lamina_matches <-
-    plan |>
+    execution_plan |>
     dplyr::filter(
       .data$lamina == name
-    )
+    ) |>
+    dplyr::distinct(stratum, lamina)
 
-  # lst matches together
-  dplyr::lst(stratum_matches, lamina_matches)
+
+  dplyr::bind_rows(stratum_matches, lamina_matches) |>
+    dplyr::distinct()
 }
