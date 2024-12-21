@@ -199,24 +199,24 @@ adhoc_freewill <- function(distinct_matches, prompt) {
   # global bindings
   stratum <- lamina <- NULL
 
-    choices <-
-      distinct_matches |>
-      dplyr::mutate(
-        choice = paste(stratum, lamina),
-        id = dplyr::row_number(),
-        .keep = "none"
-      )
+  choices <-
+    distinct_matches |>
+    dplyr::mutate(
+      choice = paste(stratum, lamina),
+      id = dplyr::row_number(),
+      .keep = "none"
+    )
 
-    if (prompt) {
-      choice <- utils::menu(choices = choices$choice)
-    } else {
-      choice <- 1
-      rlang::inform(
-        glue::glue(
-          "Choosing first match: '{choices$choice[1]}'"
-        )
+  if (prompt) {
+    choice <- utils::menu(choices = choices$choice)
+  } else {
+    choice <- 1
+    rlang::inform(
+      glue::glue(
+        "Choosing first match: '{choices$choice[1]}'"
       )
-    }
+    )
+  }
 
-    distinct_matches[choice, ]
+  distinct_matches[choice, ]
 }
