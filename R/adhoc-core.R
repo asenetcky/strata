@@ -94,12 +94,13 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
 
   project_path <- adhoc_check(name, prompt, project_path)
 
-  matches <-
+  # TODO split out lamina matches BY stratum
+  match_list <-
     adhoc_matches(name, project_path) |>
     purrr::discard(\(x) nrow(x) == 0)
 
   # if no match
-  if (length(matches) == 0) {
+  if (length(match_list) == 0) {
     rlang::abort(
       glue::glue(
         "No matches found for '{name}' in '{project_path}'"
@@ -108,7 +109,7 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
   }
 
   # if name matches both stratum and lamina
-  if (length(matches) > 1) {
+  if (length(match_list) > 1) {
     rlang::inform(
       glue::glue(
         "Multiple matches found for '{name}' in '{project_path}'
@@ -129,14 +130,16 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
       )
 
     matches <-
-      matches |>
+      match_list |>
       purrr::pluck(choice)
+
+    run_execution_plan(execution_plan = matches, silent = silent)
   }
 
   # if only one match
-  if (length(matches) == 1) {
+  if (length(match_list) == 1) {
     matches <-
-      matches |>
+      match_list |>
       purrr::pluck(1)
 
     run_execution_plan(execution_plan = matches, silent = silent)
