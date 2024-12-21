@@ -102,7 +102,7 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
     adhoc_matches(name, execution_plan)
 
   # if no match
-  if (length(distinct_matches) == 0) {
+  if (nrow(distinct_matches) == 0 | purrr::is_empty(distinct_matches)) {
     rlang::abort(
       glue::glue(
         "No matches found for '{name}' in '{project_path}'"
@@ -111,25 +111,18 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
   }
 
   # if name matches both stratum and lamina or multiple lamina
-  if (length(distinct_matches) > 1) {
+  if (nrow(distinct_matches) > 1) {
     rlang::inform(
       glue::glue(
-        "Multiple matches found for '{name}' in '{project_path}'
-        please select proper match:"
+        "Multiple matches found for '{name}' in '{project_path}'"
       )
     )
-    choices <-
-      distinct_matches |>
-      dplyr::mutate(
-        choice = paste(stratum, lamina),
-        id = dplyr::row_number(),
-        .keep = "none"
-      )
-
-    choice <- utils::menu(choices = choices$choice)
 
     matches <-
-      distinct_matches[choice, ] |>
+      adhoc_freewill(
+        distinct_matches,
+        prompt = prompt
+      ) |>
       dplyr::inner_join(
         execution_plan,
         by = c("stratum", "lamina")
@@ -200,4 +193,30 @@ adhoc_matches <- function(name, execution_plan) {
 
   dplyr::bind_rows(stratum_matches, lamina_matches) |>
     dplyr::distinct()
+}
+
+adhoc_freewill <- function(distinct_matches, prompt) {
+  # global bindings
+  stratum <- lamina <- NULL
+
+    choices <-
+      distinct_matches |>
+      dplyr::mutate(
+        choice = paste(stratum, lamina),
+        id = dplyr::row_number(),
+        .keep = "none"
+      )
+
+    if (prompt) {
+      choice <- utils::menu(choices = choices$choice)
+    } else {
+      choice <- 1
+      rlang::inform(
+        glue::glue(
+          "Choosing first match: '{choices$choice[1]}'"
+        )
+      )
+    }
+
+    distinct_matches[choice, ]
 }
