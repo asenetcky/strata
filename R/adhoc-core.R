@@ -118,18 +118,18 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
         please select proper match:"
       )
     )
-  choices <-
-    distinct_matches |>
-    dplyr::mutate(
-      choice = paste(stratum, lamina),
-      id = dplyr::row_number(),
-      .keep = "none"
-    )
+    choices <-
+      distinct_matches |>
+      dplyr::mutate(
+        choice = paste(stratum, lamina),
+        id = dplyr::row_number(),
+        .keep = "none"
+      )
 
     choice <- utils::menu(choices = choices$choice)
 
     matches <-
-      distinct_matches[choice,] |>
+      distinct_matches[choice, ] |>
       dplyr::inner_join(
         execution_plan,
         by = c("stratum", "lamina")
