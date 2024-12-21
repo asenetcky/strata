@@ -92,6 +92,9 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
     rlang::abort("This function is for interactive only")
   }
 
+  # global bindings
+  stratum <- lamina <- NULL
+
   project_path <- adhoc_check(name, prompt, project_path)
   execution_plan <- build_execution_plan(project_path)
 
@@ -107,7 +110,6 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
     )
   }
 
-  # TODO update with new match format
   # if name matches both stratum and lamina or multiple lamina
   if (length(distinct_matches) > 1) {
     rlang::inform(
@@ -177,6 +179,9 @@ adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
 
 #' @importFrom rlang .data
 adhoc_matches <- function(name, execution_plan) {
+  # global bindings
+  stratum <- lamina <- NULL
+
   # grab matches
   stratum_matches <-
     execution_plan |>
