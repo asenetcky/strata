@@ -177,7 +177,6 @@ adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
 
 #' @importFrom rlang .data
 adhoc_matches <- function(name, execution_plan) {
-
   # grab matches
   stratum_matches <-
     execution_plan |>
