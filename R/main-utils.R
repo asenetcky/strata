@@ -221,31 +221,24 @@ find_laminae <- function(strata_path) {
       .before = "type"
     )
 
-  laminae_wscript_paths <-
-    found_laminae$lamina_path |>
-    fs::dir_ls(glob = "*.R")
-
-  script_names <-
-    laminae_wscript_paths |>
-    fs::path_file() |>
-    fs::path_ext_remove()
-
-  paths_and_scripts <-
-    tibble::tibble(
-      script_path = laminae_wscript_paths,
-      script_name = script_names
+  scripts <-
+    found_laminae |>
+    dplyr::group_by(id) |>
+    dplyr::reframe(
+      script_path = fs::dir_ls(lamina_path, glob = "*.R")
     ) |>
     dplyr::mutate(
-      name = fs::path_file(
-        fs::path_dir(script_path)
-      )
+      script_name =
+        fs::path_file(
+          fs::path_ext_remove(script_path)
+        )
     )
 
   found_laminae <-
     found_laminae |>
     dplyr::left_join(
-      paths_and_scripts,
-      by = dplyr::join_by(name)
+      scripts,
+      by = dplyr::join_by("id")
     )
 
   good_laminae_paths <-
@@ -261,3 +254,5 @@ find_laminae <- function(strata_path) {
 
   found_laminae
 }
+
+
