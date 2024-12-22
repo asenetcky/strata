@@ -89,7 +89,10 @@ build_execution_plan <- function(project_path) {
     )
 
   laminae <-
-    find_laminae(strata$path)
+    find_laminae(strata$path) |>
+    dplyr::group_by(toml_id) |>
+    dplyr::mutate(script_order = dplyr::row_number()) |>
+    dplyr::ungroup()
 
   # rework order
   strata_order <-
@@ -103,7 +106,7 @@ build_execution_plan <- function(project_path) {
       strata_order,
       by = dplyr::join_by(parent == name)
     ) |>
-    dplyr::mutate(new_order = order + stratum_order) |>
+    dplyr::mutate(new_order = order + stratum_order + script_order) |>
     dplyr::arrange(new_order) |>
     dplyr::mutate(order = dplyr::row_number()) |>
     dplyr::rename(
@@ -178,29 +181,25 @@ find_laminae <- function(strata_path) {
       strata_path = fs::path_expand(strata_path)
     ) |>
     dplyr::mutate(
-      id = dplyr::row_number(),
+      ledger_id = dplyr::row_number(),
       parent = fs::path_file(strata_path)
-    )
-
-  laminae_toml <-
-    dplyr::tibble(
-      toml_paths = find_tomls(
-        fs::path(ledger$strata_path)
-      ) |>
-        fs::path_filter(regexp = "\\.laminae\\.toml$")
     ) |>
-    dplyr::mutate(
-      strata_path = fs::path(
-        fs::path_dir(toml_paths)
-      )
-    )
+    dplyr::group_by(parent) |>
+    dplyr::mutate(strata_id = dplyr::cur_group_id()) |>
+    dplyr::ungroup()
+
+  strata <-
+    ledger |>
+    dplyr::distinct(strata_path, .keep_all = TRUE)
 
   laminae_toml <-
-    laminae_toml |>
-    dplyr::left_join(
-      ledger,
-      by = dplyr::join_by(strata_path)
-    )
+    find_tomls(strata$strata_path) |>
+    fs::path_filter(regexp = "\\.laminae\\.toml$") |>
+    tibble::as_tibble_col(column_name = "toml_paths") |>
+    dplyr::mutate(
+      parent = fs::path_file(fs::path_dir(toml_paths))
+    ) |>
+    dplyr::left_join(strata, by = "parent")
 
   if (nrow(laminae_toml) == 0) {
     rlang::abort("No .laminae.toml found")
@@ -209,12 +208,15 @@ find_laminae <- function(strata_path) {
   found_laminae <-
     purrr::map2(
       laminae_toml$toml_paths,
-      laminae_toml$id,
-      \(toml, ledger_id) snapshot_toml(toml) |>
-        dplyr::mutate(id = ledger_id)
+      laminae_toml$strata_id,
+      \(toml, strata_id) snapshot_toml(toml) |>
+        dplyr::mutate(strata_id = strata_id)
     ) |>
     purrr::list_rbind() |>
-    dplyr::left_join(laminae_toml, by = "id") |>
+    dplyr::group_by(strata_id) |>
+    dplyr::mutate(toml_id = dplyr::row_number()) |>
+    dplyr::ungroup() |>
+    dplyr::left_join(laminae_toml, by = "strata_id") |>
     dplyr::mutate(lamina_path = fs::path(strata_path, name)) |>
     dplyr::relocate(
       "parent",
@@ -223,7 +225,7 @@ find_laminae <- function(strata_path) {
 
   scripts <-
     found_laminae |>
-    dplyr::group_by(id) |>
+    dplyr::group_by(strata_id, toml_id) |>
     dplyr::reframe(
       script_path = fs::dir_ls(lamina_path, glob = "*.R")
     ) |>
@@ -238,7 +240,7 @@ find_laminae <- function(strata_path) {
     found_laminae |>
     dplyr::left_join(
       scripts,
-      by = dplyr::join_by("id")
+      by = dplyr::join_by("strata_id", "toml_id")
     )
 
   good_laminae_paths <-
