@@ -203,7 +203,7 @@ find_laminae <- function(strata_path) {
     )
 
   if (nrow(laminae_toml) == 0) {
-    stop("No .laminae.toml found")
+    rlang::abort("No .laminae.toml found")
   }
 
   found_laminae <-
@@ -256,8 +256,8 @@ find_laminae <- function(strata_path) {
     fs::file_exists(found_laminae$script_path) |>
     all()
 
-  if (!good_laminae_paths) stop("Laminae paths do not exist")
-  if (!good_script_paths) stop("Script paths do not exist")
+  if (!good_laminae_paths) rlang::abort("Laminae paths do not exist")
+  if (!good_script_paths) rlang::abort("Script paths do not exist")
 
   found_laminae
 }
