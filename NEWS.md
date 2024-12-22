@@ -1,3 +1,5 @@
+# strata 1.2.1
+
 # strata 1.2.0
 
 - close #48 better project checks 
