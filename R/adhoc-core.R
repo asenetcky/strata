@@ -28,7 +28,8 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
   project_path <-
     fs::path_dir(
       fs::path_dir(stratum_path)
-    )
+    ) |>
+    scout_project()
 
   execution_plan <-
     build_execution_plan(project_path) |>
