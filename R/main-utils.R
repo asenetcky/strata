@@ -80,7 +80,7 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
 build_execution_plan <- function(project_path) {
   path <- stratum <- lamina <- name <- type <- stratum_order <- NULL
   new_order <- skip_if_fail <- script <- created <- parent <- NULL
-  script_name <- script_path <- NULL
+  script_name <- script_path <- script_order <- toml_id <- NULL
 
   # survey the strata
   strata <-
@@ -172,6 +172,7 @@ find_strata <- function(project_path) {
 # given stratum folder read the laminae.toml and report back
 find_laminae <- function(strata_path) {
   lamina_path <- toml_paths <- script_path <- name <- type <- NULL
+  parent <- strata_id <- toml_id <- NULL
 
   good_laminae_paths <- FALSE
   good_script_paths <- FALSE
