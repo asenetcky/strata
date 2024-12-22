@@ -62,6 +62,9 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 #' fs::dir_delete(tmp)
 #' @importFrom rlang .data
 adhoc_lamina <- function(lamina_path, silent = FALSE) {
+  # global bindings
+  path <- lamina_target <- NULL
+
   # check user input
   checkmate::assert_logical(silent)
   lamina_path <-
