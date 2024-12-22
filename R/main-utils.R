@@ -254,5 +254,3 @@ find_laminae <- function(strata_path) {
 
   found_laminae
 }
-
-
