@@ -64,7 +64,9 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
 adhoc_lamina <- function(lamina_path, silent = FALSE) {
   # check user input
   checkmate::assert_logical(silent)
-  lamina_path <- scout_path(lamina_path)
+  lamina_path <-
+    scout_path(lamina_path) |>
+    fs::path_expand()
 
   # get the lamina name
   lamina_name <- fs::path_file(lamina_path)
@@ -79,7 +81,13 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
 
   execution_plan <-
     build_execution_plan(project_path) |>
-    dplyr::filter(.data$lamina == lamina_name)
+    dplyr::mutate(
+      lamina_target = fs::path_has_parent(
+        parent = lamina_path,
+        path = path
+      )
+    ) |>
+    dplyr::filter(lamina_target)
 
   run_execution_plan(execution_plan, silent)
 
