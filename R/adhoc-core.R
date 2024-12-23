@@ -23,20 +23,26 @@ adhoc_stratum <- function(stratum_path, silent = FALSE) {
   checkmate::assert_logical(silent)
 
   stratum_path <- scout_path(stratum_path)
+
+  # get the stratum name
   stratum_name <- fs::path_file(stratum_path)
 
+  # infer project path and then check
   project_path <-
     fs::path_dir(
       fs::path_dir(stratum_path)
     ) |>
     scout_project()
 
+  # build project plan and then filter
   execution_plan <-
     build_execution_plan(project_path) |>
     dplyr::filter(.data$stratum == stratum_name)
 
+  # execute
   run_execution_plan(execution_plan, silent)
 
+  # return the execution plan
   invisible(execution_plan)
 }
 
@@ -67,6 +73,7 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
 
   # check user input
   checkmate::assert_logical(silent)
+
   lamina_path <-
     scout_path(lamina_path) |>
     fs::path_expand()
@@ -74,13 +81,16 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
   # get the lamina name
   lamina_name <- fs::path_file(lamina_path)
 
-  # grab all the project paths
+  # infer all the project paths
   project_path <-
     purrr::reduce(
       1:3,
       \(x, y) fs::path_dir(x),
       .init = lamina_path
     )
+
+  # check all project paths
+
 
   execution_plan <-
     build_execution_plan(project_path) |>
