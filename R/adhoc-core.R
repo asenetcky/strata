@@ -81,17 +81,16 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
   # get the lamina name
   lamina_name <- fs::path_file(lamina_path)
 
-  # infer all the project paths
+  # infer all the project paths and check
   project_path <-
     purrr::reduce(
       1:3,
       \(x, y) fs::path_dir(x),
       .init = lamina_path
-    )
+    ) |>
+    scout_project()
 
-  # check all project paths
-
-
+  # build execution plan for target lamina
   execution_plan <-
     build_execution_plan(project_path) |>
     dplyr::mutate(
@@ -117,12 +116,17 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
   # global bindings
   stratum <- lamina <- NULL
 
+  # check user input
   project_path <- adhoc_check(name, prompt, project_path)
+
+  # build standard execution plan
   execution_plan <- build_execution_plan(project_path)
 
+  # exact match user input against standard execution plan
   distinct_matches <-
     adhoc_matches(name, execution_plan)
 
+  # hand matches
   # if no match
   if (nrow(distinct_matches) == 0 | purrr::is_empty(distinct_matches)) {
     rlang::abort(
@@ -149,8 +153,6 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
         execution_plan,
         by = c("stratum", "lamina")
       )
-
-    run_execution_plan(execution_plan = matches, silent = silent)
   }
 
   # if only one match
@@ -161,84 +163,10 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
         execution_plan,
         by = c("stratum", "lamina")
       )
-
-    run_execution_plan(execution_plan = matches, silent = silent)
   }
+
+  # execute matches in execution plan
+  run_execution_plan(execution_plan = matches, silent = silent)
 
   invisible(matches)
-}
-
-adhoc_check <- function(name, prompt = TRUE, project_path = NULL) {
-  # if no path use working directory
-  if (is.null(project_path)) {
-    project_path <- fs::path_wd()
-    rlang::inform(
-      glue::glue(
-        "Setting project path to working directory: '{project_path}'"
-      )
-    )
-  }
-
-  # check user input
-  checkmate::assert_character(name)
-  checkmate::assert_logical(prompt)
-
-  project_path <-
-    project_path |>
-    scout_path() |>
-    scout_project()
-
-  invisible(project_path)
-}
-
-#' @importFrom rlang .data
-adhoc_matches <- function(name, execution_plan) {
-  # global bindings
-  stratum <- lamina <- NULL
-
-  # grab matches
-  stratum_matches <-
-    execution_plan |>
-    dplyr::filter(
-      .data$stratum == name
-    ) |>
-    dplyr::distinct(stratum, lamina)
-
-
-  lamina_matches <-
-    execution_plan |>
-    dplyr::filter(
-      .data$lamina == name
-    ) |>
-    dplyr::distinct(stratum, lamina)
-
-
-  dplyr::bind_rows(stratum_matches, lamina_matches) |>
-    dplyr::distinct()
-}
-
-adhoc_freewill <- function(distinct_matches, prompt) {
-  # global bindings
-  stratum <- lamina <- NULL
-
-  choices <-
-    distinct_matches |>
-    dplyr::mutate(
-      choice = paste(stratum, lamina),
-      id = dplyr::row_number(),
-      .keep = "none"
-    )
-
-  if (prompt) {
-    choice <- utils::menu(choices = choices$choice)
-  } else {
-    choice <- 1
-    rlang::inform(
-      glue::glue(
-        "Choosing first match: '{choices$choice[1]}'"
-      )
-    )
-  }
-
-  distinct_matches[choice, ]
 }
