@@ -34,9 +34,9 @@ scout_path <- function(path) {
 
 
 scout_project <- function(path) {
-  #global bindings
-  pos_strata_toml <-  pos_strata_folder <- ledger_id <-   NULL
-  has_laminae <-  has_strata <- NULL
+  # global bindings
+  pos_strata_toml <- pos_strata_folder <- ledger_id <- NULL
+  has_laminae <- has_strata <- NULL
 
   # check path input
   path <- scout_path(path)
@@ -104,7 +104,7 @@ scout_project <- function(path) {
     paths |>
     dplyr::filter(!is_project)
 
-  if (nrow(not_strata_project) > 0 ) {
+  if (nrow(not_strata_project) > 0) {
     msg <- glue::glue("'{not_strata_project$path}' is not a strata project
                       has strata: {not_strata_project$has_strata}
                       has laminae: {not_strata_project$has_laminae}")
