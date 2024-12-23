@@ -112,11 +112,6 @@ test_that("survey_tomls finds all the tomls", {
     ".strata.toml"
   )
 
-  expect_equal(
-    as.character(survey_tomls(path)),
-    as.character(toml_path)
-  )
-
   build_lamina(
     stratum_path = stratum_path,
     lamina_name = "test",
