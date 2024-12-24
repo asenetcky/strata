@@ -643,7 +643,6 @@ cat(bad_code, file = bad_path)
 
 # let's run the project
 main(tmp)
-
 ```
 
 Users will see in the log that the lamina that failed was skipped and the rest
