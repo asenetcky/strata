@@ -496,15 +496,21 @@ adhoc_lamina(
 )
 ```
 
-`adhoc()` will execute a stratum or lamina based on the name provided by the 
-user.  Users won't have to remember the paths.  `adhoc()` will default to
-the current working directory, or users can optionally provide a project path.
-If there are multiple *exact* matches, `adhoc()` will prompt users in the 
-console to pick their intended target.  If users opt to not to be prompted
-`adhoc()` will execute the first match it finds.
+In interactive sessions, `adhoc()` will execute a stratum or lamina based on the
+name provided by the user.  Users won't have to remember the paths.  `adhoc()`
+will default to the current working directory, or users can optionally provide a
+project path. If there are multiple *exact* matches, `adhoc()` will prompt users
+in the console to pick their intended target.  If users opt to not to be
+prompted `adhoc()` will execute the first match it finds.
 
-```{r}
+```{r, eval=FALSE}
 # using our quick build project from above
+adhoc(
+  name = "s2_lamina_1",
+  project_path = tmp,
+  silent = FALSE,
+  prompt = FALSE
+)
 ```
 
 
