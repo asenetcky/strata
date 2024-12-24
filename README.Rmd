@@ -480,8 +480,8 @@ build_quick_strata_project(tmp, 2, 2)
 
 adhoc_stratum(
   stratum_path = fs::path(tmp, "strata", "stratum_1"),
-  silent = FALSE  
-  )
+  silent = FALSE
+)
 ```
 
 `adhoc_lamina()` will execute _only_ the specified lamina and the code therein
@@ -489,8 +489,7 @@ contained, ignoring all other laminae inside the same stratum and all other
 strata.
 
 ```{r}
-
-#using our quick build project from above
+# using our quick build project from above
 adhoc_lamina(
   lamina_path = fs::path(tmp, "strata", "stratum_2", "s2_lamina_2"),
   silent = FALSE
@@ -506,8 +505,6 @@ console to pick their intended target.  If users opt to not to be prompted
 
 ```{r}
 # using our quick build project from above
-
-
 ```
 
 
