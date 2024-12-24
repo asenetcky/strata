@@ -36,7 +36,7 @@ scout_path <- function(path) {
 scout_project <- function(path) {
   # global bindings
   pos_strata_toml <- pos_strata_folder <- ledger_id <- NULL
-  has_laminae <- has_strata <- NULL
+  has_laminae <- has_strata <- is_project <- NULL
 
   # check path input
   path <- scout_path(path)
