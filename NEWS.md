@@ -1,3 +1,12 @@
+# strata 1.3.0
+
+- add `adhoc()` function to ad hoc a portion of a user's strata
+project by name, closes #46
+
+# strata 1.2.1
+
+- fix #52 build_execution_plan handling same name laminae improperly
+
 # strata 1.2.0
 
 - close #48 better project checks 

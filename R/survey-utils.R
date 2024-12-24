@@ -34,45 +34,85 @@ scout_path <- function(path) {
 
 
 scout_project <- function(path) {
-  # assumptions
-  has_strata <- FALSE
-  has_laminae <- FALSE
+  # global bindings
+  pos_strata_toml <- pos_strata_folder <- ledger_id <- NULL
+  has_laminae <- has_strata <- is_project <- NULL
 
   # check path input
   path <- scout_path(path)
 
-  # check if path is a strata project
-  strata_folder <- fs::path(path, "strata")
-  strata_exist <- fs::dir_exists(strata_folder)
+  # convert to tibble
+  paths <-
+    tibble::as_tibble_col(path, column_name = "path")
 
-  if (strata_exist) {
-    has_strata <-
-      dplyr::if_else(
-        fs::file_exists(
-          fs::path(strata_folder, ".strata.toml")
-        ),
+  # assumptions
+  paths <-
+    paths |>
+    dplyr::mutate(
+      ledger_id = dplyr::row_number(),
+      has_strata = FALSE,
+      has_laminae = FALSE
+    )
+
+  # check for strata
+  paths <-
+    paths |>
+    dplyr::mutate(
+      pos_strata_folder = fs::path(path, "strata"),
+      pos_strata_toml = fs::path(pos_strata_folder, ".strata.toml"),
+      has_strata = fs::file_exists(pos_strata_toml)
+    )
+
+  # check for laminae
+  laminae_tomls <-
+    purrr::map2(
+      paths$pos_strata_folder,
+      paths$ledger_id,
+      \(folder, id) {
+        fs::dir_ls(
+          folder,
+          all = TRUE,
+          recurse = TRUE,
+          glob = "*.laminae.toml"
+        ) |>
+          tibble::as_tibble_col(column_name = "laminae_paths") |>
+          dplyr::mutate(
+            ledger_id = id
+          )
+      }
+    ) |>
+    purrr::list_rbind()
+
+  paths <-
+    paths |>
+    dplyr::mutate(
+      has_laminae = dplyr::if_else(
+        ledger_id %in% laminae_tomls$ledger_id,
+        TRUE,
+        has_laminae
+      )
+    ) |>
+    dplyr::mutate(
+      is_project = dplyr::if_else(
+        has_strata & has_laminae,
         TRUE,
         FALSE
       )
-  }
+    )
 
-  if (has_strata) {
-    laminae_tomls <-
-      fs::dir_ls(
-        strata_folder,
-        all = TRUE,
-        recurse = TRUE,
-        glob = ".*laminae.toml"
-      )
-    has_laminae <- length(laminae_tomls) > 0
-  }
+  not_strata_project <-
+    paths |>
+    dplyr::filter(!is_project)
 
-  if (!any(has_strata, has_laminae)) {
-    msg <- glue::glue("'{path}' is not a strata project
-                      has strata: {has_strata}
-                      has laminae: {has_laminae}")
+  if (nrow(not_strata_project) > 0) {
+    msg <- glue::glue("'{not_strata_project$path}' is not a strata project
+                      has strata: {not_strata_project$has_strata}
+                      has laminae: {not_strata_project$has_laminae}")
     rlang::abort(msg)
   }
 
-  invisible(path)
+  paths |>
+    dplyr::filter(is_project) |>
+    dplyr::pull("path") |>
+    invisible()
 }
