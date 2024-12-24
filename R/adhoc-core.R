@@ -6,6 +6,7 @@
 #'
 #' @inheritParams main
 #' @inheritParams build_lamina
+#' @family adhoc
 #'
 #' @return invisible data frame of execution plan.
 #' @export
@@ -107,6 +108,31 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
 }
 
 
+#' Execute a single stratum or lamina ad hoc by its name
+#'
+#' In interactive sessions, `adhoc()` will execute the stratum or lamina that
+#' matches the name provided by the user. If multiple matches are found, the
+#' user will be prompted to choose which one to execute.  If no matches are
+#' found, an error will be thrown. `project_path` will default to the current
+#' working directory, unless a path is provided by the user.
+#'
+#' @inheritParams main
+#' @param name Name of stratum or lamina.
+#' @param prompt Prompt user for choice if multiple matches found?
+#' Default is `TRUE`.
+#'
+#' @family adhoc
+#'
+#' @returns invisible data frame of execution plan for matched name.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' tmp <- fs::dir_create(fs::file_temp())
+#' result <- strata::build_quick_strata_project(tmp, 3, 2)
+#' adhoc("stratum_1")
+#' fs::dir_delete(tmp)
+#' }
 adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
   # interactive only
   if (!interactive()) {
