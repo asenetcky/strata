@@ -615,6 +615,36 @@ survey_strata(tmp)
 
 ### Skip if Fail
 
-#### TODO
+Users can specify that a lamina should be skipped if it fails by setting the
+`skip_if_fail` to `TRUE` when building the laminae, or doing the same inside of
+the `.laminae.toml` files.  This is useful when users are prototyping new
+additions to their strata project. Use with *caution*, this is not intended to
+be a replacement for more robust error handling implemented by the user within
+their own code.
 
+```{r}
+tmp <- fs::dir_create(fs::file_temp())
 
+build_quick_strata_project(tmp, 2, 2)
+
+# let's add a lamina that skips if it fails
+build_lamina(
+  stratum_path = fs::path(tmp, "strata", "stratum_1"),
+  lamina_name = "bad_lamina",
+  order = 2,
+  skip_if_fail = TRUE
+)
+
+# lets add the code that will fail
+bad_code <- "stop('I am bad code')"
+bad_path <- fs::path(tmp, "strata", "stratum_1", "bad_lamina", "bad_code.R")
+fs::file_create(bad_path)
+cat(bad_code, file = bad_path)
+
+# let's run the project
+main(tmp)
+
+```
+
+Users will see in the log that the lamina that failed was skipped and the rest
+of the project executed.
