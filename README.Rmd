@@ -50,8 +50,8 @@ pak::pak("asenetcky/strata")
 ## ✨ Features
 
 - Easily turn your R project into an automated one OR a one-click affair
-- Easily view your project's execution plan - no more hunting and pecking around
-to find out which script sources the next
+- Easily view your project's execution plan - no more hunting and pecking
+around to find out which script sources the next
 - No more juggling multiple automated tasks - there is only a single automation
 target - `main.R` or `main()` function
 - Simple and consistent built-in logging
@@ -60,10 +60,19 @@ target - `main.R` or `main()` function
 
 ## 🎯 Target Audience
 
-### TODO
-Who's this for
-Who this isn't for
+`strata` is primarily for developers who are looking for simplicity in
+a framework they can adopt in their R projects. `strata` will help users quickly and consistently execute their code.  Configurations are stored in 
+plain text .toml files that can be tracked with version control. Users who aren't looking to learn a new syntax, or change the way they write their code may feel right at home because `strata` only requires users to build out the file structure a specific way using the provided functions.  Users will
+be able to easily 'one-click' execute their entire project in the sequence
+they specify, and/or easily implement a layer of automation down the road.
 
+Developers with limited access to advanced automation tools will find `strata`
+to be a great way to prep their projects to implement the task scheduling 
+automation they already have on their computers.  Users with access to more 
+advanced tooling or looking for more detailed features may not have their needs
+met by `strata` but may still appreciate the simplicity and logging for 
+rapid prototyping.
+ 
 
 ## 🚀 Getting Started
 
@@ -459,7 +468,7 @@ The ability to run the entire project with `main()` is great, but if users want
 to run pieces of the project ad-hoc, it would be inconvenient to have to source
 the disparate pieces of code individually, and possibly error-prone as well.
 Users can execute their project piecemeal with `adhoc_stratum()` and
-`adhoc_lamina()`.
+`adhoc_lamina()`, and `adhoc()`.
 
 `adhoc_stratum()` will source the code inside of _every_ lamina in the stratum,
 while ignoring all other strata.
@@ -469,7 +478,10 @@ tmp <- fs::dir_create(fs::file_temp())
 
 build_quick_strata_project(tmp, 2, 2)
 
-adhoc_stratum(fs::path(tmp, "strata", "stratum_1"))
+adhoc_stratum(
+  stratum_path = fs::path(tmp, "strata", "stratum_1"),
+  silent = FALSE  
+  )
 ```
 
 `adhoc_lamina()` will execute _only_ the specified lamina and the code therein
@@ -477,8 +489,27 @@ contained, ignoring all other laminae inside the same stratum and all other
 strata.
 
 ```{r}
-adhoc_lamina(fs::path(tmp, "strata", "stratum_2", "s2_lamina_2"))
+
+#using our quick build project from above
+adhoc_lamina(
+  lamina_path = fs::path(tmp, "strata", "stratum_2", "s2_lamina_2"),
+  silent = FALSE
+)
 ```
+
+`adhoc()` will execute a stratum or lamina based on the name provided by the 
+user.  Users won't have to remember the paths.  `adhoc()` will default to
+the current working directory, or users can optionally provide a project path.
+If there are multiple *exact* matches, `adhoc()` will prompt users in the 
+console to pick their intended target.  If users opt to not to be prompted
+`adhoc()` will execute the first match it finds.
+
+```{r}
+# using our quick build project from above
+
+
+```
+
 
 ### Managing .tomls
 
