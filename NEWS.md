@@ -1,3 +1,5 @@
+# strata 1.3.0
+
 # strata 1.2.1
 
 - fix #52 build_execution_plan handling same name laminae improperly
