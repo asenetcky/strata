@@ -28,3 +28,9 @@ adhoc_lamina(
 )
 fs::dir_delete(tmp)
 }
+\seealso{
+Other adhoc: 
+\code{\link{adhoc}()},
+\code{\link{adhoc_stratum}()}
+}
+\concept{adhoc}
