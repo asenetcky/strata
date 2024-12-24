@@ -320,7 +320,7 @@ users want to store their logs.
  - The log level follows the timestamp with a space and ends with a colon
  - The message follows the log level and is separated by a space
 - Logging is kept intentionally simple, but can still be parsed with 
-`parse_log()` and the resulting tibble analyzed however the user wishes
+`survey_log()` and the resulting tibble analyzed however the user wishes
 
 ```{r logging}
 # The core logging function is log_message, and users can mold it to their needs
@@ -364,7 +364,7 @@ log_output <- log_message("I am a log message")
 log_output
 ```
 
-`parse_log()` will return a tibble of your log file contents for you to view.
+`survey_log()` will return a tibble of your log file contents for you to view.
 _Only_ output from the `log_message()` or `log_error()` functions will be 
 returned from the log, any other output will be ignored.
 
@@ -392,7 +392,7 @@ cat(line3, file = example_log, append = TRUE)
 
 # parse log and return tibble
 # notice that the line numbers are preserved, even if content is ignored
-parse_log(example_log)
+survey_log(example_log)
 
 # clean up
 fs::file_delete(example_log)
