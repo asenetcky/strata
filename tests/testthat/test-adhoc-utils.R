@@ -1,4 +1,4 @@
-#test adhoc checks
+# test adhoc checks
 test_that("adhoc_check returns a path", {
   tmp <- fs::dir_create(fs::file_temp())
   build_quick_strata_project(tmp)
