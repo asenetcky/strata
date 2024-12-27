@@ -136,8 +136,8 @@ adhoc_lamina <- function(lamina_path, silent = FALSE) {
 #' }
 adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
   # interactive only
-  if (!interactive()) {
-    rlang::abort("This function is for interactive only")
+  if (!rlang::is_interactive()) {
+    rlang::abort("This function is for interactive sessions only")
   }
 
   # global bindings
