@@ -290,8 +290,11 @@ Using cronR:
 ```{r example-cron, eval=FALSE}
 library(cronR)
 
+tmp <- fs::dir_create(fs::file_temp())
+build_quick_strata_project(tmp, 2, 2)
+
 ## Run our project every thursday at 0700
-file <- fs::path(my_project_folder, "main.R")
+file <- fs::path(tmp, "main.R")
 cmd <- cron_rscript(file)
 
 cmd
@@ -301,6 +304,8 @@ cron_njobs()
 
 cron_ls()
 cron_clear(ask = TRUE)
+
+fs::dir_delete(tmp)
 ```
 
 Using taskscheduleR:
@@ -308,17 +313,31 @@ Using taskscheduleR:
 ```{r example-task, eval=FALSE}
 library(taskscheduleR)
 
+tmp <- fs::dir_create(fs::file_temp())
+build_quick_strata_project(tmp, 2, 2)
+
 ## Run our project every thursday at 0700
 taskscheduler_create(
   taskname = "strata",
-  rscript = fs::path(my_project_folder, "main.R"),
+  rscript = fs::path(tmp, "main.R"),
   schedule = "WEEKLY",
   starttime = "07:00",
-  days = c("THR")
+  days = "THU",
+  startdate = "12/01/2024"  
 )
+
+taskscheduler_ls() |> 
+  dplyr::filter(TaskName == "strata") |> 
+  dplyr::select(HostName:Status)
+
+taskscheduler_delete(taskname = "strata")
+
+fs::dir_delete(tmp)
 ```
 
 ## 🎁 Additional Features
+
+<details><summary> Consistent, easy to use logging </summary>
 
 ### Logging
 
