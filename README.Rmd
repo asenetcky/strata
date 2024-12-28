@@ -462,7 +462,7 @@ outline <-
     lamina_name = c(
       c("authentication", "connections"),
       c("sql-source1", "sql-source2"),
-      "clean_data", 
+      "clean_data",
       "tidy_models",
       "quarto_report"
     ),
