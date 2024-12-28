@@ -138,6 +138,9 @@ build_outlined_strata_project <- function(outline) {
 }
 
 check_outline <- function(outline) {
+  # global bindings
+  stratum_name <- lamina_name <- NULL
+
   # need to be a data frame
   checkmate::assert_data_frame(
     outline,
@@ -160,12 +163,20 @@ check_outline <- function(outline) {
     )
   )
 
+  outline <-
+    outline |>
+    dplyr::mutate(
+      stratum_name = clean_name(stratum_name),
+      lamina_name = clean_name(lamina_name)
+    )
+
   ids <- paste0(outline$stratum_name, outline$lamina_name)
 
   # strata names + strata orders needs to be unique
   checkmate::assert_true(
     dplyr::n_distinct(ids) == nrow(outline)
   )
+
   outline
 }
 
