@@ -293,7 +293,6 @@ taskscheduler_create(
   days = c("THR")
 )
 # TODO test this on windows ^^
-
 ```
 
 
