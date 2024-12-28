@@ -323,11 +323,11 @@ taskscheduler_create(
   schedule = "WEEKLY",
   starttime = "07:00",
   days = "THU",
-  startdate = "12/01/2024"  
+  startdate = "12/01/2024"
 )
 
-taskscheduler_ls() |> 
-  dplyr::filter(TaskName == "strata") |> 
+taskscheduler_ls() |>
+  dplyr::filter(TaskName == "strata") |>
   dplyr::select(HostName:Status)
 
 taskscheduler_delete(taskname = "strata")
