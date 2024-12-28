@@ -273,29 +273,19 @@ and to turn it into a one-click affair, we can do better.
 
 
 ### Implementing Automation
-#### TODO
+
 Users may not have access to the lastest and greatest
-automation tools and orchestrators, but most users should have access to 
+automation tools and orchestrators, but users likely have access to 
 something like windows task scheduler, cron jobs or similar.  In fact there
-are already two great packages that can help users automate their R scripts, 
-[`cronR`](https://cran.r-project.org/package=cronR) and 
-[`taskscheduleR`](https://cran.r-project.org/package=taskscheduleR).
+are already two great packages that can help users automate their R scripts. 
+- [`cronR`](https://cran.r-project.org/package=cronR) and 
+- [`taskscheduleR`](https://cran.r-project.org/package=taskscheduleR).
 
-```{r example-task, eval=FALSE}
-library(taskscheduleR)
+`strata` makes it easy to automate an entire project worth of code with
+those packages.  Just point those packages' functions to `main.R` or a 
+script with the `main()` function and that's it.
 
-## Run our project every thursday at 0700
-taskscheduler_create(
-  taskname = "strata",
-  rscript = fs::path(my_project_folder, "main.R"),
-  schedule = "WEEKLY",
-  starttime = "07:00",
-  days = c("THR")
-)
-# TODO test this on windows ^^
-```
-
-
+Using cronR:
 
 ```{r example-cron, eval=FALSE}
 library(cronR)
@@ -313,13 +303,20 @@ cron_ls()
 cron_clear(ask = TRUE)
 ```
 
+Using taskscheduleR:
 
-### TODO
-- rework this, grab pieces and move where appropriate - 
-Now instead of juggling what to automate and when, or having to remember to
-which script sources which, users can automate the entire project with a single
-task, have consistent logging messages and use `strata` to have eyes on
-the entire project and its execution plan.
+```{r example-task, eval=FALSE}
+library(taskscheduleR)
+
+## Run our project every thursday at 0700
+taskscheduler_create(
+  taskname = "strata",
+  rscript = fs::path(my_project_folder, "main.R"),
+  schedule = "WEEKLY",
+  starttime = "07:00",
+  days = c("THR")
+)
+```
 
 ## 🎁 Additional Features
 
@@ -442,8 +439,6 @@ fs::dir_tree(tmp)
 based on an outline dataframe provided by the user.  This is great for users who 
 have a specific vision in mind already.
 
-## TODO: add more lam per strat
-
 ```{r}
 tmp <- fs::dir_create(fs::file_temp())
 
@@ -451,24 +446,27 @@ outline <-
   dplyr::tibble(
     project_path = tmp,
     stratum_name = c(
-      "data_pull",
+      rep("env_setup", 2),
+      rep("data_pull", 2),
       "data_wrangle",
       "build_model",
       "build_report"
     ),
     stratum_order = c(
-      1,
-      2,
+      rep(1, 2),
+      rep(2, 2),
       3,
-      4
+      4,
+      5
     ),
     lamina_name = c(
-      "sql",
-      "clean_data",
+      c("authentication", "connections"),
+      c("sql-source1", "sql-source2"),
+      "clean_data", 
       "tidy_models",
       "quarto_report"
     ),
-    lamina_order = c(1, 1, 1, 1),
+    lamina_order = c(1, 2, 1, 2, 1, 1, 1),
     skip_if_fail = FALSE
   )
 
