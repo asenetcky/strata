@@ -60,11 +60,21 @@ target - `main.R` or `main()` function
 
 ## 🎯 Target Audience
 
-`strata` is primarily for developers who are looking for simplicity in
-a framework they can adopt in their R projects. `strata` will help users quickly and consistently execute their code.  Configurations are stored in 
-plain text .toml files that can be tracked with version control. Users who aren't looking to learn a new syntax, or change the way they write their code may feel right at home because `strata` only requires users to build out the file structure a specific way using the provided functions.  Users will
-be able to easily 'one-click' execute their entire project in the sequence
-they specify, and/or easily implement a layer of automation down the road.
+<details><summary> Developers looking one-click simplicity </summary>
+
+`strata` is primarily for developers who are looking for simplicity in a
+framework they can adopt in their R projects. `strata` will help users quickly
+and consistently execute their code.  Configurations are stored in plain text
+.toml files that can be tracked with version control. Users who aren't looking
+to learn a new syntax, or change the way they write their code may feel right at
+home because `strata` only requires users to build out the file structure a
+specific way using the provided functions.  Users will be able to easily
+'one-click' execute their entire project in the sequence they specify, and/or
+easily implement a layer of automation down the road.
+
+</details>
+
+<details><summary> Developers without access to modern automation tools </summary>
 
 Developers with limited access to advanced automation tools will find `strata`
 to be a great way to prep their projects to implement the task scheduling 
@@ -72,6 +82,8 @@ automation they already have on their computers.  Users with access to more
 advanced tooling or looking for more detailed features may not have their needs
 met by `strata` but may still appreciate the simplicity and logging for 
 rapid prototyping.
+
+</details>
  
 
 ## 🚀 Getting Started
