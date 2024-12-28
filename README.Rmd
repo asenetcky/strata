@@ -434,6 +434,11 @@ fs::file_delete(example_log)
 ```
 
 
+</details>
+
+
+<details><summary> Quick build projects </summary>
+
 ###  Quick Build
 
 `strata` has two "quick" build options for users.
@@ -498,6 +503,11 @@ survey_strata(tmp)
 ```
 
 
+</details>
+
+
+<details><summary> Execute any part of your strata project ad-hoc </summary>
+ 
 ###  Ad-hoc
 
 The ability to run the entire project with `main()` is great, but if users want
@@ -549,6 +559,11 @@ adhoc(
 )
 ```
 
+
+</details>
+
+
+<details><summary> Easy to manage configuration inside of R or out </summary>
 
 ### Managing .tomls
 
@@ -649,6 +664,12 @@ effect and how they have changed the entire project's execution order.
 survey_strata(tmp)
 ```
 
+
+</details>
+
+
+<details><summary> Ability to skip failing lamina </summary>
+
 ### Skip if Fail
 
 Users can specify that a lamina should be skipped if it fails by setting the
@@ -683,3 +704,5 @@ main(tmp)
 
 Users will see in the log that the lamina that failed was skipped and the rest
 of the project executed.
+
+</details>
