@@ -192,10 +192,16 @@ clean_name <- function(name) {
     stringr::str_replace_all("[^[:alnum:]]|\\s", "_") |>
     fs::path_sanitize()
 
-  if (!identical(name, clean_name)) {
-    msg <- paste("cleaning: replacing", name, "with", clean_name)
-    rlang::inform(msg)
-  }
+  purrr::walk2(
+    name,
+    clean_name,
+    \(n, cn) {
+      if (n != cn) {
+        msg <- paste("cleaning: replacing", n, "with", cn)
+        rlang::inform(msg)
+      }
+    }
+  )
 
   clean_name
 }
