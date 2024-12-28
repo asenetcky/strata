@@ -1,5 +1,7 @@
 # strata 1.3.1
 
+- fix name cleaning and path checking preventing path manipulations
+
 # strata 1.3.0
 
 - add `adhoc()` function to ad hoc a portion of a user's strata
