@@ -294,8 +294,26 @@ taskscheduler_create(
 )
 # TODO test this on windows ^^
 
-# TODO throw up a cronR example as well
 ```
+
+
+
+```{r example-cron, eval=FALSE}
+library(cronR)
+
+## Run our project every thursday at 0700
+file <- fs::path(my_project_folder, "main.R")
+cmd <- cron_rscript(file)
+
+cmd
+
+cron_add(cmd, frequency = "monthly", at = "7AM", days_of_week = "THU")
+cron_njobs()
+
+cron_ls()
+cron_clear(ask = TRUE)
+```
+
 
 ### TODO
 - rework this, grab pieces and move where appropriate - 
