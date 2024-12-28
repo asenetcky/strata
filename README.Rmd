@@ -384,7 +384,9 @@ log_output
 
 `survey_log()` will return a tibble of your log file contents for you to view.
 _Only_ output from the `log_message()` or `log_error()` functions will be 
-returned from the log, any other output will be ignored.
+returned from the log, any other output will be ignored.  In this example
+we are building a fake log line by line, normally the log would be built
+by having the stdout and stderr piped to a log file by the user or automation.
 
 ```{r}
 # Build an example log
@@ -417,7 +419,6 @@ fs::file_delete(example_log)
 ```
 
 
-
 ###  Quick Build
 
 `strata` has two "quick" build options for users.
@@ -441,6 +442,8 @@ fs::dir_tree(tmp)
 `build_outline_strata_project()` will create a project with strata and laminae
 based on an outline dataframe provided by the user.  This is great for users who 
 have a specific vision in mind already.
+
+## TODO: add more lam per strat
 
 ```{r}
 tmp <- fs::dir_create(fs::file_temp())
@@ -477,7 +480,6 @@ build_outlined_strata_project(outline)
 fs::dir_tree(tmp)
 survey_strata(tmp)
 ```
-
 
 
 ###  Ad-hoc
