@@ -106,14 +106,11 @@ stratum_path <-
 # let's take a look at what was made
 
 fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
-#> /tmp/Rtmpbhzci6/file5a31568085d02
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e28397f64c7
 #> ├── main.R
 #> └── strata
 #>     ├── .strata.toml
 #>     └── project_setup
-```
-
-``` r
 
 # let's take a look at that .toml file
 view_toml(fs::path(my_project_folder, "strata", ".strata.toml"))
@@ -121,9 +118,6 @@ view_toml(fs::path(my_project_folder, "strata", ".strata.toml"))
 #>   type   name          order created   
 #>   <chr>  <chr>         <int> <date>    
 #> 1 strata project_setup     1 2024-12-28
-```
-
-``` r
 
 # our stratum is empty, let's change that in the next section
 ```
@@ -170,7 +164,7 @@ build_lamina(
 # Always check that the order assigned is the order you want
 
 fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
-#> /tmp/Rtmpbhzci6/file5a31568085d02
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e28397f64c7
 #> ├── main.R
 #> └── strata
 #>     ├── .strata.toml
@@ -179,9 +173,6 @@ fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
 #>         ├── authentication
 #>         ├── connections
 #>         └── libraries
-```
-
-``` r
 view_toml(fs::path(stratum_path, ".laminae.toml"))
 #> # A tibble: 3 × 5
 #>   type    name           order skip_if_fail created   
@@ -230,7 +221,7 @@ execution plan.
 ``` r
 # let's take a look at the project structure now
 fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
-#> /tmp/Rtmpbhzci6/file5a31568085d02
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e28397f64c7
 #> ├── main.R
 #> └── strata
 #>     ├── .strata.toml
@@ -242,14 +233,11 @@ fs::dir_tree(my_project_folder, recurse = TRUE, all = TRUE)
 #>         │   └── conn_code.R
 #>         └── libraries
 #>             └── lib_code.R
-```
-
-``` r
 
 # Look at all those files now - let's grab the paths of only the .tomls
 survey_tomls(my_project_folder)
-#> /tmp/Rtmpbhzci6/file5a31568085d02/strata/.strata.toml
-#> /tmp/Rtmpbhzci6/file5a31568085d02/strata/project_setup/.laminae.toml
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e28397f64c7/strata/.strata.toml
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e28397f64c7/strata/project_setup/.laminae.toml
 ```
 
 Users can now `view_toml()` to see the contents of the `.toml` files or
@@ -297,20 +285,20 @@ building a stratum.
 
 ``` r
 source(fs::path(my_project_folder, "main.R"))
-#> [2024-12-28 11:02:55.9642] INFO: Strata started 
-#> [2024-12-28 11:02:55.9646] INFO: Stratum: project_setup initialized 
-#> [2024-12-28 11:02:55.9648] INFO: Lamina: libraries initialized 
-#> [2024-12-28 11:02:55.9651] INFO: Executing: lib_code 
+#> [2024-12-28 12:20:38.7593] INFO: Strata started 
+#> [2024-12-28 12:20:38.7600] INFO: Stratum: project_setup initialized 
+#> [2024-12-28 12:20:38.7603] INFO: Lamina: libraries initialized 
+#> [2024-12-28 12:20:38.7608] INFO: Executing: lib_code 
 #> [1] "I am your library setup code"
-#> [2024-12-28 11:02:55.9657] INFO: Lamina: libraries finished 
-#> [2024-12-28 11:02:55.9659] INFO: Lamina: authentication initialized 
-#> [2024-12-28 11:02:55.9661] INFO: Executing: auth_code 
+#> [2024-12-28 12:20:38.7616] INFO: Lamina: libraries finished 
+#> [2024-12-28 12:20:38.7619] INFO: Lamina: authentication initialized 
+#> [2024-12-28 12:20:38.7623] INFO: Executing: auth_code 
 #> [1] "I am your authentication setup code"
-#> [2024-12-28 11:02:55.9665] INFO: Lamina: authentication finished 
-#> [2024-12-28 11:02:55.9668] INFO: Lamina: connections initialized 
-#> [2024-12-28 11:02:55.9670] INFO: Executing: conn_code 
+#> [2024-12-28 12:20:38.7630] INFO: Lamina: authentication finished 
+#> [2024-12-28 12:20:38.7633] INFO: Lamina: connections initialized 
+#> [2024-12-28 12:20:38.7650] INFO: Executing: conn_code 
 #> [1] "I am your connection setup code"
-#> [2024-12-28 11:02:55.9676] INFO: Strata finished - duration: 0.0038 seconds
+#> [2024-12-28 12:20:38.7681] INFO: Strata finished - duration: 0.0083 seconds
 ```
 
 Users can also just execute the `main()` function directly, all that is
@@ -352,8 +340,11 @@ Using cronR:
 ``` r
 library(cronR)
 
+tmp <- fs::dir_create(fs::file_temp())
+build_quick_strata_project(tmp, 2, 2)
+
 ## Run our project every thursday at 0700
-file <- fs::path(my_project_folder, "main.R")
+file <- fs::path(tmp, "main.R")
 cmd <- cron_rscript(file)
 
 cmd
@@ -363,6 +354,8 @@ cron_njobs()
 
 cron_ls()
 cron_clear(ask = TRUE)
+
+fs::dir_delete(tmp)
 ```
 
 Using taskscheduleR:
@@ -370,17 +363,34 @@ Using taskscheduleR:
 ``` r
 library(taskscheduleR)
 
+tmp <- fs::dir_create(fs::file_temp())
+build_quick_strata_project(tmp, 2, 2)
+
 ## Run our project every thursday at 0700
 taskscheduler_create(
   taskname = "strata",
-  rscript = fs::path(my_project_folder, "main.R"),
+  rscript = fs::path(tmp, "main.R"),
   schedule = "WEEKLY",
   starttime = "07:00",
-  days = c("THR")
+  days = "THU",
+  startdate = "12/01/2024"  
 )
+
+taskscheduler_ls() |> 
+  dplyr::filter(TaskName == "strata") |> 
+  dplyr::select(HostName:Status)
+
+taskscheduler_delete(taskname = "strata")
+
+fs::dir_delete(tmp)
 ```
 
 ## 🎁 Additional Features
+
+<details>
+<summary>
+Consistent, easy to use logging
+</summary>
 
 ### Logging
 
@@ -406,10 +416,7 @@ log_message(
   level = "INFO", # Use whatever "level" you want
   out_or_err = "OUT" # Send to stdout
 )
-#> [2024-12-28 11:02:56.0192] INFO: This is a message
-```
-
-``` r
+#> [2024-12-28 12:20:38.8592] INFO: This is a message
 
 # Users can sending warnings
 log_message(
@@ -417,17 +424,11 @@ log_message(
   level = "WARN",
   out_or_err = "ERR" # Send to stderr if user wants
 )
-#> [2024-12-28 11:02:56.0200] WARN: This is a warning
-```
-
-``` r
+#> [2024-12-28 12:20:38.8605] WARN: This is a warning
 
 # log_error() is a wrapper around log_message that sends messages to stderr
 log_error("This is an error message")
-#> [2024-12-28 11:02:56.0209] ERROR: This is an error message
-```
-
-``` r
+#> [2024-12-28 12:20:38.8617] ERROR: This is an error message
 
 # log_total_time() is a simple function that  always prints the time
 # difference in seconds
@@ -443,7 +444,7 @@ log_message(
   level = "INFO",
   out_or_err = "OUT"
 )
-#> [2024-12-28 11:02:56.0223] INFO: This took 999 seconds
+#> [2024-12-28 12:20:38.8633] INFO: This took 999 seconds
 ```
 
 `log_message()` and `log_error()` invisibly return a character string
@@ -451,12 +452,9 @@ copy of their output.
 
 ``` r
 log_output <- log_message("I am a log message")
-#> [2024-12-28 11:02:56.0256] INFO: I am a log message
-```
-
-``` r
+#> [2024-12-28 12:20:38.8723] INFO: I am a log message
 log_output
-#> [1] "[2024-12-28 11:02:56.0256] INFO: I am a log message"
+#> [1] "[2024-12-28 12:20:38.8723] INFO: I am a log message"
 ```
 
 `survey_log()` will return a tibble of your log file contents for you to
@@ -473,16 +471,10 @@ example_log <- fs::file_create(fs::file_temp(ext = "log"))
 # show file is empty
 readr::read_lines(example_log)
 #> character(0)
-```
-
-``` r
 
 # add log message
 line1 <- log_message("strata started")
-#> [2024-12-28 11:02:56.0343] INFO: strata started
-```
-
-``` r
+#> [2024-12-28 12:20:38.8882] INFO: strata started
 line1 <- paste0(line1, "\n")
 cat(line1, file = example_log, append = TRUE)
 
@@ -493,10 +485,7 @@ cat(line2, file = example_log, append = TRUE)
 
 # another log message
 line3 <- log_message("strata finished")
-#> [2024-12-28 11:02:56.0396] INFO: strata finished
-```
-
-``` r
+#> [2024-12-28 12:20:38.8917] INFO: strata finished
 line3 <- paste0(line3, "\n")
 cat(line3, file = example_log, append = TRUE)
 
@@ -506,15 +495,18 @@ survey_log(example_log)
 #> # A tibble: 2 × 4
 #>   line_number timestamp           level message        
 #>         <int> <dttm>              <chr> <chr>          
-#> 1           1 2024-12-28 11:02:56 INFO  strata started 
-#> 2           3 2024-12-28 11:02:56 INFO  strata finished
-```
-
-``` r
+#> 1           1 2024-12-28 12:20:38 INFO  strata started 
+#> 2           3 2024-12-28 12:20:38 INFO  strata finished
 
 # clean up
 fs::file_delete(example_log)
 ```
+
+</details>
+<details>
+<summary>
+Quick build projects
+</summary>
 
 ### Quick Build
 
@@ -534,7 +526,7 @@ build_quick_strata_project(
 )
 
 fs::dir_tree(tmp)
-#> /tmp/Rtmpbhzci6/file5a31573f3d5ca
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e2854904921
 #> ├── main.R
 #> └── strata
 #>     ├── stratum_1
@@ -580,7 +572,7 @@ outline <-
     lamina_name = c(
       c("authentication", "connections"),
       c("sql-source1", "sql-source2"),
-      "clean_data", 
+      "clean_data",
       "tidy_models",
       "quarto_report"
     ),
@@ -591,25 +583,19 @@ outline <-
 dplyr::glimpse(outline)
 #> Rows: 7
 #> Columns: 6
-#> $ project_path  <fs::path> "/tmp/Rtmpbhzci6/file5a31535d29c5a", "/tmp/Rtmpbhzc…
+#> $ project_path  <fs::path> "C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo…
 #> $ stratum_name  <chr> "env_setup", "env_setup", "data_pull", "data_pull", "dat…
 #> $ stratum_order <dbl> 1, 1, 2, 2, 3, 4, 5
 #> $ lamina_name   <chr> "authentication", "connections", "sql-source1", "sql-sou…
 #> $ lamina_order  <dbl> 1, 2, 1, 2, 1, 1, 1
 #> $ skip_if_fail  <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE
-```
-
-``` r
 
 build_outlined_strata_project(outline)
 #> cleaning: replacing sql-source1 with sql_source1
 #> cleaning: replacing sql-source2 with sql_source2
-```
-
-``` r
 
 fs::dir_tree(tmp)
-#> /tmp/Rtmpbhzci6/file5a31535d29c5a
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e2837497f3f
 #> ├── main.R
 #> └── strata
 #>     ├── build_model
@@ -631,9 +617,6 @@ fs::dir_tree(tmp)
 #>         │   └── my_code.R
 #>         └── connections
 #>             └── my_code.R
-```
-
-``` r
 survey_strata(tmp)
 #> # A tibble: 7 × 7
 #>   execution_order stratum_name lamina_name  script_name script_path skip_if_fail
@@ -647,6 +630,12 @@ survey_strata(tmp)
 #> 7               7 build_report quarto_repo… my_code     …/my_code.R FALSE       
 #> # ℹ 1 more variable: created <date>
 ```
+
+</details>
+<details>
+<summary>
+Execute any part of your strata project ad-hoc
+</summary>
 
 ### Ad-hoc
 
@@ -668,16 +657,16 @@ adhoc_stratum(
   stratum_path = fs::path(tmp, "strata", "stratum_1"),
   silent = FALSE
 )
-#> [2024-12-28 11:02:56.7399] INFO: Strata started 
-#> [2024-12-28 11:02:56.7403] INFO: Stratum: stratum_1 initialized 
-#> [2024-12-28 11:02:56.7405] INFO: Lamina: s1_lamina_1 initialized 
-#> [2024-12-28 11:02:56.7408] INFO: Executing: my_code 
+#> [2024-12-28 12:20:40.0353] INFO: Strata started 
+#> [2024-12-28 12:20:40.0358] INFO: Stratum: stratum_1 initialized 
+#> [2024-12-28 12:20:40.0361] INFO: Lamina: s1_lamina_1 initialized 
+#> [2024-12-28 12:20:40.0366] INFO: Executing: my_code 
 #> [1] "I am a placeholder, do not forget to replace me!"
-#> [2024-12-28 11:02:56.7412] INFO: Lamina: s1_lamina_1 finished 
-#> [2024-12-28 11:02:56.7415] INFO: Lamina: s1_lamina_2 initialized 
-#> [2024-12-28 11:02:56.7417] INFO: Executing: my_code 
+#> [2024-12-28 12:20:40.0374] INFO: Lamina: s1_lamina_1 finished 
+#> [2024-12-28 12:20:40.0377] INFO: Lamina: s1_lamina_2 initialized 
+#> [2024-12-28 12:20:40.0380] INFO: Executing: my_code 
 #> [1] "I am a placeholder, do not forget to replace me!"
-#> [2024-12-28 11:02:56.7421] INFO: Strata finished - duration: 0.0024 seconds
+#> [2024-12-28 12:20:40.0388] INFO: Strata finished - duration: 0.0036 seconds
 ```
 
 `adhoc_lamina()` will execute *only* the specified lamina and the code
@@ -690,12 +679,12 @@ adhoc_lamina(
   lamina_path = fs::path(tmp, "strata", "stratum_2", "s2_lamina_2"),
   silent = FALSE
 )
-#> [2024-12-28 11:02:56.7985] INFO: Strata started 
-#> [2024-12-28 11:02:56.7989] INFO: Stratum: stratum_2 initialized 
-#> [2024-12-28 11:02:56.7991] INFO: Lamina: s2_lamina_2 initialized 
-#> [2024-12-28 11:02:56.7994] INFO: Executing: my_code 
+#> [2024-12-28 12:20:40.1200] INFO: Strata started 
+#> [2024-12-28 12:20:40.1205] INFO: Stratum: stratum_2 initialized 
+#> [2024-12-28 12:20:40.1209] INFO: Lamina: s2_lamina_2 initialized 
+#> [2024-12-28 12:20:40.1213] INFO: Executing: my_code 
 #> [1] "I am a placeholder, do not forget to replace me!"
-#> [2024-12-28 11:02:56.7999] INFO: Strata finished - duration: 0.0014 seconds
+#> [2024-12-28 12:20:40.1222] INFO: Strata finished - duration: 0.0023 seconds
 ```
 
 In interactive sessions, `adhoc()` will execute a stratum or lamina
@@ -715,6 +704,12 @@ adhoc(
   prompt = FALSE
 )
 ```
+
+</details>
+<details>
+<summary>
+Easy to manage configuration inside of R or out
+</summary>
 
 ### Managing .tomls
 
@@ -746,12 +741,9 @@ toml_list <-
   survey_tomls(tmp)
 
 toml_list
-#> /tmp/Rtmpbhzci6/file5a3152f9f64e8/strata/.strata.toml
-#> /tmp/Rtmpbhzci6/file5a3152f9f64e8/strata/stratum_1/.laminae.toml
-#> /tmp/Rtmpbhzci6/file5a3152f9f64e8/strata/stratum_2/.laminae.toml
-```
-
-``` r
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e283b141367/strata/.strata.toml
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e283b141367/strata/stratum_1/.laminae.toml
+#> C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e283b141367/strata/stratum_2/.laminae.toml
 
 
 # create copies
@@ -762,9 +754,6 @@ original_strata_toml
 #>   <chr>  <chr>     <int> <date>    
 #> 1 strata stratum_1     1 2024-12-28
 #> 2 strata stratum_2     2 2024-12-28
-```
-
-``` r
 
 original_lamina1_toml <- view_toml(toml_list[2])
 original_lamina1_toml
@@ -773,9 +762,6 @@ original_lamina1_toml
 #>   <chr>   <chr>       <int> <lgl>        <date>    
 #> 1 laminae s1_lamina_1     1 FALSE        2024-12-28
 #> 2 laminae s1_lamina_2     2 FALSE        2024-12-28
-```
-
-``` r
 
 # original execution plan
 original_plan <- survey_strata(tmp)
@@ -798,10 +784,7 @@ edit_toml(
   original_toml_path = toml_list[1],
   new_toml_dataframe = new_strata_toml
 )
-#> [2024-12-28 11:02:57.0266] INFO: Backed up /tmp/Rtmpbhzci6/file5a3152f9f64e8/strata/.strata.toml to /tmp/Rtmpbhzci6/file5a3152f9f64e8/strata/.strata.bak
-```
-
-``` r
+#> [2024-12-28 12:20:40.4733] INFO: Backed up C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e283b141367/strata/.strata.toml to C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e283b141367/strata/.strata.bak
 
 # check the order
 view_toml(toml_list[1])
@@ -834,10 +817,7 @@ edit_toml(
   original_toml_path = toml_list[2],
   new_toml_dataframe = new_lamina_toml
 )
-#> [2024-12-28 11:02:57.0524] INFO: Backed up /tmp/Rtmpbhzci6/file5a3152f9f64e8/strata/stratum_1/.laminae.toml to /tmp/Rtmpbhzci6/file5a3152f9f64e8/strata/stratum_1/.laminae.bak
-```
-
-``` r
+#> [2024-12-28 12:20:40.5169] INFO: Backed up C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e283b141367/strata/stratum_1/.laminae.toml to C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e283b141367/strata/stratum_1/.laminae.bak
 
 # check the order and skip_if_fail
 view_toml(toml_list[2])
@@ -865,6 +845,12 @@ survey_strata(tmp)
 #> # ℹ 1 more variable: created <date>
 ```
 
+</details>
+<details>
+<summary>
+Ability to skip failing lamina
+</summary>
+
 ### Skip if Fail
 
 Users can specify that a lamina should be skipped if it fails by setting
@@ -886,11 +872,8 @@ build_lamina(
   order = 2,
   skip_if_fail = TRUE
 )
-#> [2024-12-28 11:02:57.2860] WARN: Duplicate orders found in the .laminae.toml file, reordering 
-#> [2024-12-28 11:02:57.2885] INFO: Backed up /tmp/Rtmpbhzci6/file5a31512377796/strata/stratum_1/.laminae.toml to /tmp/Rtmpbhzci6/file5a31512377796/strata/stratum_1/.laminae.bak
-```
-
-``` r
+#> [2024-12-28 12:20:40.8803] WARN: Duplicate orders found in the .laminae.toml file, reordering 
+#> [2024-12-28 12:20:40.8842] INFO: Backed up C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e2821a8ec9/strata/stratum_1/.laminae.toml to C:/Users/ASENE~1.SEN/AppData/Local/Temp/Rtmp0SjDvo/file3e2821a8ec9/strata/stratum_1/.laminae.bak
 
 # lets add the code that will fail
 bad_code <- "stop('I am bad code')"
@@ -900,31 +883,33 @@ cat(bad_code, file = bad_path)
 
 # let's run the project
 main(tmp)
-#> [2024-12-28 11:02:57.3519] INFO: Strata started 
-#> [2024-12-28 11:02:57.3523] INFO: Stratum: stratum_1 initialized 
-#> [2024-12-28 11:02:57.3525] INFO: Lamina: s1_lamina_1 initialized 
-#> [2024-12-28 11:02:57.3529] INFO: Executing: my_code 
+#> [2024-12-28 12:20:40.9642] INFO: Strata started 
+#> [2024-12-28 12:20:40.9646] INFO: Stratum: stratum_1 initialized 
+#> [2024-12-28 12:20:40.9650] INFO: Lamina: s1_lamina_1 initialized 
+#> [2024-12-28 12:20:40.9654] INFO: Executing: my_code 
 #> [1] "I am a placeholder, do not forget to replace me!"
-#> [2024-12-28 11:02:57.3535] INFO: Lamina: s1_lamina_1 finished 
-#> [2024-12-28 11:02:57.3537] INFO: Lamina: bad_lamina initialized 
-#> [2024-12-28 11:02:57.3539] INFO: Executing: bad_code
-#> [2024-12-28 11:02:57.3543] ERROR: Error in bad_code
-#> [2024-12-28 11:02:57.3547] INFO: Lamina: bad_lamina finished 
-#> [2024-12-28 11:02:57.3550] INFO: Lamina: s1_lamina_2 initialized 
-#> [2024-12-28 11:02:57.3552] INFO: Executing: my_code 
+#> [2024-12-28 12:20:40.9680] INFO: Lamina: s1_lamina_1 finished 
+#> [2024-12-28 12:20:40.9696] INFO: Lamina: bad_lamina initialized 
+#> [2024-12-28 12:20:40.9708] INFO: Executing: bad_code
+#> [2024-12-28 12:20:40.9719] ERROR: Error in bad_code
+#> [2024-12-28 12:20:40.9729] INFO: Lamina: bad_lamina finished 
+#> [2024-12-28 12:20:40.9735] INFO: Lamina: s1_lamina_2 initialized 
+#> [2024-12-28 12:20:40.9740] INFO: Executing: my_code 
 #> [1] "I am a placeholder, do not forget to replace me!"
-#> [2024-12-28 11:02:57.3556] INFO: Stratum: stratum_1 finished 
-#> [2024-12-28 11:02:57.3559] INFO: Stratum: stratum_2 initialized 
-#> [2024-12-28 11:02:57.3561] INFO: Lamina: s1_lamina_2 finished 
-#> [2024-12-28 11:02:57.3564] INFO: Lamina: s2_lamina_1 initialized 
-#> [2024-12-28 11:02:57.3567] INFO: Executing: my_code 
+#> [2024-12-28 12:20:40.9753] INFO: Stratum: stratum_1 finished 
+#> [2024-12-28 12:20:40.9756] INFO: Stratum: stratum_2 initialized 
+#> [2024-12-28 12:20:40.9759] INFO: Lamina: s1_lamina_2 finished 
+#> [2024-12-28 12:20:40.9762] INFO: Lamina: s2_lamina_1 initialized 
+#> [2024-12-28 12:20:40.9765] INFO: Executing: my_code 
 #> [1] "I am a placeholder, do not forget to replace me!"
-#> [2024-12-28 11:02:57.3571] INFO: Lamina: s2_lamina_1 finished 
-#> [2024-12-28 11:02:57.3574] INFO: Lamina: s2_lamina_2 initialized 
-#> [2024-12-28 11:02:57.3576] INFO: Executing: my_code 
+#> [2024-12-28 12:20:40.9772] INFO: Lamina: s2_lamina_1 finished 
+#> [2024-12-28 12:20:40.9775] INFO: Lamina: s2_lamina_2 initialized 
+#> [2024-12-28 12:20:40.9779] INFO: Executing: my_code 
 #> [1] "I am a placeholder, do not forget to replace me!"
-#> [2024-12-28 11:02:57.3580] INFO: Strata finished - duration: 0.0064 seconds
+#> [2024-12-28 12:20:40.9786] INFO: Strata finished - duration: 0.0144 seconds
 ```
 
 Users will see in the log that the lamina that failed was skipped and
 the rest of the project executed.
+
+</details>
