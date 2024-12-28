@@ -1,3 +1,5 @@
+# strata 1.3.1
+
 # strata 1.3.0
 
 - add `adhoc()` function to ad hoc a portion of a user's strata
