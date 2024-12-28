@@ -21,7 +21,7 @@ the message to stderr.
 log_error("This is an error message")
 }
 \seealso{
-Other log: 
+Other log:
 \code{\link{log_message}()},
 \code{\link{log_total_time}()},
 \code{\link{survey_log}()}

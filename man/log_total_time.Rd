@@ -24,7 +24,7 @@ end <- Sys.time() + 999
 log_total_time(begin, end)
 }
 \seealso{
-Other log: 
+Other log:
 \code{\link{log_error}()},
 \code{\link{log_message}()},
 \code{\link{survey_log}()}

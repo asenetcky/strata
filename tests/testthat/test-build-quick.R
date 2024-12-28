@@ -263,3 +263,97 @@ test_that("outlined build fails with non-unique strata/laminae name combos", {
     build_outlined_strata_project(outline)
   )
 })
+
+
+test_that("outlined build allows multiple lamina per stratum", {
+  tmp <- fs::dir_create(fs::file_temp())
+
+  outline <-
+    dplyr::tibble(
+      project_path = tmp,
+      stratum_name = c(
+        rep("data_pull", 3),
+        "data_wrangle",
+        rep("build_model", 2),
+        "build_report"
+      ),
+      stratum_order = c(
+        rep(1, 3),
+        2,
+        rep(3, 2),
+        4
+      ),
+      lamina_name = c(
+        "connections",
+        "authenticaiton",
+        "sql",
+        "clean_data",
+        "tidy_models",
+        "host_model",
+        "quarto_report"
+      ),
+      lamina_order = c(1, 2, 3, 1, 1, 2, 1),
+      skip_if_fail = FALSE
+    )
+
+  expect_no_error(
+    build_outlined_strata_project(outline)
+  )
+
+  created_paths <-
+    survey_strata(tmp) |>
+    dplyr::pull("script_path") |>
+    fs::path_dir() |>
+    fs::as_fs_path()
+
+  expected_paths <-
+    fs::path(
+      outline$project_path,
+      "strata",
+      outline$stratum_name,
+      outline$lamina_name
+    )
+
+  expect_true(
+    checkmate::check_subset(
+      created_paths,
+      expected_paths
+    )
+  )
+})
+
+test_that("outlined build fails with non-unique strata/laminae name combos", {
+  tmp <- fs::dir_create(fs::file_temp())
+
+  outline <-
+    dplyr::tibble(
+      project_path = tmp,
+      stratum_name = c(
+        rep("data_pull", 3),
+        "data_wrangle",
+        rep("build_model", 2),
+        "build_report"
+      ),
+      stratum_order = c(
+        rep(1, 3),
+        2,
+        rep(3, 2),
+        4
+      ),
+      lamina_name = c(
+        "connections",
+        "connections",
+        "sql",
+        "clean_data",
+        "tidy_models",
+        "host_model",
+        "quarto_report"
+      ),
+      lamina_order = c(1, 2, 3, 1, 1, 2, 1),
+      skip_if_fail = FALSE
+    )
+
+  expect_error(
+    build_outlined_strata_project(outline)
+  )
+})
