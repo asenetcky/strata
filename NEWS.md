@@ -1,3 +1,5 @@
+# strata 1.3.2
+
 # strata 1.3.1
 
 - fix name cleaning and path checking preventing path manipulations
