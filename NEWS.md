@@ -1,5 +1,7 @@
 # strata 1.3.2
 
+- clean_name ignores dashes "-" in file names now
+
 # strata 1.3.1
 
 - fix name cleaning and path checking preventing path manipulations
