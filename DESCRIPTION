@@ -10,6 +10,7 @@ Description: Build a project framework for users with
 License: MIT + file LICENSE
 URL: https://github.com/asenetcky/strata, https://asenetcky.github.io/strata/
 BugReports: https://github.com/asenetcky/strata/issues
+Depends: R (>= 4.1.0)
 Imports: 
     checkmate (>= 2.3.2),
     dplyr (>= 1.1.0),
