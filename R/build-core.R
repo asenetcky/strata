@@ -189,7 +189,7 @@ clean_name <- function(name) {
     name |>
     stringr::str_trim() |>
     stringr::str_to_lower() |>
-    stringr::str_replace_all("[^[:alnum:]]|\\s", "_") |>
+    stringr::str_replace_all("[^[:alnum:]|-]|\\s", "_") |>
     fs::path_sanitize()
 
   purrr::walk2(
