@@ -15,7 +15,9 @@ status](https://www.r-pkg.org/badges/version/strata)](https://CRAN.R-project.org
 The goal of strata is to provide a framework for workflow automation and
 reproducible analyses for R users and teams who may not have access to
 many modern automation tooling and/or are otherwise
-resource-constrained. Strata aims to be simple and allow users to adopt
+resource-constrained.
+
+Strata aims to be simple and allow users to adopt
 it with minimal changes to existing code and use whatever automation
 they have access to. There is only one target file users will need to
 automate, `main.R`, which will run through the entire project with the
@@ -77,8 +79,7 @@ Developers without access to modern automation tools
 Developers with limited access to advanced automation tools will find
 `strata` to be a great way to prep their projects to implement the task
 scheduling automation they already have on their computers. Users with
-access to more advanced tooling or looking for more detailed features
-may not have their needs met by `strata` but may still appreciate the
+access to more advanced tooling may still appreciate the
 simplicity and logging for rapid prototyping.
 
 </details>
@@ -153,7 +154,7 @@ and their associated R scripts that users deem necessary.
 ``` r
 # remember we still have that stratum path from the previous section
 # let's build some laminae you might see inside a stratum called 'project_setup'
-# remember you can 1 or more R script inside of a lamina
+# remember you can have one or more R script inside of a lamina
 
 # This could be a lamina that contains code that
 # sets up your libraries for the project
@@ -286,7 +287,7 @@ Users can run `survey_strata()` to get all the need-to-know about their
 project. It is important to note that `survey_strata()` “sees” the
 project through the eyes of the `.toml` files, and *not* the actual file
 structure, which might not reflect the true nature of the strata
-project. If a stratum or lamina wasn’t built with `build_stratum()` or
+project. If a stratum or lamina was not built with `build_stratum()` or
 `build_lamina()` or added by hand to the `.tomls` it will not show up in
 the survey. This provides users with the flexibility to weave their
 strata project in and out of other projects or test out new ideas
@@ -296,14 +297,14 @@ without affecting the execution plan of the project.
 
 `main.R` and its associated function `main()` is the entry point to your
 project and the target that users will automate the execution of. When
-executed `main()` will read those `.toml` files and begin sourcing the
+executed, `main()` will read those `.toml` files and begin sourcing the
 pipelines in the order specified by the user/.toml files, and within a
 stratum it will execute the laminae in the order specified by the user
 and their specific .toml file. Within a lamina the scripts will be
 sourced however the user’s operating system has ordered the scripts,
 often alphabetically.
 
-There are two ways for a uaer to “run” a project:
+There are two ways for a user to “run” a project:
 
 Users can source the `main.R` script that was auto-generated when
 building a stratum.
@@ -425,7 +426,7 @@ desire.
 
 - Logging can be routed to stdout or stderr which can then be piped to
   wherever users want to store their logs.
-- Logging format is consistent -
+- Logging format is consistent
 - The timestamp is always 26 characters long, including square brackets
 - The timestamp is always YEAR-MONTH-DAY HOUR:MINUTE:SECOND.XXXX
 - The log level follows the timestamp with a space and ends with a colon
