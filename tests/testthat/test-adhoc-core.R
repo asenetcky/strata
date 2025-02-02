@@ -204,3 +204,17 @@ test_that("adhoc stratum throws error when path does no exists", {
 test_that("adhoc lamina throws error when path does no exists", {
   expect_error(adhoc_lamina("bad_path"))
 })
+
+test_that("adhoc throws error if not interactive", {
+  tmp <- fs::dir_create(fs::file_temp())
+  build_quick_strata_project(tmp, 2, 2)
+
+  expect_error(adhoc("stratum1", project_path = tmp))
+})
+
+test_that("adhoc errors with no match", {
+  tmp <- fs::dir_create(fs::file_temp())
+  build_quick_strata_project(tmp, 2, 2)
+
+  expect_error(adhoc("stratum3", project_path = tmp))
+})
