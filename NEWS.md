@@ -1,3 +1,5 @@
+# strata (development version)
+
 # strata 1.4.0
 
 This release is all about bug fixes and improvements to the user experience.
