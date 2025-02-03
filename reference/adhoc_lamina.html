@@ -11,7 +11,7 @@ with or without log messages."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">strata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@ with or without log messages."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Execute a single lamina ad hoc</h1>
-      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/main/R/adhoc.R" class="external-link"><code>R/adhoc.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/main/R/adhoc-core.R" class="external-link"><code>R/adhoc-core.R</code></a></small>
       <div class="d-none name"><code>adhoc_lamina.Rd</code></div>
     </div>
 
@@ -65,6 +65,12 @@ will be printed to the console. If <code>TRUE</code>, log messages will be suppr
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>invisible data frame of execution plan.</p>
     </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other adhoc:
+<code><a href="adhoc.html">adhoc</a>()</code>,
+<code><a href="adhoc_stratum.html">adhoc_stratum</a>()</code></p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -73,12 +79,12 @@ will be printed to the console. If <code>TRUE</code>, log messages will be suppr
 <span class="r-in"><span><span class="fu">adhoc_lamina</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"strata"</span>, <span class="st">"stratum_1"</span>, <span class="st">"s1_lamina_1"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 15:57:01.4718] INFO: Strata started </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 15:57:01.4723] INFO: Stratum: stratum_1 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 15:57:01.4727] INFO: Lamina: s1_lamina_1 initialized </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 15:57:01.4732] INFO: Executing: my_code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2025-02-03 21:37:03.6795] INFO: Strata started </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2025-02-03 21:37:03.6801] INFO: Stratum: stratum_1 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2025-02-03 21:37:03.6805] INFO: Lamina: s1_lamina_1 initialized </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2025-02-03 21:37:03.6810] INFO: Executing: my_code </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "I am a placeholder, do not forget to replace me!"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 15:57:01.4748] INFO: Strata finished - duration: 0.0034 seconds </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2025-02-03 21:37:03.6825] INFO: Strata finished - duration: 0.0035 seconds </span>
 <span class="r-in"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/delete.html" class="external-link">dir_delete</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>

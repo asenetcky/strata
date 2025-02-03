@@ -9,7 +9,7 @@ the level of the message, and whether or not it prints to STDOUT or STDERR."></h
 
     <a class="navbar-brand me-2" href="../index.html">strata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,7 @@ the level of the message, and whether or not it prints to STDOUT or STDERR."></h
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Send a standardized log message to stdout or stderr</h1>
-      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/main/R/logging.R" class="external-link"><code>R/logging.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/asenetcky/strata/blob/main/R/log-core.R" class="external-link"><code>R/log-core.R</code></a></small>
       <div class="d-none name"><code>log_message.Rd</code></div>
     </div>
 
@@ -65,17 +65,25 @@ or <code>"ERR"</code> and the defaults is <code>"OUT"</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A message printed to stdout or stderr.</p>
+    <p>A message printed to stdout or stderr and an invisible character
+string copy of the entire log message.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other log:
+<code><a href="log_error.html">log_error</a>()</code>,
+<code><a href="log_total_time.html">log_total_time</a>()</code>,
+<code><a href="survey_log.html">survey_log</a>()</code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">log_message</span><span class="op">(</span><span class="st">"This is an info message"</span>, <span class="st">"INFO"</span>, <span class="st">"OUT"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 15:57:04.0633] INFO: This is an info message </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2025-02-03 21:37:06.1655] INFO: This is an info message </span>
 <span class="r-in"><span><span class="fu">log_message</span><span class="op">(</span><span class="st">"This is an error message"</span>, <span class="st">"ERROR"</span>, <span class="st">"ERR"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [2024-11-27 15:57:04.0642] ERROR: This is an error message</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [2025-02-03 21:37:06.1665] ERROR: This is an error message</span>
 <span class="r-in"><span><span class="fu">log_message</span><span class="op">(</span><span class="st">"This is a warning message"</span>, <span class="st">"WARNING"</span>, <span class="st">"OUT"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2024-11-27 15:57:04.0651] WARNING: This is a warning message </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2025-02-03 21:37:06.1676] WARNING: This is a warning message </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

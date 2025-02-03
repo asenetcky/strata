@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Simple Framework for Simple Automation">
-<meta name="description" content="A tool suite for building project frameworks for users with access to only the most basic of automation tools.">
-<meta property="og:description" content="A tool suite for building project frameworks for users with access to only the most basic of automation tools.">
+<meta name="description" content="Build a project framework for users with access to only the most basic of automation tools.">
+<meta property="og:description" content="Build a project framework for users with access to only the most basic of automation tools.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">strata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,7 @@
 
 <p>The goal of strata is to provide a framework for workflow automation and reproducible analyses for R users and teams who may not have access to many modern automation tooling and/or are otherwise resource-constrained. Strata aims to be simple and allow users to adopt it with minimal changes to existing code and use whatever automation they have access to. There is only one target file users will need to automate, <code>main.R</code>, which will run through the entire project with the settings they specified as they build their strata of code. Strata is designed to get out of the users’ way and play nice with packages like <code>renv</code>, <code>cronR</code>, and <code>taskscheduleR</code>.</p>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="id_️-installation">⚙️ Installation<a class="anchor" aria-label="anchor" href="#id_%EF%B8%8F-installation"></a>
 </h2>
 <p>To install the latest CRAN release, just run:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -64,97 +64,706 @@
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"asenetcky/strata"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="getting-started-using-strata">Getting Started Using <code>strata</code>
-<a class="anchor" aria-label="anchor" href="#getting-started-using-strata"></a>
+<h2 id="id_-features">✨ Features<a class="anchor" aria-label="anchor" href="#id_-features"></a>
 </h2>
-<p><code>strata</code> provides users with framework for easier automation with the tools they already have at hand. Users will want to make a folder for their <code>strata</code> project. <code>strata</code> works best when bundled inside of an RStudio project folder and the <code>renv</code> package, but can be made to work without those is desired.</p>
-<p>After calling the <code>strata</code> package users will want to start hollowing out spaces for their code to live. Calling <code><a href="reference/build_stratum.html">strata::build_stratum</a></code> and providing a name and path to your project folder will add a ‘stratum’ to project, as well as a <code>main.R</code> script and a <code>.strata.toml</code> file.</p>
-<p>Next users will want to call <code><a href="reference/build_lamina.html">strata::build_lamina</a></code> with a name and path to your stratum you created in the previous step. This creates a subfolder of your stratum where you R code will live, as well as a <code>.laminae.toml</code>. It’s good to group like-code together inside of a ‘lamina’. Users can have as many stratum as needed with as many laminae and their associated R scripts that users deem necessary.</p>
-<p><code>main.R</code> and its associated function <code>main</code> is the entry point to your project and the target that users will automate the execution of. When executed <code>main</code> will read those <code>.toml</code> files and begin sourcing the pipelines in the order specified by the user/.toml files, and within a stratum it will execute the laminae in the order specified by the user and their specific .toml file. Within a lamina the scripts will be sourced however the user’s operating system has ordered the scripts, often alphabetically.</p>
-<p><code>strata</code> provides basic, but consistent logging functions that are used at run time, and are available for use inside of users’ code if they desire.</p>
+<ul>
+<li>Easily turn your R project into an automated one OR a one-click affair</li>
+<li>Easily view your project’s execution plan - no more hunting and pecking around to find out which script sources the next</li>
+<li>No more juggling multiple automated tasks - there is only a single automation target - <code>main.R</code> or <code><a href="reference/main.html">main()</a></code> function</li>
+<li>Simple and consistent built-in logging</li>
+<li>Manage code execution in <code>.toml</code> files</li>
+<li>Quick build options for rapid prototyping</li>
+</ul>
 </div>
 <div class="section level2">
-<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+<h2 id="id_-target-audience">🎯 Target Audience<a class="anchor" aria-label="anchor" href="#id_-target-audience"></a>
 </h2>
-<p>Here is a standard example using strata:</p>
+<details><summary>
+Developers looking one-click simplicity
+</summary><p><code>strata</code> is primarily for developers who are looking for simplicity in a framework they can adopt in their R projects. <code>strata</code> will help users quickly and consistently execute their code. Configurations are stored in plain text .toml files that can be tracked with version control. Users who aren’t looking to learn a new syntax, or change the way they write their code may feel right at home because <code>strata</code> only requires users to build out the file structure a specific way using the provided functions. Users will be able to easily ‘one-click’ execute their entire project in the sequence they specify, and/or easily implement a layer of automation down the road.</p>
+</details><details><summary>
+Developers without access to modern automation tools
+</summary><p>Developers with limited access to advanced automation tools will find <code>strata</code> to be a great way to prep their projects to implement the task scheduling automation they already have on their computers. Users with access to more advanced tooling or looking for more detailed features may not have their needs met by <code>strata</code> but may still appreciate the simplicity and logging for rapid prototyping.</p>
+</details>
+</div>
+<div class="section level2">
+<h2 id="id_-getting-started">🚀 Getting Started<a class="anchor" aria-label="anchor" href="#id_-getting-started"></a>
+</h2>
+<p><code>strata</code> provides users with framework for easier automation with the tools they already have at hand. Users will want to make a folder for their <code>strata</code> project. <code>strata</code> works all by itself but shines best when bundled inside of an RStudio project folder and coupled with the <a href="https://cran.r-project.org/package=renv" class="external-link"><code>renv</code></a> package.</p>
+<div class="section level3">
+<h3 id="build-strata">Build Strata<a class="anchor" aria-label="anchor" href="#build-strata"></a>
+</h3>
+<p>After loading and attaching the <code>strata</code> package users will want to start hollowing out spaces for their code to live. Calling <code><a href="reference/build_stratum.html">build_stratum()</a></code> and providing a name and path to your project folder will add a ‘stratum’ to project, as well as a <code>main.R</code> script and a <code>.strata.toml</code> file.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/asenetcky/strata" class="external-link">strata</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">strata</span><span class="fu">::</span><span class="fu"><a href="reference/build_stratum.html">build_stratum</a></span><span class="op">(</span></span>
-<span>  project_path <span class="op">=</span> <span class="va">tmp</span>,</span>
-<span>  stratum_name <span class="op">=</span> <span class="st">"first_stratum"</span>,</span>
+<span><span class="co"># Make a folder for your strata project</span></span>
+<span><span class="va">my_project_folder</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># build_stratum creates a folder, a stratum,  where you can group together</span></span>
+<span><span class="co"># similar code into sub-folder/s called a lamina/ae</span></span>
+<span></span>
+<span><span class="co"># pro tip: build_stratum invisibly returns the stratum path</span></span>
+<span><span class="va">stratum_path</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="reference/build_stratum.html">build_stratum</a></span><span class="op">(</span></span>
+<span>    stratum_name <span class="op">=</span> <span class="st">"project_setup"</span>,</span>
+<span>    project_path <span class="op">=</span> <span class="va">my_project_folder</span>,</span>
+<span>    order <span class="op">=</span> <span class="fl">1</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># let's take a look at what was made</span></span>
+<span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html" class="external-link">dir_tree</a></span><span class="op">(</span><span class="va">my_project_folder</span>, recurse <span class="op">=</span> <span class="cn">TRUE</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919cb982350</span></span>
+<span><span class="co">#&gt; ├── main.R</span></span>
+<span><span class="co">#&gt; └── strata</span></span>
+<span><span class="co">#&gt;     ├── .strata.toml</span></span>
+<span><span class="co">#&gt;     └── project_setup</span></span>
+<span></span>
+<span><span class="co"># let's take a look at that .toml file</span></span>
+<span><span class="fu"><a href="reference/view_toml.html">view_toml</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">my_project_folder</span>, <span class="st">"strata"</span>, <span class="st">".strata.toml"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 4</span></span>
+<span><span class="co">#&gt;   type   name          order created   </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;         &lt;int&gt; &lt;date&gt;    </span></span>
+<span><span class="co">#&gt; 1 strata project_setup     1 2025-02-02</span></span>
+<span></span>
+<span><span class="co"># our stratum is empty, let's change that in the next section</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="build-laminae">Build Laminae<a class="anchor" aria-label="anchor" href="#build-laminae"></a>
+</h3>
+<p>Next users will want to call <code><a href="reference/build_lamina.html">build_lamina()</a></code> with a name and path to your stratum you created in the previous step. This creates a sub-folder of your stratum where you R code will live, as well as a <code>.laminae.toml</code>. It’s good to group like-code together inside of a ‘lamina’. Users can have as many stratum as needed with as many laminae and their associated R scripts that users deem necessary.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># remember we still have that stratum path from the previous section</span></span>
+<span><span class="co"># let's build some laminae you might see inside a stratum called 'project_setup'</span></span>
+<span><span class="co"># remember you can 1 or more R script inside of a lamina</span></span>
+<span></span>
+<span><span class="co"># This could be a lamina that contains code that</span></span>
+<span><span class="co"># sets up your libraries for the project</span></span>
+<span><span class="fu"><a href="reference/build_lamina.html">build_lamina</a></span><span class="op">(</span></span>
+<span>  stratum_path <span class="op">=</span> <span class="va">stratum_path</span>,</span>
+<span>  lamina_name <span class="op">=</span> <span class="st">"libraries"</span>,</span>
 <span>  order <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">stratum_path</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span></span>
-<span>    <span class="va">tmp</span>, <span class="st">"strata"</span>, <span class="st">"first_stratum"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="fu">strata</span><span class="fu">::</span><span class="fu"><a href="reference/build_lamina.html">build_lamina</a></span><span class="op">(</span></span>
+<span><span class="co"># This could be a lamina that contains code that API keys and other credentials</span></span>
+<span><span class="co"># and/or makes use of the excellent `keyring` package</span></span>
+<span><span class="fu"><a href="reference/build_lamina.html">build_lamina</a></span><span class="op">(</span></span>
 <span>  stratum_path <span class="op">=</span> <span class="va">stratum_path</span>,</span>
-<span>  lamina_name <span class="op">=</span> <span class="st">"first_lamina"</span>,</span>
-<span>  order <span class="op">=</span> <span class="fl">1</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu">strata</span><span class="fu">::</span><span class="fu"><a href="reference/build_lamina.html">build_lamina</a></span><span class="op">(</span></span>
-<span>  stratum_path <span class="op">=</span> <span class="va">stratum_path</span>,</span>
-<span>  lamina_name <span class="op">=</span> <span class="st">"second_lamina"</span>,</span>
+<span>  lamina_name <span class="op">=</span> <span class="st">"authentication"</span>,</span>
 <span>  order <span class="op">=</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">lamina_path1</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">stratum_path</span>, <span class="st">"first_lamina"</span><span class="op">)</span></span>
-<span><span class="va">lamina_path2</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">stratum_path</span>, <span class="st">"second_lamina"</span><span class="op">)</span></span>
-<span><span class="va">code_path1</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">lamina_path1</span>, <span class="st">"my_code1.R"</span><span class="op">)</span></span>
-<span><span class="va">code_path2</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">lamina_path2</span>, <span class="st">"my_code2.R"</span><span class="op">)</span></span>
+<span><span class="co"># This could be a lamina that contains code for setting up your</span></span>
+<span><span class="co"># database connections etc...</span></span>
+<span><span class="fu"><a href="reference/build_lamina.html">build_lamina</a></span><span class="op">(</span></span>
+<span>  stratum_path <span class="op">=</span> <span class="va">stratum_path</span>,</span>
+<span>  lamina_name <span class="op">=</span> <span class="st">"connections"</span>,</span>
+<span>  order <span class="op">=</span> <span class="fl">3</span></span>
+<span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Don't worry if you forget to specify an order, strata will assign one for you!</span></span>
+<span><span class="co"># Always check that the order assigned is the order you want</span></span>
 <span></span>
-<span><span class="va">my_code1</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">file_create</a></span><span class="op">(</span><span class="va">code_path1</span><span class="op">)</span></span>
-<span><span class="va">my_code2</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">file_create</a></span><span class="op">(</span><span class="va">code_path2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">my_code1</span>, <span class="st">"print('Hello, World!')"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">my_code2</span>, <span class="st">"print('Goodbye, World!')"</span><span class="op">)</span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html" class="external-link">dir_tree</a></span><span class="op">(</span><span class="va">my_project_folder</span>, recurse <span class="op">=</span> <span class="cn">TRUE</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919cb982350</span></span>
+<span><span class="co">#&gt; ├── main.R</span></span>
+<span><span class="co">#&gt; └── strata</span></span>
+<span><span class="co">#&gt;     ├── .strata.toml</span></span>
+<span><span class="co">#&gt;     └── project_setup</span></span>
+<span><span class="co">#&gt;         ├── .laminae.toml</span></span>
+<span><span class="co">#&gt;         ├── authentication</span></span>
+<span><span class="co">#&gt;         ├── connections</span></span>
+<span><span class="co">#&gt;         └── libraries</span></span>
+<span><span class="fu"><a href="reference/view_toml.html">view_toml</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">stratum_path</span>, <span class="st">".laminae.toml"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span><span class="co">#&gt;   type    name           order skip_if_fail created   </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;int&gt; &lt;lgl&gt;        &lt;date&gt;    </span></span>
+<span><span class="co">#&gt; 1 laminae libraries          1 FALSE        2025-02-02</span></span>
+<span><span class="co">#&gt; 2 laminae authentication     2 FALSE        2025-02-02</span></span>
+<span><span class="co">#&gt; 3 laminae connections        3 FALSE        2025-02-02</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="adding-r-scripts">Adding R Scripts<a class="anchor" aria-label="anchor" href="#adding-r-scripts"></a>
+</h3>
+<p>Now that users have their stratum and laminae set up, they can begin adding their R scripts to the laminae. Users can drag and drop their existing code into the laminae folders or write their code directly in the laminae.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># let's fill in the laminae with some placeholder code</span></span>
+<span><span class="va">auth_path</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">stratum_path</span>, <span class="st">"authentication"</span>, <span class="st">"auth_code.R"</span><span class="op">)</span></span>
+<span><span class="va">lib_path</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">stratum_path</span>, <span class="st">"libraries"</span>, <span class="st">"lib_code.R"</span><span class="op">)</span></span>
+<span><span class="va">conn_path</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">stratum_path</span>, <span class="st">"connections"</span>, <span class="st">"conn_code.R"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"main.R"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [2024-11-27 10:54:13.3895] INFO: Strata started </span></span>
-<span><span class="co">#&gt; [2024-11-27 10:54:13.3901] INFO: Stratum: first_stratum initialized </span></span>
-<span><span class="co">#&gt; [2024-11-27 10:54:13.3906] INFO: Lamina: first_lamina initialized </span></span>
-<span><span class="co">#&gt; [2024-11-27 10:54:13.3912] INFO: Executing: my_code1 </span></span>
-<span><span class="co">#&gt; [1] "Hello, World!"</span></span>
-<span><span class="co">#&gt; [2024-11-27 10:54:13.3923] INFO: Lamina: first_lamina finished </span></span>
-<span><span class="co">#&gt; [2024-11-27 10:54:13.3926] INFO: Lamina: second_lamina initialized </span></span>
-<span><span class="co">#&gt; [2024-11-27 10:54:13.3929] INFO: Executing: my_code2 </span></span>
-<span><span class="co">#&gt; [1] "Goodbye, World!"</span></span>
-<span><span class="co">#&gt; [2024-11-27 10:54:13.3940] INFO: Strata finished - duration: 0.005 seconds</span></span>
+<span><span class="va">authentication_code</span> <span class="op">&lt;-</span> <span class="st">"print('I am your authentication setup code')"</span></span>
+<span><span class="va">libraries_code</span> <span class="op">&lt;-</span> <span class="st">"print('I am your library setup code')"</span></span>
+<span><span class="va">connections_code</span> <span class="op">&lt;-</span> <span class="st">"print('I am your connection setup code')"</span></span>
+<span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">auth_path</span>, <span class="va">lib_path</span>, <span class="va">conn_path</span><span class="op">)</span>,</span>
+<span>  \<span class="op">(</span><span class="va">r_file</span><span class="op">)</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">file_create</a></span><span class="op">(</span><span class="va">r_file</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">walk2</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">auth_path</span>, <span class="va">lib_path</span>, <span class="va">conn_path</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">authentication_code</span>, <span class="va">libraries_code</span>, <span class="va">connections_code</span><span class="op">)</span>,</span>
+<span>  \<span class="op">(</span><span class="va">r_file</span>, <span class="va">code</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">code</span>, file <span class="op">=</span> <span class="va">r_file</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="taking-a-look">Taking a Look<a class="anchor" aria-label="anchor" href="#taking-a-look"></a>
+</h3>
+<p>Adding all these folders and files is well and good, but how do users keep track of it all? <code>strata</code> has you covered. This readme has showcased a few already, but let’s recap and then look at the entire execution plan.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># let's take a look at the project structure now</span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html" class="external-link">dir_tree</a></span><span class="op">(</span><span class="va">my_project_folder</span>, recurse <span class="op">=</span> <span class="cn">TRUE</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919cb982350</span></span>
+<span><span class="co">#&gt; ├── main.R</span></span>
+<span><span class="co">#&gt; └── strata</span></span>
+<span><span class="co">#&gt;     ├── .strata.toml</span></span>
+<span><span class="co">#&gt;     └── project_setup</span></span>
+<span><span class="co">#&gt;         ├── .laminae.toml</span></span>
+<span><span class="co">#&gt;         ├── authentication</span></span>
+<span><span class="co">#&gt;         │   └── auth_code.R</span></span>
+<span><span class="co">#&gt;         ├── connections</span></span>
+<span><span class="co">#&gt;         │   └── conn_code.R</span></span>
+<span><span class="co">#&gt;         └── libraries</span></span>
+<span><span class="co">#&gt;             └── lib_code.R</span></span>
+<span></span>
+<span><span class="co"># Look at all those files now - let's grab the paths of only the .tomls</span></span>
+<span><span class="fu"><a href="reference/survey_tomls.html">survey_tomls</a></span><span class="op">(</span><span class="va">my_project_folder</span><span class="op">)</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919cb982350/strata/.strata.toml</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919cb982350/strata/project_setup/.laminae.toml</span></span></code></pre></div>
+<p>Users can now <code><a href="reference/view_toml.html">view_toml()</a></code> to see the contents of the <code>.toml</code> files or edit/replace their contents as well.</p>
+<p>The observability work-horse for most users will likely be <code><a href="reference/survey_strata.html">survey_strata()</a></code>.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/survey_strata.html">survey_strata</a></span><span class="op">(</span><span class="va">my_project_folder</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 7</span></span>
+<span><span class="co">#&gt;   execution_order stratum_name  lamina_name script_name script_path skip_if_fail</span></span>
+<span><span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;       &lt;fs::path&gt;  &lt;lgl&gt;       </span></span>
+<span><span class="co">#&gt; 1               1 project_setup libraries   lib_code    …lib_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 2               2 project_setup authentica… auth_code   …uth_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 3               3 project_setup connections conn_code   …onn_code.R FALSE       </span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: created &lt;date&gt;</span></span></code></pre></div>
+<p>Users can run <code><a href="reference/survey_strata.html">survey_strata()</a></code> to get all the need-to-know about their project. It is important to note that <code><a href="reference/survey_strata.html">survey_strata()</a></code> “sees” the project through the eyes of the <code>.toml</code> files, and <em>not</em> the actual file structure, which might not reflect the true nature of the strata project. If a stratum or lamina wasn’t built with <code><a href="reference/build_stratum.html">build_stratum()</a></code> or <code><a href="reference/build_lamina.html">build_lamina()</a></code> or added by hand to the <code>.tomls</code> it will not show up in the survey. This provides users with the flexibility to weave their strata project in and out of other projects or test out new ideas without affecting the execution plan of the project.</p>
+</div>
+<div class="section level3">
+<h3 id="running-the-project">Running the Project<a class="anchor" aria-label="anchor" href="#running-the-project"></a>
+</h3>
+<p><code>main.R</code> and its associated function <code><a href="reference/main.html">main()</a></code> is the entry point to your project and the target that users will automate the execution of. When executed <code><a href="reference/main.html">main()</a></code> will read those <code>.toml</code> files and begin sourcing the pipelines in the order specified by the user/.toml files, and within a stratum it will execute the laminae in the order specified by the user and their specific .toml file. Within a lamina the scripts will be sourced however the user’s operating system has ordered the scripts, often alphabetically.</p>
+<p>There are two ways for a uaer to “run” a project:</p>
+<p>Users can source the <code>main.R</code> script that was auto-generated when building a stratum.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">my_project_folder</span>, <span class="st">"main.R"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5955] INFO: Strata started </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5959] INFO: Stratum: project_setup initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5962] INFO: Lamina: libraries initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5965] INFO: Executing: lib_code </span></span>
+<span><span class="co">#&gt; [1] "I am your library setup code"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5971] INFO: Lamina: libraries finished </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5973] INFO: Lamina: authentication initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5975] INFO: Executing: auth_code </span></span>
+<span><span class="co">#&gt; [1] "I am your authentication setup code"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5980] INFO: Lamina: authentication finished </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5982] INFO: Lamina: connections initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5985] INFO: Executing: conn_code </span></span>
+<span><span class="co">#&gt; [1] "I am your connection setup code"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.5991] INFO: Strata finished - duration: 0.004 seconds</span></span></code></pre></div>
+<p>Users can also just execute the <code><a href="reference/main.html">main()</a></code> function directly, all that is needed is the path to the project. Users can also silence the logging messages if they desire, however, any messages generated by the code in the laminae will still be printed to the console.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/main.html">main</a></span><span class="op">(</span><span class="va">my_project_folder</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "I am your library setup code"</span></span>
+<span><span class="co">#&gt; [1] "I am your authentication setup code"</span></span>
+<span><span class="co">#&gt; [1] "I am your connection setup code"</span></span></code></pre></div>
+<p>That’s the core functionality of <code>strata</code>! Users build their project with <code>strata</code> and then it stays out of their way.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="id_-going-a-step-further">⚡ Going a Step Further<a class="anchor" aria-label="anchor" href="#id_-going-a-step-further"></a>
+</h2>
+<p>We have our strata project, now what?<br>
+While it might be useful to organize all the disparate parts of your project, and to turn it into a one-click affair, we can do better.</p>
+<div class="section level3">
+<h3 id="implementing-automation">Implementing Automation<a class="anchor" aria-label="anchor" href="#implementing-automation"></a>
+</h3>
+<p>Users may not have access to the lastest and greatest automation tools and orchestrators, but users likely have access to something like windows task scheduler, cron jobs or similar. In fact there are already two great packages that can help users automate their R scripts. - <a href="https://cran.r-project.org/package=cronR" class="external-link"><code>cronR</code></a> and - <a href="https://cran.r-project.org/package=taskscheduleR" class="external-link"><code>taskscheduleR</code></a>.</p>
+<p><code>strata</code> makes it easy to automate an entire project worth of code with those packages. Just point those packages’ functions to <code>main.R</code> or a script with the <code><a href="reference/main.html">main()</a></code> function and that’s it.</p>
+<p>Using cronR:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bnosac/cronR" class="external-link">cronR</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/build_quick_strata_project.html">build_quick_strata_project</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Run our project every thursday at 0700</span></span>
+<span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"main.R"</span><span class="op">)</span></span>
+<span><span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu">cron_rscript</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cmd</span></span>
+<span></span>
+<span><span class="fu">cron_add</span><span class="op">(</span><span class="va">cmd</span>, frequency <span class="op">=</span> <span class="st">"monthly"</span>, at <span class="op">=</span> <span class="st">"7AM"</span>, days_of_week <span class="op">=</span> <span class="st">"THU"</span><span class="op">)</span></span>
+<span><span class="fu">cron_njobs</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">cron_ls</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">cron_clear</span><span class="op">(</span>ask <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/delete.html" class="external-link">dir_delete</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></code></pre></div>
-<p>Users can also opt to use quick build functions if speed is the priority and the naming conventions are not important.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<p>Using taskscheduleR:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bnosac/taskscheduleR" class="external-link">taskscheduleR</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">strata</span><span class="fu">::</span><span class="fu"><a href="reference/build_quick_strata_project.html">build_quick_strata_project</a></span><span class="op">(</span></span>
+<span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/build_quick_strata_project.html">build_quick_strata_project</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Run our project every thursday at 0700</span></span>
+<span><span class="fu">taskscheduler_create</span><span class="op">(</span></span>
+<span>  taskname <span class="op">=</span> <span class="st">"strata"</span>,</span>
+<span>  rscript <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"main.R"</span><span class="op">)</span>,</span>
+<span>  schedule <span class="op">=</span> <span class="st">"WEEKLY"</span>,</span>
+<span>  starttime <span class="op">=</span> <span class="st">"07:00"</span>,</span>
+<span>  days <span class="op">=</span> <span class="st">"THU"</span>,</span>
+<span>  startdate <span class="op">=</span> <span class="st">"12/01/2024"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">taskscheduler_ls</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">TaskName</span> <span class="op">==</span> <span class="st">"strata"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">HostName</span><span class="op">:</span><span class="va">Status</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">taskscheduler_delete</span><span class="op">(</span>taskname <span class="op">=</span> <span class="st">"strata"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/delete.html" class="external-link">dir_delete</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="id_-additional-features">🎁 Additional Features<a class="anchor" aria-label="anchor" href="#id_-additional-features"></a>
+</h2>
+<details><summary>
+Consistent, easy to use logging
+</summary><div class="section level3">
+<h3 id="logging">Logging<a class="anchor" aria-label="anchor" href="#logging"></a>
+</h3>
+<p><code>strata</code> provides basic, but consistent logging functions that are used at run time, and are available for use inside of users’ code if they desire.</p>
+<ul>
+<li>Logging can be routed to stdout or stderr which can then be piped to wherever users want to store their logs.</li>
+<li>Logging format is consistent -</li>
+<li>The timestamp is always 26 characters long, including square brackets</li>
+<li>The timestamp is always YEAR-MONTH-DAY HOUR:MINUTE:SECOND.XXXX</li>
+<li>The log level follows the timestamp with a space and ends with a colon</li>
+<li>The message follows the log level and is separated by a space</li>
+<li>Logging is kept intentionally simple, but can still be parsed with <code><a href="reference/survey_log.html">survey_log()</a></code> and the resulting tibble analyzed however the user wishes</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The core logging function is log_message, and users can mold it to their needs</span></span>
+<span><span class="fu"><a href="reference/log_message.html">log_message</a></span><span class="op">(</span></span>
+<span>  message <span class="op">=</span> <span class="st">"This is a message"</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"INFO"</span>, <span class="co"># Use whatever "level" you want</span></span>
+<span>  out_or_err <span class="op">=</span> <span class="st">"OUT"</span> <span class="co"># Send to stdout</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.6514] INFO: This is a message</span></span>
+<span></span>
+<span><span class="co"># Users can sending warnings</span></span>
+<span><span class="fu"><a href="reference/log_message.html">log_message</a></span><span class="op">(</span></span>
+<span>  message <span class="op">=</span> <span class="st">"This is a warning"</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"WARN"</span>,</span>
+<span>  out_or_err <span class="op">=</span> <span class="st">"ERR"</span> <span class="co"># Send to stderr if user wants</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.6521] WARN: This is a warning</span></span>
+<span></span>
+<span><span class="co"># log_error() is a wrapper around log_message that sends messages to stderr</span></span>
+<span><span class="fu"><a href="reference/log_error.html">log_error</a></span><span class="op">(</span><span class="st">"This is an error message"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.6531] ERROR: This is an error message</span></span>
+<span></span>
+<span><span class="co"># log_total_time() is a simple function that  always prints the time</span></span>
+<span><span class="co"># difference in seconds</span></span>
+<span></span>
+<span><span class="va">duration</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="reference/log_total_time.html">log_total_time</a></span><span class="op">(</span></span>
+<span>    begin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fl">999</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/log_message.html">log_message</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"This took"</span>, <span class="va">duration</span>, <span class="st">"seconds"</span><span class="op">)</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"INFO"</span>,</span>
+<span>  out_or_err <span class="op">=</span> <span class="st">"OUT"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.6543] INFO: This took 999 seconds</span></span></code></pre></div>
+<p><code><a href="reference/log_message.html">log_message()</a></code> and <code><a href="reference/log_error.html">log_error()</a></code> invisibly return a character string copy of their output.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">log_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/log_message.html">log_message</a></span><span class="op">(</span><span class="st">"I am a log message"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.6581] INFO: I am a log message</span></span>
+<span><span class="va">log_output</span></span>
+<span><span class="co">#&gt; [1] "[2025-02-02 14:23:05.6581] INFO: I am a log message"</span></span></code></pre></div>
+<p><code><a href="reference/survey_log.html">survey_log()</a></code> will return a tibble of your log file contents for you to view. <em>Only</em> output from the <code><a href="reference/log_message.html">log_message()</a></code> or <code><a href="reference/log_error.html">log_error()</a></code> functions will be returned from the log, any other output will be ignored. In this example we are building a fake log line by line, normally the log would be built by having the stdout and stderr piped to a log file by the user or automation.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Build an example log</span></span>
+<span><span class="va">example_log</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">file_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span>ext <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># show file is empty</span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_lines.html" class="external-link">read_lines</a></span><span class="op">(</span><span class="va">example_log</span><span class="op">)</span></span>
+<span><span class="co">#&gt; character(0)</span></span>
+<span></span>
+<span><span class="co"># add log message</span></span>
+<span><span class="va">line1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/log_message.html">log_message</a></span><span class="op">(</span><span class="st">"strata started"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.6660] INFO: strata started</span></span>
+<span><span class="va">line1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">line1</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">line1</span>, file <span class="op">=</span> <span class="va">example_log</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># nonsense output to be ignored</span></span>
+<span><span class="va">line2</span> <span class="op">&lt;-</span> <span class="st">"I am a line of nonsense"</span></span>
+<span><span class="va">line2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">line2</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">line2</span>, file <span class="op">=</span> <span class="va">example_log</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># another log message</span></span>
+<span><span class="va">line3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/log_message.html">log_message</a></span><span class="op">(</span><span class="st">"strata finished"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:05.6680] INFO: strata finished</span></span>
+<span><span class="va">line3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">line3</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">line3</span>, file <span class="op">=</span> <span class="va">example_log</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># parse log and return tibble</span></span>
+<span><span class="co"># notice that the line numbers are preserved, even if content is ignored</span></span>
+<span><span class="fu"><a href="reference/survey_log.html">survey_log</a></span><span class="op">(</span><span class="va">example_log</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span><span class="co">#&gt;   line_number timestamp           level message        </span></span>
+<span><span class="co">#&gt;         &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt; &lt;chr&gt;          </span></span>
+<span><span class="co">#&gt; 1           1 2025-02-02 14:23:05 INFO  strata started </span></span>
+<span><span class="co">#&gt; 2           3 2025-02-02 14:23:05 INFO  strata finished</span></span>
+<span></span>
+<span><span class="co"># clean up</span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/delete.html" class="external-link">file_delete</a></span><span class="op">(</span><span class="va">example_log</span><span class="op">)</span></span></code></pre></div>
+
+<details><summary>
+Quick build projects
+</summary></details>
+</div>
+<div class="section level3">
+<h3 id="quick-build">Quick Build<a class="anchor" aria-label="anchor" href="#quick-build"></a>
+</h3>
+<p><code>strata</code> has two “quick” build options for users.</p>
+<p><code><a href="reference/build_quick_strata_project.html">build_quick_strata_project()</a></code> will create a project with a stratum and laminae with some placeholder code. This is great for testing out ideas or deploying current code into a strata project as quickly as possible and then sorting out the names and .tomls later.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/build_quick_strata_project.html">build_quick_strata_project</a></span><span class="op">(</span></span>
 <span>  project_path <span class="op">=</span> <span class="va">tmp</span>,</span>
-<span>  num_strata <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  num_laminae_per <span class="op">=</span> <span class="fl">2</span></span>
+<span>  num_strata <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  num_laminae_per <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html" class="external-link">dir_tree</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
-<span><span class="co">#&gt; /tmp/RtmpZa42UG/file1cb1670b361db</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919c1777424d</span></span>
 <span><span class="co">#&gt; ├── main.R</span></span>
 <span><span class="co">#&gt; └── strata</span></span>
 <span><span class="co">#&gt;     ├── stratum_1</span></span>
 <span><span class="co">#&gt;     │   ├── s1_lamina_1</span></span>
 <span><span class="co">#&gt;     │   │   └── my_code.R</span></span>
-<span><span class="co">#&gt;     │   └── s1_lamina_2</span></span>
-<span><span class="co">#&gt;     │       └── my_code.R</span></span>
-<span><span class="co">#&gt;     ├── stratum_2</span></span>
-<span><span class="co">#&gt;     │   ├── s2_lamina_1</span></span>
+<span><span class="co">#&gt;     │   ├── s1_lamina_2</span></span>
 <span><span class="co">#&gt;     │   │   └── my_code.R</span></span>
-<span><span class="co">#&gt;     │   └── s2_lamina_2</span></span>
+<span><span class="co">#&gt;     │   └── s1_lamina_3</span></span>
 <span><span class="co">#&gt;     │       └── my_code.R</span></span>
-<span><span class="co">#&gt;     └── stratum_3</span></span>
-<span><span class="co">#&gt;         ├── s3_lamina_1</span></span>
+<span><span class="co">#&gt;     └── stratum_2</span></span>
+<span><span class="co">#&gt;         ├── s2_lamina_1</span></span>
 <span><span class="co">#&gt;         │   └── my_code.R</span></span>
-<span><span class="co">#&gt;         └── s3_lamina_2</span></span>
+<span><span class="co">#&gt;         ├── s2_lamina_2</span></span>
+<span><span class="co">#&gt;         │   └── my_code.R</span></span>
+<span><span class="co">#&gt;         └── s2_lamina_3</span></span>
+<span><span class="co">#&gt;             └── my_code.R</span></span></code></pre></div>
+<p><code>build_outline_strata_project()</code> will create a project with strata and laminae based on an outline dataframe provided by the user. This is great for users who have a specific vision in mind already.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">outline</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>    project_path <span class="op">=</span> <span class="va">tmp</span>,</span>
+<span>    stratum_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"env_setup"</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"data_pull"</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>      <span class="st">"data_wrangle"</span>,</span>
+<span>      <span class="st">"build_model"</span>,</span>
+<span>      <span class="st">"build_report"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    stratum_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>      <span class="fl">3</span>,</span>
+<span>      <span class="fl">4</span>,</span>
+<span>      <span class="fl">5</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    lamina_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"authentication"</span>, <span class="st">"connections"</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sql-source1"</span>, <span class="st">"sql-source2"</span><span class="op">)</span>,</span>
+<span>      <span class="st">"clean_data"</span>,</span>
+<span>      <span class="st">"tidy_models"</span>,</span>
+<span>      <span class="st">"quarto_report"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    lamina_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    skip_if_fail <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">outline</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 7</span></span>
+<span><span class="co">#&gt; Columns: 6</span></span>
+<span><span class="co">#&gt; $ project_path  &lt;fs::path&gt; "/tmp/Rtmpmv1b6d/file7919c5a1ef62e", "/tmp/Rtmpmv1b…</span></span>
+<span><span class="co">#&gt; $ stratum_name  &lt;chr&gt; "env_setup", "env_setup", "data_pull", "data_pull", "dat…</span></span>
+<span><span class="co">#&gt; $ stratum_order &lt;dbl&gt; 1, 1, 2, 2, 3, 4, 5</span></span>
+<span><span class="co">#&gt; $ lamina_name   &lt;chr&gt; "authentication", "connections", "sql-source1", "sql-sou…</span></span>
+<span><span class="co">#&gt; $ lamina_order  &lt;dbl&gt; 1, 2, 1, 2, 1, 1, 1</span></span>
+<span><span class="co">#&gt; $ skip_if_fail  &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/build_outlined_strata_project.html">build_outlined_strata_project</a></span><span class="op">(</span><span class="va">outline</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html" class="external-link">dir_tree</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919c5a1ef62e</span></span>
+<span><span class="co">#&gt; ├── main.R</span></span>
+<span><span class="co">#&gt; └── strata</span></span>
+<span><span class="co">#&gt;     ├── build_model</span></span>
+<span><span class="co">#&gt;     │   └── tidy_models</span></span>
+<span><span class="co">#&gt;     │       └── my_code.R</span></span>
+<span><span class="co">#&gt;     ├── build_report</span></span>
+<span><span class="co">#&gt;     │   └── quarto_report</span></span>
+<span><span class="co">#&gt;     │       └── my_code.R</span></span>
+<span><span class="co">#&gt;     ├── data_pull</span></span>
+<span><span class="co">#&gt;     │   ├── sql-source1</span></span>
+<span><span class="co">#&gt;     │   │   └── my_code.R</span></span>
+<span><span class="co">#&gt;     │   └── sql-source2</span></span>
+<span><span class="co">#&gt;     │       └── my_code.R</span></span>
+<span><span class="co">#&gt;     ├── data_wrangle</span></span>
+<span><span class="co">#&gt;     │   └── clean_data</span></span>
+<span><span class="co">#&gt;     │       └── my_code.R</span></span>
+<span><span class="co">#&gt;     └── env_setup</span></span>
+<span><span class="co">#&gt;         ├── authentication</span></span>
+<span><span class="co">#&gt;         │   └── my_code.R</span></span>
+<span><span class="co">#&gt;         └── connections</span></span>
 <span><span class="co">#&gt;             └── my_code.R</span></span>
-<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/delete.html" class="external-link">dir_delete</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/survey_strata.html">survey_strata</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 7 × 7</span></span>
+<span><span class="co">#&gt;   execution_order stratum_name lamina_name  script_name script_path skip_if_fail</span></span>
+<span><span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;       &lt;fs::path&gt;  &lt;lgl&gt;       </span></span>
+<span><span class="co">#&gt; 1               1 env_setup    authenticat… my_code     …/my_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 2               2 env_setup    connections  my_code     …/my_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 3               3 data_pull    sql-source1  my_code     …/my_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 4               4 data_pull    sql-source2  my_code     …/my_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 5               5 data_wrangle clean_data   my_code     …/my_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 6               6 build_model  tidy_models  my_code     …/my_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 7               7 build_report quarto_repo… my_code     …/my_code.R FALSE       </span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: created &lt;date&gt;</span></span></code></pre></div>
+
+<details><summary>
+Execute any part of your strata project ad-hoc
+</summary></details>
+</div>
+<div class="section level3">
+<h3 id="ad-hoc">Ad-hoc<a class="anchor" aria-label="anchor" href="#ad-hoc"></a>
+</h3>
+<p>The ability to run the entire project with <code><a href="reference/main.html">main()</a></code> is great, but if users want to run pieces of the project ad-hoc, it would be inconvenient to have to source the disparate pieces of code individually, and possibly error-prone as well. Users can execute their project piecemeal with <code><a href="reference/adhoc_stratum.html">adhoc_stratum()</a></code> and <code><a href="reference/adhoc_lamina.html">adhoc_lamina()</a></code>, and <code><a href="reference/adhoc.html">adhoc()</a></code>.</p>
+<p><code><a href="reference/adhoc_stratum.html">adhoc_stratum()</a></code> will source the code inside of <em>every</em> lamina in the stratum, while ignoring all other strata.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/build_quick_strata_project.html">build_quick_strata_project</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/adhoc_stratum.html">adhoc_stratum</a></span><span class="op">(</span></span>
+<span>  stratum_path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"strata"</span>, <span class="st">"stratum_1"</span><span class="op">)</span>,</span>
+<span>  silent <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.3630] INFO: Strata started </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.3634] INFO: Stratum: stratum_1 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.3636] INFO: Lamina: s1_lamina_1 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.3640] INFO: Executing: my_code </span></span>
+<span><span class="co">#&gt; [1] "I am a placeholder, do not forget to replace me!"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.3645] INFO: Lamina: s1_lamina_1 finished </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.3648] INFO: Lamina: s1_lamina_2 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.3650] INFO: Executing: my_code </span></span>
+<span><span class="co">#&gt; [1] "I am a placeholder, do not forget to replace me!"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.3654] INFO: Strata finished - duration: 0.0026 seconds</span></span></code></pre></div>
+<p><code><a href="reference/adhoc_lamina.html">adhoc_lamina()</a></code> will execute <em>only</em> the specified lamina and the code therein contained, ignoring all other laminae inside the same stratum and all other strata.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># using our quick build project from above</span></span>
+<span><span class="fu"><a href="reference/adhoc_lamina.html">adhoc_lamina</a></span><span class="op">(</span></span>
+<span>  lamina_path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"strata"</span>, <span class="st">"stratum_2"</span>, <span class="st">"s2_lamina_2"</span><span class="op">)</span>,</span>
+<span>  silent <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.4207] INFO: Strata started </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.4211] INFO: Stratum: stratum_2 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.4213] INFO: Lamina: s2_lamina_2 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.4216] INFO: Executing: my_code </span></span>
+<span><span class="co">#&gt; [1] "I am a placeholder, do not forget to replace me!"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.4222] INFO: Strata finished - duration: 0.0016 seconds</span></span></code></pre></div>
+<p>In interactive sessions, <code><a href="reference/adhoc.html">adhoc()</a></code> will execute a stratum or lamina based on the name provided by the user. Users won’t have to remember the paths. <code><a href="reference/adhoc.html">adhoc()</a></code> will default to the current working directory, or users can optionally provide a project path. If there are multiple <em>exact</em> matches, <code><a href="reference/adhoc.html">adhoc()</a></code> will prompt users in the console to pick their intended target. If users opt to not to be prompted <code><a href="reference/adhoc.html">adhoc()</a></code> will execute the first match it finds.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># using our quick build project from above</span></span>
+<span><span class="fu"><a href="reference/adhoc.html">adhoc</a></span><span class="op">(</span></span>
+<span>  name <span class="op">=</span> <span class="st">"s2_lamina_1"</span>,</span>
+<span>  project_path <span class="op">=</span> <span class="va">tmp</span>,</span>
+<span>  silent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  prompt <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+
+<details><summary>
+Easy to manage configuration inside of R or out
+</summary></details>
+</div>
+<div class="section level3">
+<h3 id="managing-tomls">Managing .tomls<a class="anchor" aria-label="anchor" href="#managing-tomls"></a>
+</h3>
+<p>Users are able to find and read .toml files in their project with the <code><a href="reference/survey_tomls.html">survey_tomls()</a></code> and <code><a href="reference/view_toml.html">view_toml()</a></code> functions.<br>
+Users also have options for editing their .toml files as well. Users will always have the option to use their favorite text editor to edit any one of the .toml files. The files may be hidden, but <code><a href="reference/survey_tomls.html">survey_tomls()</a></code> will provide the proper paths. Users can then confirm their edits with <code><a href="reference/view_toml.html">view_toml()</a></code> and confirm that their expected changes appear in the tibble.</p>
+<p>Users can opt to work with the <code><a href="reference/edit_toml.html">edit_toml()</a></code> function and stay completely inside of R code. It is <em>strongly</em> advised users save a copy of their target .toml file in memory using <code><a href="reference/view_toml.html">view_toml()</a></code> to fall back on. Users can then take a copy of that and edit it. All that is required of <code><a href="reference/edit_toml.html">edit_toml()</a></code> is a file path to the original .toml file and the tibble of the content they wish to replace the original .toml file with.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># create temporary folder</span></span>
+<span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># quick build for demonstration purposes</span></span>
+<span><span class="fu"><a href="reference/build_quick_strata_project.html">build_quick_strata_project</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># survey the .tomls</span></span>
+<span><span class="va">toml_list</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="reference/survey_tomls.html">survey_tomls</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">toml_list</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919c7c48a466/strata/.strata.toml</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919c7c48a466/strata/stratum_1/.laminae.toml</span></span>
+<span><span class="co">#&gt; /tmp/Rtmpmv1b6d/file7919c7c48a466/strata/stratum_2/.laminae.toml</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># create copies</span></span>
+<span><span class="va">original_strata_toml</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/view_toml.html">view_toml</a></span><span class="op">(</span><span class="va">toml_list</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">original_strata_toml</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span><span class="co">#&gt;   type   name      order created   </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt; &lt;date&gt;    </span></span>
+<span><span class="co">#&gt; 1 strata stratum_1     1 2025-02-02</span></span>
+<span><span class="co">#&gt; 2 strata stratum_2     2 2025-02-02</span></span>
+<span></span>
+<span><span class="va">original_lamina1_toml</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/view_toml.html">view_toml</a></span><span class="op">(</span><span class="va">toml_list</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">original_lamina1_toml</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 5</span></span>
+<span><span class="co">#&gt;   type    name        order skip_if_fail created   </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt; &lt;lgl&gt;        &lt;date&gt;    </span></span>
+<span><span class="co">#&gt; 1 laminae s1_lamina_1     1 FALSE        2025-02-02</span></span>
+<span><span class="co">#&gt; 2 laminae s1_lamina_2     2 FALSE        2025-02-02</span></span>
+<span></span>
+<span><span class="co"># original execution plan</span></span>
+<span><span class="va">original_plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/survey_strata.html">survey_strata</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></code></pre></div>
+<p>The originals are all backed up, now users can edit the .toml files as they see fit.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># edit the strata .toml</span></span>
+<span><span class="co"># swap the order of the strata execution</span></span>
+<span><span class="va">new_strata_toml</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">original_strata_toml</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># make the edits</span></span>
+<span><span class="fu"><a href="reference/edit_toml.html">edit_toml</a></span><span class="op">(</span></span>
+<span>  original_toml_path <span class="op">=</span> <span class="va">toml_list</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  new_toml_dataframe <span class="op">=</span> <span class="va">new_strata_toml</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.6398] INFO: Backed up /tmp/Rtmpmv1b6d/file7919c7c48a466/strata/.strata.toml to /tmp/Rtmpmv1b6d/file7919c7c48a466/strata/.strata.bak</span></span>
+<span></span>
+<span><span class="co"># check the order</span></span>
+<span><span class="fu"><a href="reference/view_toml.html">view_toml</a></span><span class="op">(</span><span class="va">toml_list</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 4</span></span>
+<span><span class="co">#&gt;   type   name      order created   </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt; &lt;date&gt;    </span></span>
+<span><span class="co">#&gt; 1 strata stratum_2     1 2025-02-02</span></span>
+<span><span class="co">#&gt; 2 strata stratum_1     2 2025-02-02</span></span></code></pre></div>
+<p>Users will notice that in addition to the changes made, a backup of the file was created in the same directory with the extension <code>.bak</code>. Version control should be the first line of defense to protect against loss, but this is a nice safety net. The newest backups will always clobber the oldest, so care needs to be taken.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># edit the lamina toml</span></span>
+<span><span class="co"># swap the order of the lamina execution</span></span>
+<span><span class="co"># make laminae skip if fail</span></span>
+<span><span class="va">new_lamina_toml</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">original_lamina1_toml</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    skip_if_fail <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># make the edits</span></span>
+<span><span class="fu"><a href="reference/edit_toml.html">edit_toml</a></span><span class="op">(</span></span>
+<span>  original_toml_path <span class="op">=</span> <span class="va">toml_list</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>  new_toml_dataframe <span class="op">=</span> <span class="va">new_lamina_toml</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.6686] INFO: Backed up /tmp/Rtmpmv1b6d/file7919c7c48a466/strata/stratum_1/.laminae.toml to /tmp/Rtmpmv1b6d/file7919c7c48a466/strata/stratum_1/.laminae.bak</span></span>
+<span></span>
+<span><span class="co"># check the order and skip_if_fail</span></span>
+<span><span class="fu"><a href="reference/view_toml.html">view_toml</a></span><span class="op">(</span><span class="va">toml_list</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 5</span></span>
+<span><span class="co">#&gt;   type    name        order skip_if_fail created   </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt; &lt;lgl&gt;        &lt;date&gt;    </span></span>
+<span><span class="co">#&gt; 1 laminae s1_lamina_2     1 TRUE         2025-02-02</span></span>
+<span><span class="co">#&gt; 2 laminae s1_lamina_1     2 TRUE         2025-02-02</span></span></code></pre></div>
+<p>Users can now check the execution plan to see if their changes have taken effect and how they have changed the entire project’s execution order.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># check execution order for the entire project</span></span>
+<span><span class="fu"><a href="reference/survey_strata.html">survey_strata</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 7</span></span>
+<span><span class="co">#&gt;   execution_order stratum_name lamina_name script_name script_path  skip_if_fail</span></span>
+<span><span class="co">#&gt;             &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;       &lt;fs::path&gt;   &lt;lgl&gt;       </span></span>
+<span><span class="co">#&gt; 1               1 stratum_2    s2_lamina_1 my_code     …1/my_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 2               2 stratum_2    s2_lamina_2 my_code     …2/my_code.R FALSE       </span></span>
+<span><span class="co">#&gt; 3               3 stratum_1    s1_lamina_2 my_code     …2/my_code.R TRUE        </span></span>
+<span><span class="co">#&gt; 4               4 stratum_1    s1_lamina_1 my_code     …1/my_code.R TRUE        </span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: created &lt;date&gt;</span></span></code></pre></div>
+
+<details><summary>
+Ability to skip failing lamina
+</summary></details>
+</div>
+<div class="section level3">
+<h3 id="skip-if-fail">Skip if Fail<a class="anchor" aria-label="anchor" href="#skip-if-fail"></a>
+</h3>
+<p>Users can specify that a lamina should be skipped if it fails by setting the <code>skip_if_fail</code> to <code>TRUE</code> when building the laminae, or doing the same inside of the <code>.laminae.toml</code> files. This is useful when users are prototyping new additions to their strata project. Use with <em>caution</em>, this is not intended to be a replacement for more robust error handling implemented by the user within their own code.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">dir_create</a></span><span class="op">(</span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">file_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/build_quick_strata_project.html">build_quick_strata_project</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># let's add a lamina that skips if it fails</span></span>
+<span><span class="fu"><a href="reference/build_lamina.html">build_lamina</a></span><span class="op">(</span></span>
+<span>  stratum_path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"strata"</span>, <span class="st">"stratum_1"</span><span class="op">)</span>,</span>
+<span>  lamina_name <span class="op">=</span> <span class="st">"bad_lamina"</span>,</span>
+<span>  order <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  skip_if_fail <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.8969] WARN: Duplicate orders found in the .laminae.toml file, reordering </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.8993] INFO: Backed up /tmp/Rtmpmv1b6d/file7919c5e22871b/strata/stratum_1/.laminae.toml to /tmp/Rtmpmv1b6d/file7919c5e22871b/strata/stratum_1/.laminae.bak</span></span>
+<span></span>
+<span><span class="co"># lets add the code that will fail</span></span>
+<span><span class="va">bad_code</span> <span class="op">&lt;-</span> <span class="st">"stop('I am bad code')"</span></span>
+<span><span class="va">bad_path</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="st">"strata"</span>, <span class="st">"stratum_1"</span>, <span class="st">"bad_lamina"</span>, <span class="st">"bad_code.R"</span><span class="op">)</span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html" class="external-link">file_create</a></span><span class="op">(</span><span class="va">bad_path</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">bad_code</span>, file <span class="op">=</span> <span class="va">bad_path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># let's run the project</span></span>
+<span><span class="fu"><a href="reference/main.html">main</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9575] INFO: Strata started </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9579] INFO: Stratum: stratum_1 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9581] INFO: Lamina: s1_lamina_1 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9584] INFO: Executing: my_code </span></span>
+<span><span class="co">#&gt; [1] "I am a placeholder, do not forget to replace me!"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9590] INFO: Lamina: s1_lamina_1 finished </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9593] INFO: Lamina: bad_lamina initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9595] INFO: Executing: bad_code</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9599] ERROR: Error in bad_code</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9604] INFO: Lamina: bad_lamina finished </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9607] INFO: Lamina: s1_lamina_2 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9609] INFO: Executing: my_code </span></span>
+<span><span class="co">#&gt; [1] "I am a placeholder, do not forget to replace me!"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9614] INFO: Stratum: stratum_1 finished </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9616] INFO: Stratum: stratum_2 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9618] INFO: Lamina: s1_lamina_2 finished </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9621] INFO: Lamina: s2_lamina_1 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9623] INFO: Executing: my_code </span></span>
+<span><span class="co">#&gt; [1] "I am a placeholder, do not forget to replace me!"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9627] INFO: Lamina: s2_lamina_1 finished </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9630] INFO: Lamina: s2_lamina_2 initialized </span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9632] INFO: Executing: my_code </span></span>
+<span><span class="co">#&gt; [1] "I am a placeholder, do not forget to replace me!"</span></span>
+<span><span class="co">#&gt; [2025-02-02 14:23:06.9636] INFO: Strata finished - duration: 0.0062 seconds</span></span></code></pre></div>
+<p>Users will see in the log that the lamina that failed was skipped and the rest of the project executed.</p>
+
+</div>
+</details>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

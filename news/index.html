@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">strata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,65 +33,84 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="strata-development-version">strata (development version)<a class="anchor" aria-label="anchor" href="#strata-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.4.0" id="strata-140">strata 1.4.0<a class="anchor" aria-label="anchor" href="#strata-140"></a></h2>
+<p>This release is all about bug fixes and improvements to the user experience.</p>
+<div class="section level3">
+<h3 id="breaking-changes-1-4-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-4-0"></a></h3>
+<ul><li>Added dependency for R &gt;= 4.1.0 due to use of base R pipe <code>|&gt;</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-1-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-4-0"></a></h3>
+<ul><li><p><code><a href="../reference/adhoc.html">adhoc()</a></code> added to allow users to ad hoc a portion of their strata project by name (instead of having to remember all the different file paths) (<a href="https://github.com/asenetcky/strata/issues/46" class="external-link">#46</a>).</p></li>
+<li><p><code><a href="../reference/survey_log.html">survey_log()</a></code> added to allow users to survey the logs in their strata project as a dataframe (<a href="https://github.com/asenetcky/strata/issues/41" class="external-link">#41</a>, <a href="https://github.com/asenetcky/strata/issues/43" class="external-link">#43</a>).</p></li>
+<li>
+<p>Added stricter strata project checking (<a href="https://github.com/asenetcky/strata/issues/48" class="external-link">#48</a>).</p>
+<ul><li><p>added stricter path checking for functions that require paths to existing files and folders.</p></li>
+<li><p>added more helpful error messages for users regarding paths,</p></li>
+<li><p>Functions will now check if a folder is a strata project or not and provide helpful error messages if they are not strata projects.</p></li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="fixes-1-4-0">Fixes<a class="anchor" aria-label="anchor" href="#fixes-1-4-0"></a></h3>
+<ul><li><p>File name/path cleaning performed by strata to ensure valid path names will will now stop blocking certain path/name manipulations.</p></li>
+<li><p><code><a href="../reference/adhoc_stratum.html">adhoc_stratum()</a></code> will now properly handle existing file paths and avoid errors stating otherwise (<a href="https://github.com/asenetcky/strata/issues/44" class="external-link">#44</a>).</p></li>
+<li><p><code>build_execution_plan()</code> now properly handles the case where a laminae from different strata have the same name (<a href="https://github.com/asenetcky/strata/issues/52" class="external-link">#52</a>).</p></li>
+<li><p>The timestamp in the <code>log_*()</code> family of functions will now always be 24 characters long (<a href="https://github.com/asenetcky/strata/issues/40" class="external-link">#40</a>).</p></li>
+<li><p><code><a href="../reference/build_outlined_strata_project.html">build_outlined_strata_project()</a></code> will now allow for multiple laminae per stratum (<a href="https://github.com/asenetcky/strata/issues/36" class="external-link">#36</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-improvements-1-4-0">Minor Improvements<a class="anchor" aria-label="anchor" href="#minor-improvements-1-4-0"></a></h3>
+<ul><li><p>File name/path cleaning performed by strata to ensure valid path names will now ignore dashes “-” in file names.</p></li>
+<li><p><code>adhoc_*()</code> functions will now “fail fast”, stop execution and alert users of problems (<a href="https://github.com/asenetcky/strata/issues/45" class="external-link">#45</a>).</p></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="strata-101">strata 1.0.1<a class="anchor" aria-label="anchor" href="#strata-101"></a></h2><p class="text-muted">CRAN release: 2024-11-27</p>
-<ul><li>trim description</li>
+<p>Initial CRAN Release.</p>
+<div class="section level3">
+<h3 id="breaking-changes-1-0-1">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-0-1"></a></h3>
+<ul><li><p>Removed <code>lubridate</code> dependency due to license mismatch.</p></li>
+<li><p>Renamed <code>path</code> argument to <code>project_path</code> in <code><a href="../reference/build_stratum.html">build_stratum()</a></code>.</p></li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0" id="strata-100">strata 1.0.0<a class="anchor" aria-label="anchor" href="#strata-100"></a></h2>
-<ul><li>Enhanced documentation</li>
-<li>Removed lubridate dependency</li>
-<li>Changed <code>path</code> argument to <code>project_path</code> in <code>build_stratum</code>
-</li>
+<div class="section level3">
+<h3 id="new-features-1-0-1">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-0-1"></a></h3>
+<p><code>strata</code> shipped with the following features in its initial release.</p>
+<div class="section level4">
+<h4 id="project-execution-1-0-1">Project Execution<a class="anchor" aria-label="anchor" href="#project-execution-1-0-1"></a></h4>
+<ul><li><p><code><a href="../reference/main.html">main()</a></code> - Execute a strata project.</p></li>
+<li><p><code><a href="../reference/survey_strata.html">survey_strata()</a></code> - Survey the strata, laminae, and scripts in a strata project and return the execution order to the user.</p></li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.7.1" id="strata-071">strata 0.7.1<a class="anchor" aria-label="anchor" href="#strata-071"></a></h2>
-<ul><li>styled with <code>styler</code> package</li>
-<li>added github action workflow: ‘style’</li>
+<div class="section level4">
+<h4 id="building-a-strata-project-1-0-1">Building a strata project<a class="anchor" aria-label="anchor" href="#building-a-strata-project-1-0-1"></a></h4>
+<ul><li><p><code><a href="../reference/build_stratum.html">build_stratum()</a></code> - Build a new stratum in a strata project.</p></li>
+<li><p><code><a href="../reference/build_lamina.html">build_lamina()</a></code> - Build a new lamina inside a stratum in a strata project.</p></li>
+<li><p><code><a href="../reference/build_outlined_strata_project.html">build_outlined_strata_project()</a></code> - Build a new strata project from an user-specified outline.</p></li>
+<li><p><code><a href="../reference/build_quick_strata_project.html">build_quick_strata_project()</a></code> - Very quickly b uild a new strata project with standard names and structure.</p></li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.7.0" id="strata-070">strata 0.7.0<a class="anchor" aria-label="anchor" href="#strata-070"></a></h2>
-<ul><li>added <code>build_quick_strata_project</code>
-<ul><li>allows users to quickly build a project with standard names</li>
-</ul></li>
-<li>added <code>build_outlined_strata_project</code>
-<ul><li>allows users to quickly build a project by providing a dataframe outline of the expected project structure</li>
-</ul></li>
+<div class="section level4">
+<h4 id="adhoc-1-0-1">Adhoc<a class="anchor" aria-label="anchor" href="#adhoc-1-0-1"></a></h4>
+<ul><li><p><code><a href="../reference/adhoc_stratum.html">adhoc_stratum()</a></code> - Execute a single stratum ad hoc in a strata project, ignoring all other strata.</p></li>
+<li><p><code><a href="../reference/adhoc_lamina.html">adhoc_lamina()</a></code> - Execute a single lamina ad hoc in a strata project, ignoring all other laminae in the same stratum, and all other strata.</p></li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.6.0" id="strata-060">strata 0.6.0<a class="anchor" aria-label="anchor" href="#strata-060"></a></h2>
-<ul><li>added user-facing functions for easier toml editing from inside of R
-<ul><li>
-<code>survey_tomls</code> lists all .toml files in a project</li>
-<li>
-<code>view_toml</code> returns a dataframe of the contents of toml</li>
-<li>
-<code>edit_toml</code> replaces a toml at the user-provided path with the contents of a user-provided dataframe</li>
-</ul></li>
+<div class="section level4">
+<h4 id="logging-1-0-1">Logging<a class="anchor" aria-label="anchor" href="#logging-1-0-1"></a></h4>
+<ul><li><p><code><a href="../reference/log_message.html">log_message()</a></code> - Log a message to stdout or stderr.</p></li>
+<li><p><code><a href="../reference/log_error.html">log_error()</a></code> - Log an error message to stderr.</p></li>
+<li><p><code><a href="../reference/log_total_time.html">log_total_time()</a></code> - A log helper function to print a time difference in a standard message for logging.</p></li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.5.0" id="strata-050">strata 0.5.0<a class="anchor" aria-label="anchor" href="#strata-050"></a></h2>
-<ul><li>added survey_strata function to allow users to survey the details and execution order of the strata, laminae and scripts in their project folder</li>
+<div class="section level4">
+<h4 id="config-management-1-0-1">Config management<a class="anchor" aria-label="anchor" href="#config-management-1-0-1"></a></h4>
+<ul><li><p><code><a href="../reference/survey_tomls.html">survey_tomls()</a></code> - List all .toml files in a project.</p></li>
+<li><p><code><a href="../reference/view_toml.html">view_toml()</a></code> - Return a dataframe of the contents of a toml file.</p></li>
+<li><p><code><a href="../reference/edit_toml.html">edit_toml()</a></code> - Replace a toml at the user-provided path with the contents of a dataframe.</p></li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.0" id="strata-040">strata 0.4.0<a class="anchor" aria-label="anchor" href="#strata-040"></a></h2>
-<ul><li>Added pkgdown website</li>
+</div>
+<div class="section level3">
+<h3 id="minor-improvements-and-fixes-1-0-1">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-1-0-1"></a></h3>
+<ul><li><p>Trimmed description per CRAN’s request</p></li>
+<li><p>Added pkgdown website</p></li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.0" id="strata-030">strata 0.3.0<a class="anchor" aria-label="anchor" href="#strata-030"></a></h2>
-<ul><li><p>Added skip_if_fail feature that allows users to skip a lamina if it fails # strata 0.2.0</p></li>
-<li><p>Added silence feature that allows users to suppress logging messages</p></li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.1" id="strata-011">strata 0.1.1<a class="anchor" aria-label="anchor" href="#strata-011"></a></h2>
-<ul><li>Added more test coverage to builders, toml and/or util related functions</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0" id="strata-010">strata 0.1.0<a class="anchor" aria-label="anchor" href="#strata-010"></a></h2>
-<ul><li>Basic functionality is feature-complete</li>
-</ul></div>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
