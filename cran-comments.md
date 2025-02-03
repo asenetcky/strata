@@ -1,3 +1,10 @@
+## CRAN Package Check Results for Package strata
+5 notes: There were notes on a "Missing dependency on R >= 4.1.0 because package code 
+uses the pipe |> or function shorthand \(...) syntax added in R 4.1.0."
+
+Added dependency for R >= 4.1.0 in this release.
+
+
 ## R CMD check results
 
 0 errors | 0 warnings | 0 note

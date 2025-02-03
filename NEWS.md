@@ -2,6 +2,10 @@
 
 This release is all about bug fixes and improvements to the user experience.
 
+## Breaking Changes
+
+* Added dependency for R >= 4.1.0 due to use of base R pipe `|>`.
+
 ## New features
 
 * `adhoc()` added to allow users to ad hoc a portion of their strata project
