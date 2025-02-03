@@ -138,6 +138,9 @@ build_outlined_strata_project <- function(outline) {
 }
 
 check_outline <- function(outline) {
+  # global bindings
+  stratum_name <- lamina_name <- NULL
+
   # need to be a data frame
   checkmate::assert_data_frame(
     outline,
@@ -160,20 +163,21 @@ check_outline <- function(outline) {
     )
   )
 
-  check_uniqueness <-
+  outline <-
     outline |>
-    dplyr::select("stratum_name", "stratum_order") |>
-    purrr::map_lgl(check_unique) |>
-    all()
+    dplyr::mutate(
+      stratum_name = clean_name(stratum_name),
+      lamina_name = clean_name(lamina_name)
+    )
 
-  # strata name and order need to be unique
-  checkmate::assert_true(check_uniqueness)
+  ids <- paste0(outline$stratum_name, outline$lamina_name)
+
+  # strata names + strata orders needs to be unique
+  checkmate::assert_true(
+    dplyr::n_distinct(ids) == nrow(outline)
+  )
 
   outline
-}
-
-check_unique <- function(x) {
-  dplyr::if_else(length(x) == length(unique(x)), TRUE, FALSE)
 }
 
 
@@ -202,10 +206,7 @@ build_outline_row <- function(outline_row) {
       outline_row$lamina_name
     )
 
-  # check if lamina exists and handle it
-  lamina_exist <- fs::dir_exists(lamina_path)
-
-  if (!lamina_exist) {
+  if (!fs::dir_exists(lamina_path)) {
     build_lamina(
       lamina_name = outline_row$lamina_name,
       stratum_path = stratum_path,

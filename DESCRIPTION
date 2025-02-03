@@ -1,15 +1,16 @@
 Package: strata
 Title: Simple Framework for Simple Automation
-Version: 1.0.1.9000
+Version: 1.4.0
 Authors@R: 
     person("Alexander", "Senetcky", , "asenetcky@gmail.com", 
            role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0009-0009-3730-5397"))
-Description: A tool suite for building project frameworks for users with 
+Description: Build a project framework for users with 
     access to only the most basic of automation tools. 
 License: MIT + file LICENSE
 URL: https://github.com/asenetcky/strata, https://asenetcky.github.io/strata/
 BugReports: https://github.com/asenetcky/strata/issues
+Depends: R (>= 4.1.0)
 Imports: 
     checkmate (>= 2.3.2),
     dplyr (>= 1.1.0),
