@@ -55,9 +55,8 @@ test_that("order isn't bonkers", {
     dplyr::mutate(intended_order = substr(
       x = lamina_name,
       start = nchar(lamina_name),
-      stop = nchar(lamina_name))
-    )
+      stop = nchar(lamina_name)
+    ))
 
   expect_identical(survey$execution_order, survey$intended_order)
 })
-
