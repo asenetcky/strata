@@ -1,4 +1,4 @@
-# strata (development version)
+# strata 1.4.1
 
 # strata 1.4.0
 
