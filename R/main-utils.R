@@ -78,9 +78,8 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
 # given a strata project return pertinent info on the project
 # and the order of execution
 build_execution_plan <- function(project_path) {
-  path <- stratum <- lamina <- name <- type <- stratum_order <- NULL
-  new_order <- skip_if_fail <- script <- created <- parent <- NULL
-  script_name <- script_path <- script_order <- toml_id <- NULL
+  path <- name <- script <- strata_id <- parent <-
+    script_name <- script_path <- toml_id <- NULL
 
   # survey the strata
   strata <-
@@ -90,25 +89,10 @@ build_execution_plan <- function(project_path) {
 
   laminae <-
     find_laminae(strata$path) |>
-    dplyr::group_by(toml_id) |>
-    dplyr::mutate(script_order = dplyr::row_number()) |>
-    dplyr::ungroup()
-
-  # rework order
-  strata_order <-
-    strata |>
-    dplyr::select(name, order) |>
-    dplyr::rename(stratum_order = order) |>
-    unique()
+    dplyr::arrange(strata_id, toml_id) |>
+    dplyr::mutate(order = dplyr::row_number()) #|>
 
   laminae |>
-    dplyr::left_join(
-      strata_order,
-      by = dplyr::join_by(parent == name)
-    ) |>
-    dplyr::mutate(new_order = order + stratum_order + script_order) |>
-    dplyr::arrange(new_order) |>
-    dplyr::mutate(order = dplyr::row_number()) |>
     dplyr::rename(
       stratum = parent,
       lamina = name,
@@ -116,13 +100,13 @@ build_execution_plan <- function(project_path) {
       path = script_path
     ) |>
     dplyr::select(
-      stratum,
-      lamina,
-      order,
-      skip_if_fail,
-      created,
-      script,
-      path
+      "stratum",
+      "lamina",
+      "order",
+      "skip_if_fail",
+      "created",
+      "script",
+      "path"
     )
 }
 

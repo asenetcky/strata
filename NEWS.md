@@ -1,4 +1,8 @@
-# strata (development version)
+# strata 1.4.1
+
+## Bug Fix
+
+- Script execution will now behave when there are many scripts involved.
 
 # strata 1.4.0
 
