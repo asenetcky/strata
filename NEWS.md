@@ -1,5 +1,9 @@
 # strata 1.4.1
 
+## Bug Fix
+
+- Script execution will now behave when there are many scripts involved.
+
 # strata 1.4.0
 
 This release is all about bug fixes and improvements to the user experience.
