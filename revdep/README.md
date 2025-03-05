@@ -1,31 +1,32 @@
 # Platform
 
-|field    |value                                 |
-|:--------|:-------------------------------------|
-|version  |R version 4.4.2 (2024-10-31 ucrt)     |
-|os       |Windows 11 x64 (build 22631)          |
-|system   |x86_64, mingw32                       |
-|ui       |RStudio                               |
-|language |(EN)                                  |
-|collate  |English_United States.utf8            |
-|ctype    |English_United States.utf8            |
-|tz       |America/New_York                      |
-|date     |2025-02-03                            |
-|rstudio  |2024.12.0+467 Kousa Dogwood (desktop) |
-|pandoc   |NA                                    |
+|field    |value                                                                             |
+|:--------|:---------------------------------------------------------------------------------|
+|version  |R version 4.4.3 (2025-02-28)                                                      |
+|os       |Fedora Linux 41 (Workstation Edition)                                             |
+|system   |x86_64, linux-gnu                                                                 |
+|ui       |RStudio                                                                           |
+|language |(EN)                                                                              |
+|collate  |en_US.UTF-8                                                                       |
+|ctype    |en_US.UTF-8                                                                       |
+|tz       |America/New_York                                                                  |
+|date     |2025-03-05                                                                        |
+|rstudio  |2024.12.1+563 Kousa Dogwood (desktop)                                             |
+|pandoc   |3.2 @ /usr/lib/rstudio/resources/app/bin/quarto/bin/tools/x86_64/ (via rmarkdown) |
+|quarto   |1.5.57 @ /usr/lib/rstudio/resources/app/bin/quarto/bin/quarto                     |
 
 # Dependencies
 
 |package     |old     |new     |Δ  |
 |:-----------|:-------|:-------|:--|
-|strata      |1.0.1   |1.3.2   |*  |
+|strata      |1.4.0   |1.4.2   |*  |
 |backports   |1.5.0   |1.5.0   |   |
 |bit         |4.5.0.1 |4.5.0.1 |   |
 |bit64       |4.6.0-1 |4.6.0-1 |   |
 |checkmate   |2.3.2   |2.3.2   |   |
-|cli         |3.6.3   |3.6.3   |   |
+|cli         |3.6.4   |3.6.4   |   |
 |clipr       |0.8.0   |0.8.0   |   |
-|cpp11       |0.5.1   |0.5.1   |   |
+|cpp11       |0.5.2   |0.5.2   |   |
 |crayon      |1.5.3   |1.5.3   |   |
 |dplyr       |1.1.4   |1.1.4   |   |
 |fansi       |1.0.6   |1.0.6   |   |
@@ -39,8 +40,8 @@
 |pkgconfig   |2.0.3   |2.0.3   |   |
 |prettyunits |1.2.0   |1.2.0   |   |
 |progress    |1.2.3   |1.2.3   |   |
-|purrr       |1.0.2   |1.0.2   |   |
-|R6          |2.5.1   |2.5.1   |   |
+|purrr       |1.0.4   |1.0.4   |   |
+|R6          |2.6.1   |2.6.1   |   |
 |readr       |2.1.5   |2.1.5   |   |
 |rlang       |1.1.5   |1.1.5   |   |
 |stringi     |1.8.4   |1.8.4   |   |

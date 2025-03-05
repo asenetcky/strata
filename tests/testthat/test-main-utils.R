@@ -42,3 +42,22 @@ test_that("execution plan is as expected", {
     )
   )
 })
+
+test_that("order isn't bonkers", {
+  tmp <- fs::dir_create(fs::file_temp())
+
+  build_quick_strata_project(tmp, 9, 9)
+
+  survey <-
+    survey_strata(tmp) |>
+    dplyr::select(execution_order, stratum_name, lamina_name) |>
+    dplyr::filter(stratum_name == "stratum_1") |>
+    dplyr::mutate(intended_order = substr(
+      x = lamina_name,
+      start = nchar(lamina_name),
+      stop = nchar(lamina_name)
+    ) |>
+      as.integer())
+
+  expect_identical(survey$execution_order, survey$intended_order)
+})
