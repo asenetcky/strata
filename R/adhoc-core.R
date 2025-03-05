@@ -182,14 +182,21 @@ adhoc <- function(name, prompt = TRUE, silent = FALSE, project_path = NULL) {
       )
   }
 
-  # if only one match
-  if (nrow(distinct_matches) == 1) {
+  # if only one match and lamina
+  if (nrow(distinct_matches) == 1 && !is.na(distinct_matches$lamina)) {
     matches <-
       distinct_matches |>
       dplyr::inner_join(
         execution_plan,
         by = c("stratum", "lamina")
       )
+  }
+
+  # if only one match and it's a stratum
+  if (nrow(distinct_matches) == 1 && is.na(distinct_matches$lamina)) {
+    matches <-
+      execution_plan |>
+      dplyr::filter(stratum == distinct_matches$stratum)
   }
 
   # execute matches in execution plan
