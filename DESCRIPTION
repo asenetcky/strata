@@ -1,6 +1,6 @@
 Package: strata
 Title: Simple Framework for Simple Automation
-Version: 1.4.2
+Version: 1.4.3
 Authors@R: 
     person("Alexander", "Senetcky", , "asenetcky@gmail.com", 
            role = c("aut", "cre", "cph"),

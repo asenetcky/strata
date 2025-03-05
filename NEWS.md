@@ -1,4 +1,4 @@
-# strata 1.4.2
+# strata 1.4.3
 
 ## Bug Fixes
 
