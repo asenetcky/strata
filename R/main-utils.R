@@ -79,7 +79,7 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
 # and the order of execution
 build_execution_plan <- function(project_path) {
   path <- name <- script <- strata_id <- parent <-
-  script_name <- script_path <- toml_id <- NULL
+    script_name <- script_path <- toml_id <- NULL
 
   # survey the strata
   strata <-
