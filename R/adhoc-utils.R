@@ -35,7 +35,7 @@ adhoc_matches <- function(name, execution_plan) {
     dplyr::filter(
       .data$stratum == name
     ) |>
-    dplyr::distinct(stratum, lamina)
+    dplyr::distinct(stratum)
 
   lamina_matches <-
     execution_plan |>
