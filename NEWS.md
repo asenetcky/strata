@@ -1,4 +1,6 @@
-# strata (development version)
+# strata 1.4.4
+
+* Squashed more execution bugs (#65).
 
 # strata 1.4.3
 
