@@ -67,11 +67,11 @@ test_that("strata execute based on strata order", {
   tmp <- fs::dir_create(fs::file_temp())
 
 
-  s1 <- strata::build_stratum("dp", project_path =  tmp, order = 1)
+  s1 <- strata::build_stratum("dp", project_path = tmp, order = 1)
 
   strata::build_lamina("si", s1)
 
-  s2 <-  strata::build_stratum("da", project_path =  tmp, order = 2)
+  s2 <- strata::build_stratum("da", project_path = tmp, order = 2)
   strata::build_lamina("p", s2, order = 1)
   strata::build_lamina("w", s2, order = 2)
   strata::build_lamina("d", s2, order = 3)
@@ -95,11 +95,10 @@ test_that("strata execute based on strata order", {
 
   expected <-
     tibble::tibble(
-      execution_order = c(1,2,3,4,5),
+      execution_order = c(1, 2, 3, 4, 5),
       stratum_name = c("dp", "da", "da", "da", "da"),
       lamina_name = c("si", "p", "w", "d", "sq")
     )
 
   expect_equal(slice, expected)
-
 })
