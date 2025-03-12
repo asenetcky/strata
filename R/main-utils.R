@@ -78,7 +78,7 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
 # given a strata project return pertinent info on the project
 # and the order of execution
 build_execution_plan <- function(project_path) {
-  strata_order <-  laminae_order <- script <- toml_id <-
+  strata_order <- laminae_order <- script <- toml_id <-
     strata_parent <- lamina_name <- script_path <- NULL
 
   find_strata(fs::path(project_path)) |>
@@ -105,7 +105,7 @@ build_execution_plan <- function(project_path) {
 # given project folder read the strata.toml and report back
 # based solely on toml content and not what's in the folder
 find_strata <- function(project_path) {
-  name <- created <- type <-  NULL
+  name <- created <- type <- NULL
   good_paths <- FALSE
 
   strata_toml <-
@@ -146,8 +146,8 @@ find_strata <- function(project_path) {
 find_laminae <- function(found_strata) {
   # handle global binds
   project_path <- toml_path <- order <- strata_order <-
-  name <- strata_path <- lamina_name <- laminae_order <-
-  toml_id <- lamina_path <- script_path <- NULL
+    name <- strata_path <- lamina_name <- laminae_order <-
+    toml_id <- lamina_path <- script_path <- NULL
 
   good_laminae_paths <- FALSE
   good_script_paths <- FALSE
