@@ -17,7 +17,9 @@ test_that("lamina built", {
   )
   stratum_path <-
     fs::path(
-      tmp, "strata", "first_stratum"
+      tmp,
+      "strata",
+      "first_stratum"
     )
   strata::build_lamina(
     stratum_path = stratum_path,
@@ -37,7 +39,9 @@ test_that("main built and runs", {
   )
   stratum_path <-
     fs::path(
-      tmp, "strata", "first_stratum"
+      tmp,
+      "strata",
+      "first_stratum"
     )
   strata::build_lamina(
     stratum_path = stratum_path,
@@ -97,7 +101,9 @@ test_that("build_lamina creates the initial toml", {
   )
   stratum_path <-
     fs::path(
-      tmp, "strata", "first_stratum"
+      tmp,
+      "strata",
+      "first_stratum"
     )
   strata::build_lamina(
     stratum_path = stratum_path,

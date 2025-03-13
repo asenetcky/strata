@@ -52,7 +52,6 @@ run_execution_plan <- function(execution_plan, silent = FALSE) {
       row_stratum <- row_scope$stratum
       row_lamina <- row_scope$lamina
 
-
       if (row_stratum != initial_stratum) {
         initial_stratum <- row_stratum
       }
@@ -147,7 +146,7 @@ find_laminae <- function(found_strata) {
   # handle global binds
   project_path <- toml_path <- order <- strata_order <-
     name <- strata_path <- lamina_name <- laminae_order <-
-    toml_id <- lamina_path <- script_path <- NULL
+      toml_id <- lamina_path <- script_path <- NULL
 
   good_laminae_paths <- FALSE
   good_script_paths <- FALSE
@@ -176,9 +175,10 @@ find_laminae <- function(found_strata) {
     purrr::map2(
       laminae_toml$toml_path,
       laminae_toml$strata_order,
-      \(toml, strata_order) snapshot_toml(toml) |>
-        dplyr::rename(laminae_order = order) |>
-        dplyr::mutate(strata_order = strata_order)
+      \(toml, strata_order)
+        snapshot_toml(toml) |>
+          dplyr::rename(laminae_order = order) |>
+          dplyr::mutate(strata_order = strata_order)
     ) |>
     purrr::list_rbind() |>
     dplyr::rename(lamina_name = name) |>
@@ -194,10 +194,9 @@ find_laminae <- function(found_strata) {
     ) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      script =
-        fs::path_file(
-          fs::path_ext_remove(script_path)
-        )
+      script = fs::path_file(
+        fs::path_ext_remove(script_path)
+      )
     )
 
   found_laminae <-

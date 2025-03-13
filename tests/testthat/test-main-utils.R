@@ -7,7 +7,9 @@ test_that("execution plan is as expected", {
   )
   stratum_path <-
     fs::path(
-      tmp, "strata", "first_stratum"
+      tmp,
+      "strata",
+      "first_stratum"
     )
   strata::build_lamina(
     stratum_path = stratum_path,
@@ -52,12 +54,14 @@ test_that("order isn't bonkers", {
     survey_strata(tmp) |>
     dplyr::select(execution_order, stratum_name, lamina_name) |>
     dplyr::filter(stratum_name == "stratum_1") |>
-    dplyr::mutate(intended_order = substr(
-      x = lamina_name,
-      start = nchar(lamina_name),
-      stop = nchar(lamina_name)
-    ) |>
-      as.integer())
+    dplyr::mutate(
+      intended_order = substr(
+        x = lamina_name,
+        start = nchar(lamina_name),
+        stop = nchar(lamina_name)
+      ) |>
+        as.integer()
+    )
 
   expect_identical(survey$execution_order, survey$intended_order)
 })
@@ -65,7 +69,6 @@ test_that("order isn't bonkers", {
 
 test_that("strata execute based on strata order", {
   tmp <- fs::dir_create(fs::file_temp())
-
 
   s1 <- strata::build_stratum("dp", project_path = tmp, order = 1)
 
