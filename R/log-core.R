@@ -20,23 +20,23 @@
 #' log_message("This is an error message", "ERROR", "ERR")
 #' log_message("This is a warning message", "WARNING", "OUT")
 log_message <- function(message, level = "INFO", out_or_err = "OUT") {
-    # Validate output channel
-    checkmate::assert_choice(out_or_err, c("OUT", "ERR"))
+  # Validate output channel
+  checkmate::assert_choice(out_or_err, c("OUT", "ERR"))
 
-    # Format timestamp consistently
-    timestamp <- format_timestamp(Sys.time())
+  # Format timestamp consistently
+  timestamp <- format_timestamp(Sys.time())
 
-    # Construct log message
-    log_message <- sprintf("[%s] %s: %s", timestamp, level, message)
+  # Construct log message
+  log_message <- sprintf("[%s] %s: %s", timestamp, level, message)
 
-    # Output to appropriate channel
-    if (out_or_err == "OUT") {
-        cat(log_message, "\n")
-    } else {
-        message(log_message)
-    }
+  # Output to appropriate channel
+  if (out_or_err == "OUT") {
+    cat(log_message, "\n")
+  } else {
+    message(log_message)
+  }
 
-    invisible(log_message)
+  invisible(log_message)
 }
 
 #' Format timestamp for log messages
@@ -45,10 +45,10 @@ log_message <- function(message, level = "INFO", out_or_err = "OUT") {
 #' @return A formatted timestamp string
 #' @keywords internal
 format_timestamp <- function(time) {
-    time |>
-        as.character() |>
-        stringr::str_trunc(width = 24, ellipsis = "") |>
-        stringr::str_pad(width = 24, side = "right", pad = "0")
+  time |>
+    as.character() |>
+    stringr::str_trunc(width = 24, ellipsis = "") |>
+    stringr::str_pad(width = 24, side = "right", pad = "0")
 }
 
 #' Wrapper around log_message for ERROR messages in the log
@@ -66,8 +66,8 @@ format_timestamp <- function(time) {
 #' @examples
 #' log_error("This is an error message")
 log_error <- function(message) {
-    log_message(message, level = "ERROR", out_or_err = "ERR") |>
-        invisible()
+  log_message(message, level = "ERROR", out_or_err = "ERR") |>
+    invisible()
 }
 
 #' Print time difference in a standard message for logging purposes
@@ -86,9 +86,9 @@ log_error <- function(message) {
 #' end <- Sys.time() + 999
 #' log_total_time(begin, end)
 log_total_time <- function(begin, end) {
-    checkmate::assert_posixct(c(begin, end))
+  checkmate::assert_posixct(c(begin, end))
 
-    difftime(end, begin, units = "secs") |>
-        as.numeric() |>
-        round(digits = 4)
+  difftime(end, begin, units = "secs") |>
+    as.numeric() |>
+    round(digits = 4)
 }

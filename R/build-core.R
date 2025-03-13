@@ -105,11 +105,10 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
 #' result_lamina_path
 #' fs::dir_delete(tmp)
 build_lamina <- function(
-  lamina_name,
-  stratum_path,
-  order = 1,
-  skip_if_fail = FALSE
-) {
+    lamina_name,
+    stratum_path,
+    order = 1,
+    skip_if_fail = FALSE) {
   # grab the strata structure
   lamina_name <- clean_name(lamina_name)
   stratum_path <- scout_path(stratum_path)
