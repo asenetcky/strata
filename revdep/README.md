@@ -14,6 +14,7 @@
 |pandoc   |3.1.11.1 @ /usr/bin/pandoc            |
 |quarto   |1.6.42 @ /home/alex/.local/bin/quarto |
 
+
 # Dependencies
 
 |package     |old     |new     |Δ  |
