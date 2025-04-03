@@ -251,11 +251,11 @@ execution of. When executed `main()` will read those `.toml` files
 and begin sourcing the pipelines in the order specified by the 
 user/.toml files, and within a stratum it will execute the 
 laminae in the order specified by the user and their specific
-.toml file.  Within a lamina the scripts will be sourced 
-however the user's operating system has ordered the scripts,
-often alphabetically.
+.toml file.  Within a lamina the scripts will be sourced in
+alphabetical order by their name - with a tie breaker based
+on an internal toml id.
 
-There are two ways for a uaer to "run" a project:
+There are two ways for a user to "run" a project:
 
 Users can source the `main.R` script that was auto-generated when
 building a stratum.

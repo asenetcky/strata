@@ -7,8 +7,11 @@ initial_stratum_toml <- function(path, name, order) {
   readr::write_lines(
     paste0(
       "[strata]\n",
-      name, " = { created = ", Sys.Date(),
-      ", order = ", order,
+      name,
+      " = { created = ",
+      Sys.Date(),
+      ", order = ",
+      order,
       " }"
     ),
     toml_file

@@ -34,7 +34,6 @@ test_that("survey_log() returns a tibble", {
   main(tmp)
   sink()
 
-
   log_lines <-
     readLines(log)
 
@@ -81,7 +80,6 @@ test_that("survey_log() ignores non-log output", {
   main(tmp)
   sink()
 
-
   log_lines <-
     readLines(log)
 
@@ -97,7 +95,6 @@ test_that("survey_log() ignores non-log output", {
     all(!stringr::str_detect(surveyed_log$message, "IGNORE ME"))
   )
 })
-
 
 
 test_that("survey_tomls finds all the tomls", {

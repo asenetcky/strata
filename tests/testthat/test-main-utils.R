@@ -7,7 +7,9 @@ test_that("execution plan is as expected", {
   )
   stratum_path <-
     fs::path(
-      tmp, "strata", "first_stratum"
+      tmp,
+      "strata",
+      "first_stratum"
     )
   strata::build_lamina(
     stratum_path = stratum_path,
@@ -52,12 +54,54 @@ test_that("order isn't bonkers", {
     survey_strata(tmp) |>
     dplyr::select(execution_order, stratum_name, lamina_name) |>
     dplyr::filter(stratum_name == "stratum_1") |>
-    dplyr::mutate(intended_order = substr(
-      x = lamina_name,
-      start = nchar(lamina_name),
-      stop = nchar(lamina_name)
-    ) |>
-      as.integer())
+    dplyr::mutate(
+      intended_order = substr(
+        x = lamina_name,
+        start = nchar(lamina_name),
+        stop = nchar(lamina_name)
+      ) |>
+        as.integer()
+    )
 
   expect_identical(survey$execution_order, survey$intended_order)
+})
+
+
+test_that("strata execute based on strata order", {
+  tmp <- fs::dir_create(fs::file_temp())
+
+  s1 <- strata::build_stratum("dp", project_path = tmp, order = 1)
+
+  strata::build_lamina("si", s1)
+
+  s2 <- strata::build_stratum("da", project_path = tmp, order = 2)
+  strata::build_lamina("p", s2, order = 1)
+  strata::build_lamina("w", s2, order = 2)
+  strata::build_lamina("d", s2, order = 3)
+  strata::build_lamina("sq", s2, order = 4)
+
+  first_code <- fs::path(s1, "si", "my_code1.R")
+  second_code <- fs::path(s2, "p", "my_code2.R")
+  third_code <- fs::path(s2, "w", "my_code3.R")
+  fourth_code <- fs::path(s2, "d", "my_code4.R")
+  fifth_code <- fs::path(s2, "sq", "my_code5.R")
+
+  c(first_code, second_code, third_code, fourth_code, fifth_code) |>
+    purrr::walk(fs::file_create)
+
+  survey <-
+    survey_strata(tmp)
+
+  fs::dir_delete(tmp)
+
+  slice <- survey |> dplyr::select(execution_order, stratum_name, lamina_name)
+
+  expected <-
+    tibble::tibble(
+      execution_order = c(1, 2, 3, 4, 5),
+      stratum_name = c("dp", "da", "da", "da", "da"),
+      lamina_name = c("si", "p", "w", "d", "sq")
+    )
+
+  expect_equal(slice, expected)
 })

@@ -3,7 +3,6 @@ test_that("main with no path", {
 })
 
 
-
 test_that("main is silent", {
   tmp <- fs::dir_create(fs::file_temp())
   strata::build_stratum(
@@ -13,7 +12,9 @@ test_that("main is silent", {
   )
   stratum_path <-
     fs::path(
-      tmp, "strata", "first_stratum"
+      tmp,
+      "strata",
+      "first_stratum"
     )
   strata::build_lamina(
     stratum_path = stratum_path,
@@ -47,7 +48,9 @@ test_that("main returns ane xecution plan", {
   )
   stratum_path <-
     fs::path(
-      tmp, "strata", "first_stratum"
+      tmp,
+      "strata",
+      "first_stratum"
     )
   strata::build_lamina(
     stratum_path = stratum_path,
