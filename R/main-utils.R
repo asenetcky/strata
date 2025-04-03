@@ -146,7 +146,7 @@ find_laminae <- function(found_strata) {
   # handle global binds
   project_path <- toml_path <- order <- strata_order <-
     name <- strata_path <- lamina_name <- laminae_order <-
-      toml_id <- lamina_path <- script_path <- NULL
+    toml_id <- lamina_path <- script_path <- NULL
 
   good_laminae_paths <- FALSE
   good_script_paths <- FALSE
@@ -176,9 +176,9 @@ find_laminae <- function(found_strata) {
       laminae_toml$toml_path,
       laminae_toml$strata_order,
       \(toml, strata_order)
-        snapshot_toml(toml) |>
-          dplyr::rename(laminae_order = order) |>
-          dplyr::mutate(strata_order = strata_order)
+      snapshot_toml(toml) |>
+        dplyr::rename(laminae_order = order) |>
+        dplyr::mutate(strata_order = strata_order)
     ) |>
     purrr::list_rbind() |>
     dplyr::rename(lamina_name = name) |>

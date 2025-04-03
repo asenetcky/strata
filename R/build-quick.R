@@ -20,10 +20,9 @@
 #' main(tmp)
 #' fs::dir_delete(tmp)
 build_quick_strata_project <- function(
-  project_path,
-  num_strata = 1,
-  num_laminae_per = 1
-) {
+    project_path,
+    num_strata = 1,
+    num_laminae_per = 1) {
   # create project_path if it doesn't exist
   fs::dir_create(
     project_path,
