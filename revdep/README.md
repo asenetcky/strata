@@ -1,27 +1,26 @@
 # Platform
 
-|field    |value                                                                             |
-|:--------|:---------------------------------------------------------------------------------|
-|version  |R version 4.4.3 (2025-02-28)                                                      |
-|os       |Fedora Linux 41 (Workstation Edition)                                             |
-|system   |x86_64, linux-gnu                                                                 |
-|ui       |RStudio                                                                           |
-|language |(EN)                                                                              |
-|collate  |en_US.UTF-8                                                                       |
-|ctype    |en_US.UTF-8                                                                       |
-|tz       |America/New_York                                                                  |
-|date     |2025-03-05                                                                        |
-|rstudio  |2024.12.1+563 Kousa Dogwood (desktop)                                             |
-|pandoc   |3.2 @ /usr/lib/rstudio/resources/app/bin/quarto/bin/tools/x86_64/ (via rmarkdown) |
-|quarto   |1.5.57 @ /usr/lib/rstudio/resources/app/bin/quarto/bin/quarto                     |
+|field    |value                                 |
+|:--------|:-------------------------------------|
+|version  |R version 4.4.3 (2025-02-28)          |
+|os       |Fedora Linux 41 (Workstation Edition) |
+|system   |x86_64, linux-gnu                     |
+|ui       |X11                                   |
+|language |(EN)                                  |
+|collate  |en_US.UTF-8                           |
+|ctype    |en_US.UTF-8                           |
+|tz       |America/New_York                      |
+|date     |2025-04-03                            |
+|pandoc   |3.1.11.1 @ /usr/bin/pandoc            |
+|quarto   |1.6.42 @ /home/alex/.local/bin/quarto |
 
 # Dependencies
 
 |package     |old     |new     |Δ  |
 |:-----------|:-------|:-------|:--|
-|strata      |1.4.0   |1.4.2   |*  |
+|strata      |1.4.3   |1.4.4   |*  |
 |backports   |1.5.0   |1.5.0   |   |
-|bit         |4.5.0.1 |4.5.0.1 |   |
+|bit         |4.6.0   |4.6.0   |   |
 |bit64       |4.6.0-1 |4.6.0-1 |   |
 |checkmate   |2.3.2   |2.3.2   |   |
 |cli         |3.6.4   |3.6.4   |   |
@@ -44,11 +43,11 @@
 |R6          |2.6.1   |2.6.1   |   |
 |readr       |2.1.5   |2.1.5   |   |
 |rlang       |1.1.5   |1.1.5   |   |
-|stringi     |1.8.4   |1.8.4   |   |
+|stringi     |1.8.7   |1.8.7   |   |
 |stringr     |1.5.1   |1.5.1   |   |
 |tibble      |3.2.1   |3.2.1   |   |
 |tidyselect  |1.2.1   |1.2.1   |   |
-|tzdb        |0.4.0   |0.4.0   |   |
+|tzdb        |0.5.0   |0.5.0   |   |
 |utf8        |1.2.4   |1.2.4   |   |
 |vctrs       |0.6.5   |0.6.5   |   |
 |vroom       |1.6.5   |1.6.5   |   |
