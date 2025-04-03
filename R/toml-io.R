@@ -27,8 +27,7 @@ write_toml_lines <- function(toml_content, toml_path) {
   } else {
     skip_if_fails_text <-
       dplyr::tibble(
-        skip_if_fail =
-          paste0(", skip_if_fail = ", skip_if_fails$skip_if_fail)
+        skip_if_fail = paste0(", skip_if_fail = ", skip_if_fails$skip_if_fail)
       )
   }
 
@@ -37,8 +36,11 @@ write_toml_lines <- function(toml_content, toml_path) {
       list(names, orders, skip_if_fails_text, created),
       \(name, order, skip_if_fail, created) {
         paste0(
-          name, " = { created = ", created,
-          ", order = ", order,
+          name,
+          " = { created = ",
+          created,
+          ", order = ",
+          order,
           skip_if_fail,
           " }\n"
         )
@@ -66,7 +68,6 @@ write_toml_lines <- function(toml_content, toml_path) {
 }
 
 
-
 # given a toml path, read the lines of the toml file and return a list of
 # the contents
 read_toml <- function(toml_path) {
@@ -77,14 +78,12 @@ read_toml <- function(toml_path) {
     toml_lines[1] |>
     stringr::str_remove_all("\\[|\\]")
 
-
   toml_length <- length(toml_lines)
 
   toml_list <-
     tibble::lst(
       !!toml_type := tibble::lst()
     )
-
 
   if (toml_length > 1) {
     created <- order <- skip_if_fail <- NULL
@@ -109,10 +108,10 @@ read_toml <- function(toml_path) {
           }
         )
 
-
       for (i in 1:length(vars)) {
         assign(
-          vars[[i]][["key"]], vars[[i]][["value"]],
+          vars[[i]][["key"]],
+          vars[[i]][["value"]],
         )
       }
 
@@ -121,7 +120,6 @@ read_toml <- function(toml_path) {
           created = as.Date(created),
           order = as.integer(order)
         )
-
 
       if (toml_type == "laminae") {
         var_list <-

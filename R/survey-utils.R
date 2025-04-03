@@ -105,9 +105,11 @@ scout_project <- function(path) {
     dplyr::filter(!is_project)
 
   if (nrow(not_strata_project) > 0) {
-    msg <- glue::glue("'{not_strata_project$path}' is not a strata project
+    msg <- glue::glue(
+      "'{not_strata_project$path}' is not a strata project
                       has strata: {not_strata_project$has_strata}
-                      has laminae: {not_strata_project$has_laminae}")
+                      has laminae: {not_strata_project$has_laminae}"
+    )
     rlang::abort(msg)
   }
 

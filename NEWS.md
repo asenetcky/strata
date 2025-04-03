@@ -1,4 +1,14 @@
-# strata (development version)
+# strata 1.4.5
+
+* Squashed more execution bugs (#65).
+
+# strata 1.4.3
+
+## Bug Fixes
+
+* `adhoc()` will now properly match strata (#58)
+
+* Script execution ordering will now behave when there are many scripts (#59).
 
 # strata 1.4.3
 

@@ -52,8 +52,11 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
     if (!stratum_name %in% current_strata) {
       cat(
         paste0(
-          stratum_name, " = { created = ", Sys.Date(),
-          ", order = ", order,
+          stratum_name,
+          " = { created = ",
+          Sys.Date(),
+          ", order = ",
+          order,
           " }\n"
         ),
         file = strata_toml,
@@ -101,14 +104,17 @@ build_stratum <- function(stratum_name, project_path, order = 1) {
 #' result_lamina_path <- build_lamina("my_lamina_name", result_stratum_path)
 #' result_lamina_path
 #' fs::dir_delete(tmp)
-build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FALSE) {
+build_lamina <- function(
+    lamina_name,
+    stratum_path,
+    order = 1,
+    skip_if_fail = FALSE) {
   # grab the strata structure
   lamina_name <- clean_name(lamina_name)
   stratum_path <- scout_path(stratum_path)
 
   laminae_path <- stratum_path
   laminae_toml <- fs::path(laminae_path, ".laminae.toml")
-
 
   # create the new lamina's folder
   new_lamina_path <- fs::path(stratum_path, lamina_name)
@@ -134,9 +140,13 @@ build_lamina <- function(lamina_name, stratum_path, order = 1, skip_if_fail = FA
   if (!lamina_name %in% current_laminae) {
     cat(
       paste0(
-        lamina_name, " = { created = ", Sys.Date(),
-        ", order = ", order,
-        ", skip_if_fail = ", stringr::str_to_lower(skip_if_fail),
+        lamina_name,
+        " = { created = ",
+        Sys.Date(),
+        ", order = ",
+        order,
+        ", skip_if_fail = ",
+        stringr::str_to_lower(skip_if_fail),
         " }\n"
       ),
       file = laminae_toml,

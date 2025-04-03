@@ -53,8 +53,6 @@ test_that("fixes order", {
 })
 
 
-
-
 test_that("find_tomls finds all the tomls", {
   path <- fs::file_temp()
   fs::dir_create(path)

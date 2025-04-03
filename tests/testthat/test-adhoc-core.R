@@ -7,7 +7,9 @@ test_that("adhoc_stratum works", {
   )
   stratum_path <-
     fs::path(
-      tmp, "strata", "first_stratum"
+      tmp,
+      "strata",
+      "first_stratum"
     )
 
   strata::build_lamina(
@@ -28,7 +30,6 @@ test_that("adhoc_stratum works", {
   cat(file = my_code1, "print('Hello, World!')")
   cat(file = my_code2, "print('Goodbye, World!')")
 
-
   stratum2_path <-
     strata::build_stratum(
       project_path = tmp,
@@ -36,13 +37,11 @@ test_that("adhoc_stratum works", {
       order = 2
     )
 
-
   strata::build_lamina(
     stratum_path = stratum2_path,
     lamina_name = "bad_apple",
     order = 1
   )
-
 
   bad_apple_path <- fs::path(stratum2_path, "bad_apple", "bad_code.R")
   bad_apple <- fs::file_create(bad_apple_path)
@@ -62,7 +61,9 @@ test_that("adhoc_lamina works", {
   )
   stratum_path <-
     fs::path(
-      tmp, "strata", "first_stratum"
+      tmp,
+      "strata",
+      "first_stratum"
     )
 
   strata::build_lamina(
@@ -83,7 +84,6 @@ test_that("adhoc_lamina works", {
   cat(file = my_code1, "print('Hello, World!')")
   cat(file = my_code2, "print('Goodbye, World!')")
 
-
   stratum2_path <-
     strata::build_stratum(
       project_path = tmp,
@@ -91,13 +91,11 @@ test_that("adhoc_lamina works", {
       order = 2
     )
 
-
   strata::build_lamina(
     stratum_path = stratum2_path,
     lamina_name = "bad_apple",
     order = 1
   )
-
 
   bad_apple_path <- fs::path(stratum2_path, "bad_apple", "bad_code.R")
   bad_apple <- fs::file_create(bad_apple_path)
@@ -120,7 +118,6 @@ test_that("skip if fail works", {
       stratum_name = "first_stratum",
       order = 1
     )
-
 
   # Build the lamina
   strata::build_lamina(
@@ -152,7 +149,6 @@ test_that("skip if fail works", {
     source(fs::path(tmp, "main.R")),
     regexp = "ERROR: Error in my_code1"
   )
-
 
   # verify it captures the message AFTER the error
   expect_contains(source(fs::path(tmp, "main.R")), "This code should run")

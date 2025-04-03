@@ -8,7 +8,6 @@
 #   skip_if_fail = FALSE
 # )
 
-
 # outline <-
 #   dplyr::tibble(
 #     project_path = "~/repos/quick_build",
@@ -93,7 +92,11 @@ test_that("build_outlined_strata_project creates expected folder structure", {
   expected_paths <-
     c(
       fs::path(
-        outline$project_path, "strata", "stratum1", "lam1", "my_code.R"
+        outline$project_path,
+        "strata",
+        "stratum1",
+        "lam1",
+        "my_code.R"
       )
     ) |>
     as.character()
@@ -101,7 +104,8 @@ test_that("build_outlined_strata_project creates expected folder structure", {
   what_was_created <-
     fs::dir_ls(
       fs::path(outline$project_path, "strata"),
-      recurse = TRUE, glob = "*.R"
+      recurse = TRUE,
+      glob = "*.R"
     ) |>
     as.character()
 

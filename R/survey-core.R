@@ -163,7 +163,6 @@ check_if_log_line <- function(log_line) {
 }
 
 
-
 #' Find all the strata-based toml files in a strata project
 #'
 #' @inheritParams main
